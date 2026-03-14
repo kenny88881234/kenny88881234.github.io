@@ -1,211 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>BeautifulSoup 解析後無法存入 MySQL</title>
-    <url>/2019/07/01/BeautifulSoup-save-to-MySQL-problem/</url>
-    <content><![CDATA[[問題] BeautifulSoup 解析後無法存入 MySQL在練習爬蟲，使用 BeautifulSoup 分析 HTML 後，準備將資料存進 MySQL 時，出現 Python &#39;navigablestring&#39; cannot be converted to a MySQL type 的錯誤
-
-問題描述 :navigablestring 是 BeautifulSoup 中的一種類型 &lt;class &#39;bs4.element.NavigableString&#39;&gt;，不是 MySQL 所認識的類型，所以會導致存入失敗
-解決問題 :只要將要存入的參數轉換類型就可以了，有兩種方法 :
-
-str(&lt;要轉換的參數&gt;)
-&lt;要轉換的參數&gt;.encode(&#39;utf-8&#39;)
-
-P.S. 當然你的資料庫要能接受 UTF-8 編碼
-
-
-
-
-
-
-
-
-1 2 3 4 5 6 7 8
-testdb = MySQL.connect(     host = &quot;localhost&quot;,     user = &quot;root&quot;,     password = &quot;&lt;密碼&gt;&quot;,     database = &quot;&lt;已存在的資料庫名稱&gt;&quot;, #若尚未創建可不加這段     charset=&#39;utf8&#39; ) cursor = testdb.cursor()
-
-
-
-加上 charset=&#39;utf8&#39; 可以保證連接的資料庫能接受 UTF-8 編碼
-
-
-
-
-
-
-
-
-
-1
-cursor.execute(&quot;CREATE database &lt;資料庫名稱&gt; DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci&quot;)
-
-
-
-在創建資料庫時，這樣就能接受 UTF-8 編碼
-
-tags: 問題 Python MySQL BeautifulSoup]]></content>
-      <categories>
-        <category>問題</category>
-      </categories>
-      <tags>
-        <tag>問題</tag>
-        <tag>Python</tag>
-        <tag>MySQL</tag>
-        <tag>BeautifulSoup</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何更改 Github-Page 的網域</title>
-    <url>/2019/06/20/Change-domain/</url>
-    <content><![CDATA[[實作] 如何更改 Github-Page 的網域1. 首先要先有個自己的域名
-用買的或使用免費的都可以
-
-這裡推薦免費域名網站 : NCTU.ME
-
-
-這是交大免費提供的網域服務，交大學生有學校信箱就能直接使用，校外人士就必須申請一個TWID帳號進行實名認證
-
-
-
-
-申請帳號 : 交大信箱 or TWID帳號
-
-申請網域 : 網域管理 → 新增網域
-
-每個帳號只能申請三個域名
-
-域名格式為 : &lt;輸入的字元&gt;.nctu.me
-
-
-
-
-新增DNS紀錄 : DNS管理 → 新增紀錄
-
-在 A 紀錄底下填上你要綁定的服務商的 DNS Server IP Github 的 DNS Server IP 是 185.199.108~111.153 其中一個 在終端機 ping &lt;your name&gt;.github.io 就可以看到
-也可以用 CNAME 紀錄，改成填上 &lt;your name&gt;.github.io
-
-等待一下，DNS 設定會在1、2分鐘內設定完成
-
-
-2. 綁定網域
-到 Github 專案的 Settings 頁面
-在 GitHub Pages 下的 custom domain 欄位中填上剛剛申請的域名
-按下 save 就完成了
-
-
-hexo d -g 會導致 Github 上的 CNAME 消失
-
-解決方法 : 在本地端目錄底下的 source 建一個 CNAME 並打上域名
-
-
-
-
-
-
-
-
-
-1 2 3
-cd blog //你的hexo根目錄名 cd source touch CNAME
-
-
-tags: 實作 Hexo Blog Git 網域]]></content>
-      <categories>
-        <category>實作</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
-        <tag>實作</tag>
-        <tag>Hexo Blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C# 如何使用全域變數</title>
-    <url>/2019/07/12/Csharp-use-global-variable/</url>
-    <content><![CDATA[[問題] C# 如何使用全域變數在 C# 想宣告全域變數，在最外層直接宣告是不行的，C# 中並沒有宣告全域變數的方式，一般都是透過屬性 ( property ) 或靜態變數 ( static ) 來達成
-靜態變數 ( static )
-
-
-
-
-
-
-
-1 2 3 4
-public class Global {     public static int x = 0; }
-
-
-屬性 ( property )
-
-
-
-
-
-
-
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
-public class Global {     private string _x = &quot;test&quot;;          public string X     {         get //用來回傳給用戶讀取         {             return this._x;         }         set //開放給用戶修改         {             this._x = value;         }     }          public string X { get; set;} //.Net 3.0 可以這樣寫 }
-
-
-
-屬性的好處
-
-權限控制 : 在 set 前加上修飾詞 private 或 internal，代表此變數只有自己或內部能修改
-行為控制 : 可以在屬性判斷傳入的值是否符合規則、是否要觸發事件等等
-
-
-
-tags: 問題 程式語言 C# 全域變數]]></content>
-      <categories>
-        <category>問題</category>
-      </categories>
-      <tags>
-        <tag>問題</tag>
-        <tag>程式語言</tag>
-        <tag>C#</tag>
-        <tag>全域變數</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Cmder 的安裝與配置</title>
-    <url>/2019/06/17/Cmder-install/</url>
-    <content><![CDATA[[安裝] Cmder 的安裝與配置Cmder : 好用的window命令提示字元1. 下載
-下載地址 : Cmder官網
-分為Mini跟Full(Full包含了Git for Windows)
-
-下載下來為壓縮檔，解壓縮後放在此目錄底下 C:\Program Files\cmder1.3.11
-2. 以管理員身分運行Cmder右鍵 Cmder.exe，內容 → 相容性 → 勾選 以系統管理員的身分執行此程式
-
-3. 以 win + R 開啟 Cmder
-新增路徑到系統的環境變數
-右鍵 本機，內容 → 進階系統設定 → 進階 → 環境變數 → 編輯 系統變數底下的 Path
-
-新增路徑 C:\Program Files\cmder1.3.11 上去
-
-
-啟動 win + R
-
-
-
-4. 新增 Cmder 到右鍵選單在管理員身分下執行Cmder.exe /REGISTER ALL
-
-5. 將 λ 改成熟悉的 $
-打開 C:\Program Files\cmder1.3.11\vendor\clink.lua
-找到 lambda = &quot;λ&quot; 將 λ 改成 $
-重啟Cmder
-打開 C:\Program Files\cmder1.3.11\vendor\profile.ps1
-找到 Microsoft.PowerShell.UtilityWrite-Host &quot;nλ&quot; 將 λ 改成 $
-重啟Cmder
-
-切換C槽、D槽 : 在終端機輸入 C: or D:tags: 安裝 Cmder]]></content>
-      <categories>
-        <category>安裝</category>
-      </categories>
-      <tags>
-        <tag>安裝</tag>
-        <tag>Cmder</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSS 基礎</title>
     <url>/2019/06/17/CSS-basic/</url>
     <content><![CDATA[[筆記] CSS 基礎特性寫在後面的CSS會覆蓋前面的CSS
@@ -651,76 +446,56 @@ tags: 筆記 程式語言 CSS]]></content>
         <category>筆記</category>
       </categories>
       <tags>
-        <tag>程式語言</tag>
         <tag>筆記</tag>
+        <tag>程式語言</tag>
         <tag>CSS</tag>
       </tags>
   </entry>
   <entry>
-    <title>Git and SourceTree</title>
-    <url>/2019/06/18/Git-SourceTree/</url>
-    <content><![CDATA[[工具] Git and SourceTreeGitGit : 分散式版本控制軟體一個 Git 目錄裡，可以分成三種區域 :
-
-目前工作目錄 Working tree
-暫存準備遞交區 Staging Area
-儲存庫 Repository
-
-
-而 Working tree 裡的檔案有四種狀態 :
-
-沒有被追蹤的檔案 Untracked files
-有修改、還沒準備要被遞交 Changes not staged for commit
-有修改、準備要被遞交的檔案 ( 在 Staging Area ) Changes to be committed
-已經被遞交的檔案 Committed
-
-
-1. SSH Git hub
-終端機 :
-
-
-在終端機輸入 ssh-keygen 來產生金鑰
-進到金鑰存放的位置，通常是 C:\Users\User\.ssh
-vim id_rsa.pub 使用文字編輯器打開後 y 兩次複製
-
-
-Git hub :
-
-
-Git hub 右上角進到 Settings
-SSH and GPG → keys New SSH key
+    <title>C# 如何使用全域變數</title>
+    <url>/2019/07/12/Csharp-use-global-variable/</url>
+    <content><![CDATA[[問題] C# 如何使用全域變數在 C# 想宣告全域變數，在最外層直接宣告是不行的，C# 中並沒有宣告全域變數的方式，一般都是透過屬性 ( property ) 或靜態變數 ( static ) 來達成
+靜態變數 ( static )
 
 
 
-Title 輸入想要得名稱，Key 貼上剛剛複製下來的密鑰
 
 
-2. 基本語法
-git init : 初始化目錄
-git add . : add 所有更動過的項目
-git commit -m &quot;message&quot;
-git remote : 可以檢視你已經設定好的遠端版本庫
-git push : 推上 Github
-git pull : 從 Github 將專案拉下來
-git branch : 查看分支
-git checkout &lt;分支名稱&gt; : 切換分支
 
-命令大全
-其他 :git push -f : 強制推上 Github，小心使用git remote set-url origin git@github.com:&lt;your name&gt;/&lt;your repository name&gt;.git : 如果有更改 Repository 名稱，可以使用這個修改要推上的 urlgit remote -v : 查看目前連結的 Repository url
 
-SourceTreeSourceTree : 版本控管的工具1. 下載
-下載地址 : SourceTree官網
+1 2 3 4
+public class Global {     public static int x = 0; }
 
-2. 開啟
-終端機輸入 stree . 可開啟
 
-tags: 工具 Git SourceTree]]></content>
+屬性 ( property )
+
+
+
+
+
+
+
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+public class Global {     private string _x = &quot;test&quot;;          public string X     {         get //用來回傳給用戶讀取         {             return this._x;         }         set //開放給用戶修改         {             this._x = value;         }     }          public string X { get; set;} //.Net 3.0 可以這樣寫 }
+
+
+
+屬性的好處
+
+權限控制 : 在 set 前加上修飾詞 private 或 internal，代表此變數只有自己或內部能修改
+行為控制 : 可以在屬性判斷傳入的值是否符合規則、是否要觸發事件等等
+
+
+
+tags: 問題 程式語言 C# 全域變數]]></content>
       <categories>
-        <category>工具</category>
+        <category>問題</category>
       </categories>
       <tags>
-        <tag>Git</tag>
-        <tag>工具</tag>
-        <tag>SourceTree</tag>
+        <tag>程式語言</tag>
+        <tag>問題</tag>
+        <tag>C#</tag>
+        <tag>全域變數</tag>
       </tags>
   </entry>
   <entry>
@@ -876,11 +651,78 @@ tags: 實作 Python Web 框架 Flask Heroku]]></content>
         <category>實作</category>
       </categories>
       <tags>
-        <tag>Python</tag>
         <tag>實作</tag>
+        <tag>Python</tag>
         <tag>Web 框架</tag>
         <tag>Flask</tag>
         <tag>Heroku</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git and SourceTree</title>
+    <url>/2019/06/18/Git-SourceTree/</url>
+    <content><![CDATA[[工具] Git and SourceTreeGitGit : 分散式版本控制軟體一個 Git 目錄裡，可以分成三種區域 :
+
+目前工作目錄 Working tree
+暫存準備遞交區 Staging Area
+儲存庫 Repository
+
+
+而 Working tree 裡的檔案有四種狀態 :
+
+沒有被追蹤的檔案 Untracked files
+有修改、還沒準備要被遞交 Changes not staged for commit
+有修改、準備要被遞交的檔案 ( 在 Staging Area ) Changes to be committed
+已經被遞交的檔案 Committed
+
+
+1. SSH Git hub
+終端機 :
+
+
+在終端機輸入 ssh-keygen 來產生金鑰
+進到金鑰存放的位置，通常是 C:\Users\User\.ssh
+vim id_rsa.pub 使用文字編輯器打開後 y 兩次複製
+
+
+Git hub :
+
+
+Git hub 右上角進到 Settings
+SSH and GPG → keys New SSH key
+
+
+
+Title 輸入想要得名稱，Key 貼上剛剛複製下來的密鑰
+
+
+2. 基本語法
+git init : 初始化目錄
+git add . : add 所有更動過的項目
+git commit -m &quot;message&quot;
+git remote : 可以檢視你已經設定好的遠端版本庫
+git push : 推上 Github
+git pull : 從 Github 將專案拉下來
+git branch : 查看分支
+git checkout &lt;分支名稱&gt; : 切換分支
+
+命令大全
+其他 :git push -f : 強制推上 Github，小心使用git remote set-url origin git@github.com:&lt;your name&gt;/&lt;your repository name&gt;.git : 如果有更改 Repository 名稱，可以使用這個修改要推上的 urlgit remote -v : 查看目前連結的 Repository url
+
+SourceTreeSourceTree : 版本控管的工具1. 下載
+下載地址 : SourceTree官網
+
+2. 開啟
+終端機輸入 stree . 可開啟
+
+tags: 工具 Git SourceTree]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>Git</tag>
+        <tag>SourceTree</tag>
       </tags>
   </entry>
   <entry>
@@ -1673,8 +1515,8 @@ tags: 筆記 程式語言 Golang]]></content>
         <category>筆記</category>
       </categories>
       <tags>
-        <tag>程式語言</tag>
         <tag>筆記</tag>
+        <tag>程式語言</tag>
         <tag>Golang</tag>
       </tags>
   </entry>
@@ -2007,150 +1849,8 @@ tags: 問題 MySQL VS code]]></content>
       </categories>
       <tags>
         <tag>問題</tag>
-        <tag>MySQL</tag>
         <tag>VS code</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JQuery</title>
-    <url>/2019/06/20/JQuery/</url>
-    <content><![CDATA[[函式庫] JQueryJQuery 為 Javascript 的函式庫 ( Library )
-
-在各瀏覽器的 Javascript 寫法不一樣，JQuery 統一了寫法
-引入 : &lt;script src=&quot;http://code.jquery.com/jquery-2.1.4.min.js&quot;&gt;&lt;/script&gt;
-JQuery API
-
-JQuery basic
-
-
-
-
-
-
-
-1 2 3
-$(document).ready(function(){     $(&quot;p&quot;).text(&quot;Hello World!&quot;); });
-
-
-
-document 代表整個 HTML，當頁完全載入後，改變 &lt;p&gt; 的文字為 Hello World!
-$ &#x3D; JQuery
-
-
-
-
-
-
-
-
-
-1 2 3 4 5
-(function($){     $(document).ready(function(){         $(&quot;p&quot;).text(&quot;Hello World!&quot;);     }); })(JQuery);
-
-
-
-較安全的 IIFE 寫法
-
-JQuery event
-JQuery API 裡都有用法
-hover 比較少用，通常會放在 CSS，不然如果塞太多動作會讓網頁卡卡的
-
-jQuery Show and Hide Effects
-show : 讓東西顯示出來
-hide : 讓東西隱藏
-toggle : 如果是隱藏狀態會更改為顯示，顯示狀態則會更改為隱藏
-
-jQuery Fading Effects
-fadeIn : 漸入
-fadeOut : 漸出
-
-jQuery Sliding Effects
-slideUp : 向上滑動 ( 隱藏 )
-slideDown : 向下滑動 ( 顯示 )
-
-jQuery Animation Effects
-動畫
-
-jQuery Chaining
-
-
-
-
-
-
-
-1 2 3 4 5 6 7 8
-$(document).ready(function(){     $(&quot;.start&quot;).click(function(){         $(&quot;p&quot;).animate({width: &quot;100%&quot;}).animate({fontSize: &quot;46px&quot;}).animate({borderWidth: 30});     });     $(&quot;.reset&quot;).click(function(){         $(&quot;p&quot;).removeAttr(&quot;style&quot;);     }); });
-
-
-
-方法可以連下去
-
-jQuery Callback
-一些涉及動畫的函數，動畫之後的程式碼可能會造成衝突，這時可以使用 Callback
-
-
-
-
-
-
-
-
-
-1 2 3 4 5 6
-$(document).ready(function(){     $(&quot;button&quot;).click(function(){         $(&quot;p&quot;).slideToggle(&quot;slow&quot;);         alert(&quot;The slide toggle effect has completed.&quot;);     });    });
-
-
-
-沒使用 Callback
-
-
-
-
-
-
-
-
-
-1 2 3 4 5 6 7
-$(document).ready(function(){     $(&quot;button&quot;).click(function(){         $(&quot;p&quot;).slideToggle(&quot;slow&quot;, function(){             alert(&quot;The slide toggle effect has completed.&quot;);         });     });    });
-
-
-
-使用 Callback
-
-jQuery Get &amp; Set Contents
-有參數為 Set : text(&quot;hello&quot;)
-無參數為 Get : text()
-
-jQuery Insert Content
-append : 在前面插入 ( element 內 )
-prepend : 在後面插入 ( element 內 )
-brfore : 在前面插入 ( element 外 )
-after : 在後面插入 ( element 外 )
-
-jQuery Remove Elements &amp; Attribute
-可以移除 Elements or Attribute
-
-jQuery Add and Remove CSS Classes
-可以增加或移除 CSS Classes
-
-jQuery Traversing
-parent : 上一層
-parents : 祖先
-children : 裡面一層
-next : 下一個
-sibling : 鄰居
-
-tags: 函式庫 程式語言 Javascript JQuery]]></content>
-      <categories>
-        <category>函式庫</category>
-      </categories>
-      <tags>
-        <tag>程式語言</tag>
-        <tag>Javascript</tag>
-        <tag>函式庫</tag>
-        <tag>JQuery</tag>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
@@ -2564,9 +2264,151 @@ tags: 筆記 程式語言 Javascript]]></content>
         <category>筆記</category>
       </categories>
       <tags>
-        <tag>程式語言</tag>
         <tag>筆記</tag>
+        <tag>程式語言</tag>
         <tag>Javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JQuery</title>
+    <url>/2019/06/20/JQuery/</url>
+    <content><![CDATA[[函式庫] JQueryJQuery 為 Javascript 的函式庫 ( Library )
+
+在各瀏覽器的 Javascript 寫法不一樣，JQuery 統一了寫法
+引入 : &lt;script src=&quot;http://code.jquery.com/jquery-2.1.4.min.js&quot;&gt;&lt;/script&gt;
+JQuery API
+
+JQuery basic
+
+
+
+
+
+
+
+1 2 3
+$(document).ready(function(){     $(&quot;p&quot;).text(&quot;Hello World!&quot;); });
+
+
+
+document 代表整個 HTML，當頁完全載入後，改變 &lt;p&gt; 的文字為 Hello World!
+$ &#x3D; JQuery
+
+
+
+
+
+
+
+
+
+1 2 3 4 5
+(function($){     $(document).ready(function(){         $(&quot;p&quot;).text(&quot;Hello World!&quot;);     }); })(JQuery);
+
+
+
+較安全的 IIFE 寫法
+
+JQuery event
+JQuery API 裡都有用法
+hover 比較少用，通常會放在 CSS，不然如果塞太多動作會讓網頁卡卡的
+
+jQuery Show and Hide Effects
+show : 讓東西顯示出來
+hide : 讓東西隱藏
+toggle : 如果是隱藏狀態會更改為顯示，顯示狀態則會更改為隱藏
+
+jQuery Fading Effects
+fadeIn : 漸入
+fadeOut : 漸出
+
+jQuery Sliding Effects
+slideUp : 向上滑動 ( 隱藏 )
+slideDown : 向下滑動 ( 顯示 )
+
+jQuery Animation Effects
+動畫
+
+jQuery Chaining
+
+
+
+
+
+
+
+1 2 3 4 5 6 7 8
+$(document).ready(function(){     $(&quot;.start&quot;).click(function(){         $(&quot;p&quot;).animate({width: &quot;100%&quot;}).animate({fontSize: &quot;46px&quot;}).animate({borderWidth: 30});     });     $(&quot;.reset&quot;).click(function(){         $(&quot;p&quot;).removeAttr(&quot;style&quot;);     }); });
+
+
+
+方法可以連下去
+
+jQuery Callback
+一些涉及動畫的函數，動畫之後的程式碼可能會造成衝突，這時可以使用 Callback
+
+
+
+
+
+
+
+
+
+1 2 3 4 5 6
+$(document).ready(function(){     $(&quot;button&quot;).click(function(){         $(&quot;p&quot;).slideToggle(&quot;slow&quot;);         alert(&quot;The slide toggle effect has completed.&quot;);     });    });
+
+
+
+沒使用 Callback
+
+
+
+
+
+
+
+
+
+1 2 3 4 5 6 7
+$(document).ready(function(){     $(&quot;button&quot;).click(function(){         $(&quot;p&quot;).slideToggle(&quot;slow&quot;, function(){             alert(&quot;The slide toggle effect has completed.&quot;);         });     });    });
+
+
+
+使用 Callback
+
+jQuery Get &amp; Set Contents
+有參數為 Set : text(&quot;hello&quot;)
+無參數為 Get : text()
+
+jQuery Insert Content
+append : 在前面插入 ( element 內 )
+prepend : 在後面插入 ( element 內 )
+brfore : 在前面插入 ( element 外 )
+after : 在後面插入 ( element 外 )
+
+jQuery Remove Elements &amp; Attribute
+可以移除 Elements or Attribute
+
+jQuery Add and Remove CSS Classes
+可以增加或移除 CSS Classes
+
+jQuery Traversing
+parent : 上一層
+parents : 祖先
+children : 裡面一層
+next : 下一個
+sibling : 鄰居
+
+tags: 函式庫 程式語言 Javascript JQuery]]></content>
+      <categories>
+        <category>函式庫</category>
+      </categories>
+      <tags>
+        <tag>程式語言</tag>
+        <tag>Javascript</tag>
+        <tag>函式庫</tag>
+        <tag>JQuery</tag>
       </tags>
   </entry>
   <entry>
@@ -3551,6 +3393,112 @@ tags: 筆記 機器學習 邏輯回歸]]></content>
       </tags>
   </entry>
   <entry>
+    <title>機器學習 過度擬合問題 ( overfitting )</title>
+    <url>/2019/07/24/Machine-learning-overfitting-problem/</url>
+    <content><![CDATA[[筆記] 機器學習 過度擬合問題 ( overfitting )過度擬合 ( overfitting ) 與擬合不足 ( underfitting )
+
+過度擬合 ( 右圖 )
+
+特徵量過多，資料量過少
+解決方法 :
+
+
+降低特徵量
+
+人工檢查，保留較重要的特徵量
+也有演算法 ( model selection algorithm ) 可以選擇何為較重要的特徵值
+
+
+正規化
+
+可以保留所有的特徵量，但減少 θⱼ 的大小
+當擁有需多有用的特徵量時，正規化是很有效的使所有特徵量都會有貢獻
+
+
+
+
+擬合不足 ( 左圖 )
+
+特徵量過少
+
+
+
+正規化 ( Regularization )代價函數原理 : 將 θⱼ 乘上較大的係數，可以使 θⱼ 大幅下降，降低一些特徵值的影響力
+
+例如 :
+
+
+θ₃、θ₄ 會大幅下降，甚至可以忽略
+θ₀ + θ₁x + θ₂x² + θ₃x³ + θ₄x⁴ → θ₀ + θ₁x + θ₂x²
+
+
+
+
+
+正規化後的代價函數
+λ 為正規化參數，如果過大會因為 θⱼ ( j ≠ 0 ) 全都趨近於 0 導致 underfitting
+
+正規化線性回歸 ( Regularized Linear Regression )
+
+先將 θ₀ 分離出來，因為正規化不須懲罰 θ₀
+再加上正規化算式
+
+
+
+將 θⱼ 提出來
+此為正規化線性回歸
+
+
+
+
+
+
+
+
+
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
+function [J, grad] = linearRegCostFunction(theta, X, y, lambda)  m = length(y); J = 0; grad = zeros(size(theta));  h = X * theta; sqrErrors = (h - y) .^ 2;  shift_theta = theta(2:size(theta)); theta_reg = [0;shift_theta];  J = (1 / (2 * m)) * sum(sqrErrors) + (lambda / (2 * m)) * theta_reg&#39; * theta_reg;  grad = (1 / m) * (X&#39; * (h - y) + (lambda * theta_reg));  end
+
+
+
+在 Octave 上的正規化線性回歸函式
+
+正規化正規方程 ( Regularized Normal Equation )
+
+因為正規化不須懲罰 θ₀，所以最左上角為 0
+λ⋅L 可以使原本不可逆的 XᵀX 變成可逆的 XᵀX + λ⋅L
+
+正規化邏輯回歸 ( Regularized Logistic Regression )
+
+邏輯回歸的代價函數正規化
+梯度下降的方法跟正規化線性回歸大同小異
+
+
+
+
+
+
+
+
+
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+function [J, grad] = costFunctionReg(theta, X, y, lambda)  m = length(y); J = 0; grad = zeros(size(theta));  h = sigmoid(X * theta); shift_theta = theta(2:size(theta)); theta_reg = [0;shift_theta];  predictions = - y&#39; * log(h); con_predictions = (1 - y)&#39; * log(1 - h);  J = (1 / m) * (predictions - con_predictions) + (lambda / (2 * m)) * theta_reg&#39; * theta_reg;  grad = (1 / m) * (X&#39; * (h - y) + (lambda * theta_reg));  end
+
+
+
+在 Octave 上的正規化邏輯回歸函式
+
+tags: 筆記 機器學習 過度擬合問題]]></content>
+      <categories>
+        <category>筆記</category>
+      </categories>
+      <tags>
+        <tag>筆記</tag>
+        <tag>機器學習</tag>
+        <tag>過度擬合問題</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>機器學習 神經網路 - 進階學習</title>
     <url>/2019/08/05/Machine-learning-neural-network-advanced/</url>
     <content><![CDATA[[筆記] 機器學習 神經網路 - 進階學習代價函數與反向傳播算法 ( Backpropagation )符號定義 :
@@ -4389,1066 +4337,6 @@ tags: 筆記 機器學習 改善模型]]></content>
         <tag>筆記</tag>
         <tag>機器學習</tag>
         <tag>改善模型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>機器學習 過度擬合問題 ( overfitting )</title>
-    <url>/2019/07/24/Machine-learning-overfitting-problem/</url>
-    <content><![CDATA[[筆記] 機器學習 過度擬合問題 ( overfitting )過度擬合 ( overfitting ) 與擬合不足 ( underfitting )
-
-過度擬合 ( 右圖 )
-
-特徵量過多，資料量過少
-解決方法 :
-
-
-降低特徵量
-
-人工檢查，保留較重要的特徵量
-也有演算法 ( model selection algorithm ) 可以選擇何為較重要的特徵值
-
-
-正規化
-
-可以保留所有的特徵量，但減少 θⱼ 的大小
-當擁有需多有用的特徵量時，正規化是很有效的使所有特徵量都會有貢獻
-
-
-
-
-擬合不足 ( 左圖 )
-
-特徵量過少
-
-
-
-正規化 ( Regularization )代價函數原理 : 將 θⱼ 乘上較大的係數，可以使 θⱼ 大幅下降，降低一些特徵值的影響力
-
-例如 :
-
-
-θ₃、θ₄ 會大幅下降，甚至可以忽略
-θ₀ + θ₁x + θ₂x² + θ₃x³ + θ₄x⁴ → θ₀ + θ₁x + θ₂x²
-
-
-
-
-
-正規化後的代價函數
-λ 為正規化參數，如果過大會因為 θⱼ ( j ≠ 0 ) 全都趨近於 0 導致 underfitting
-
-正規化線性回歸 ( Regularized Linear Regression )
-
-先將 θ₀ 分離出來，因為正規化不須懲罰 θ₀
-再加上正規化算式
-
-
-
-將 θⱼ 提出來
-此為正規化線性回歸
-
-
-
-
-
-
-
-
-
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
-function [J, grad] = linearRegCostFunction(theta, X, y, lambda)  m = length(y); J = 0; grad = zeros(size(theta));  h = X * theta; sqrErrors = (h - y) .^ 2;  shift_theta = theta(2:size(theta)); theta_reg = [0;shift_theta];  J = (1 / (2 * m)) * sum(sqrErrors) + (lambda / (2 * m)) * theta_reg&#39; * theta_reg;  grad = (1 / m) * (X&#39; * (h - y) + (lambda * theta_reg));  end
-
-
-
-在 Octave 上的正規化線性回歸函式
-
-正規化正規方程 ( Regularized Normal Equation )
-
-因為正規化不須懲罰 θ₀，所以最左上角為 0
-λ⋅L 可以使原本不可逆的 XᵀX 變成可逆的 XᵀX + λ⋅L
-
-正規化邏輯回歸 ( Regularized Logistic Regression )
-
-邏輯回歸的代價函數正規化
-梯度下降的方法跟正規化線性回歸大同小異
-
-
-
-
-
-
-
-
-
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
-function [J, grad] = costFunctionReg(theta, X, y, lambda)  m = length(y); J = 0; grad = zeros(size(theta));  h = sigmoid(X * theta); shift_theta = theta(2:size(theta)); theta_reg = [0;shift_theta];  predictions = - y&#39; * log(h); con_predictions = (1 - y)&#39; * log(1 - h);  J = (1 / m) * (predictions - con_predictions) + (lambda / (2 * m)) * theta_reg&#39; * theta_reg;  grad = (1 / m) * (X&#39; * (h - y) + (lambda * theta_reg));  end
-
-
-
-在 Octave 上的正規化邏輯回歸函式
-
-tags: 筆記 機器學習 過度擬合問題]]></content>
-      <categories>
-        <category>筆記</category>
-      </categories>
-      <tags>
-        <tag>筆記</tag>
-        <tag>機器學習</tag>
-        <tag>過度擬合問題</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>NodeJS、npm 的安裝與配置</title>
-    <url>/2019/06/17/NodeJS-npm-install/</url>
-    <content><![CDATA[[安裝] NodeJS、npm 的安裝與配置新版 NodeJS 裡面就包含了 npm1. 下載
-下載地址 : NodeJS官網
-
-安裝在此目錄底下 C:\Program Files\nodejs
-
-node -v 與 npm -v 檢查是否安裝成功
-
-
-
-2. 配置 npm 的全局模塊的存放路徑以及cache的路徑
-建立 node_global、node_cache 兩個資料夾
-
-
-在終端機輸入
-
-npm config set prefix &quot;C:\Program Files\nodejs\node_global&quot;
-npm config set cache &quot;C:\Program Files\nodejs\node_cache&quot;
-
-
-
-3. 配置系統環境變量
-右鍵 本機，內容 → 進階系統設定 → 進階 → 環境變數 → 系統變數底下 新增 NODE_PATH
-
-新增路徑 C:\Program Files\nodejs\node_global\node_modules 上去
-
-更改使用者變數底下的 Path
-
-C:\Program Files\nodejs\node_modules 更改為 C:\Program Files\nodejs\node_global
-沒有就新增
-
-
-重新開機
-
-
-tags: 安裝 NodeJS npm]]></content>
-      <categories>
-        <category>安裝</category>
-      </categories>
-      <tags>
-        <tag>安裝</tag>
-        <tag>NodeJS</tag>
-        <tag>npm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Octave 基礎</title>
-    <url>/2019/07/12/Octave-basic/</url>
-    <content><![CDATA[[筆記] Octave 基礎運算語法
-+ : 加
-- : 減
-* : 乘
-/ : 除
-^ : 次方
-
-邏輯語法
-==
-~= : 不等於
-&amp;&amp;
-||
-xor()
-
-矩陣創建
-A = [1 2; 3 4; 5 6] : 創建矩陣
-v = n:i:m : 生成 n 到 m，間隔 i 的矩陣
-v = n:m : 生成 n 到 m，間隔 1 的矩陣
-ones(n, m) : 生成都是 1 的矩陣，n rows，m columns
-zeros(n, m) : 生成都是 0 的矩陣，n rows，m columns
-rand(n, m) : 生成 0 到 1 內隨機數字的矩陣，n rows，m columns
-randn(n, m) : 生成常態分配的矩陣，n rows，m columns
-hist(變數, n) : 生成 n 個數據的直方圖
-eye(n) : 生成 n*n 的單位矩陣
-magic(n) : 生成 nn 矩陣，內涵元素為 1 ~ n  n，每行每列斜對角總和相同
-
-矩陣操作查看
-disp(A) : 將 A 矩陣打印出來
-A(n, m) : 查看 n row，m column 的值，: 代表全部
-A([n m], :) : 查看 n row 和 m row 所有的值
-size(A, n) : 查看 A 是幾乘幾的矩陣，n 可以不輸入，1 為查看 row，2 為查看 column
-length(A) : 查看 A 的最大維度
-who : 查看當前所有的矩陣
-whos : 詳細查看當前所有的矩陣
-max(A) : 查看 A 向量的最大值與索引位置，若 A 為矩陣查看 A 矩陣內每個 column 的最大值
-max(A, [], n) : 查看 A 矩陣內的最大值，n &#x3D; 1 為查看 column，2 為查看 row
-min(A) : 查看 A 向量的最小值與索引位置，若 A 為矩陣查看 A 矩陣內每個 column 的最小值
-min(A, [], n) : 查看 A 矩陣內的最小值，n &#x3D; 1 為查看 column，2 為查看 row
-find(A &lt; n) : 查看元素小於 n 的位置
-
-修改
-A = [A, [i; j; k]] : 給 A 矩陣新增一行 column，值為 i、j、k
-A(:) : 將 A 矩陣的所有元素排成一行向量
-V = [A B] : 將 A、B 矩陣左右合併
-V = [A; B] : 將 A、B 矩陣上下合併
-V = A(n:m) : 將 A 矩陣 n ~ m 筆資料放進 V
-clear A : 刪除 A 矩陣，單個 clear 是刪除所有矩陣
-
-載入存入
-load &lt;檔名&gt;.&lt;副檔名&gt; : 載入檔案
-save &lt;檔名&gt;.mat A : 將 A 矩陣存入檔案
-save &lt;檔名&gt;.txt A -ascii : 將 A 矩陣存入檔案，存成 text
-
-矩陣運算
-A * B : A、B 矩陣相乘
-A .* B : A、B 矩陣純量相乘
-A .^ n : A 矩陣的 n 次方
-n ./ A : n 常數與 A 矩陣純量相除
-log(A) : 對 A 矩陣取 log
-exp(A) : 對 A 矩陣取 exp
-abs(A) : 對 A 矩陣取絕對值
-A&#39; : A 矩陣的轉置矩陣
-A &lt; 3 : true 回傳 1，false 回傳 0
-sum(a) : a 向量的總和
-sum(A, n) : A 矩陣的總和，1 為 column，2 為 row
-prod(a) : a 向量的總積
-floor(A) : A 矩陣取地板函數，捨去正小數至最近整數
-ceil(A) : A 矩陣取天花板函數，加入正小數至最近整數
-pinv(A) : A 矩陣的反矩陣
-
-繪製
-plot(n, m, &#39;r&#39;) : 繪圖，n 為 x 軸，m 為 y 軸，’r’ 為顏色，可以不加
-hold on : 讓已生成的圖像保持顯示，可以持續在上繪圖
-xlable(&#39;&lt;x 軸名稱&gt;&#39;) : 給 x 軸命名
-ylable(&#39;&lt;y 軸名稱&gt;&#39;) : 給 y 軸命名
-legend(&#39;&lt;第一個圖&gt;&#39;, &#39;&lt;第二個圖&gt;&#39;) : 給每個繪圖命名
-title(&#39;&lt;標題&gt;&#39;) : 給此圖命名
-print -dpng &#39;&lt;檔名&gt;.png&#39; : 儲存此圖為圖檔
-close : 關掉顯示中的繪圖
-figure(n); plot(n, m); : 生成繪圖於編號 n 圖像，可以同時顯示多張圖像
-subplot(n, m, i) : 生成 n * m 格子的圖像，目前使用第 i 個格子
-axis([n, m, i, j]) : 修改 x 軸 ( n ~ m )、y 軸 ( i ~ j ) 範圍
-clf : 清空圖像上的繪圖
-imagesc(A) : 將 A 矩陣可視化
-colorbar : 顯示代表數值的顏色表
-colormap gray : 將顏色表改為灰階
-
-控制語法for
-
-
-
-
-
-
-
-1 2 3
-for i = 1:10, %1 到 10     &lt;待執行程式碼&gt;; end;
-
-
-while
-
-
-
-
-
-
-
-1 2 3 4 5
-i = 1; while &lt;條件&gt;,     &lt;待執行程式碼&gt;;     i = i + 1; end;
-
-
-if
-
-
-
-
-
-
-
-1 2 3 4 5 6 7
-if &lt;條件&gt;,     &lt;待執行程式碼&gt;; elseif &lt;條件&gt;,     &lt;待執行程式碼&gt;; else     &lt;待執行程式碼&gt;; end;
-
-
-函式
-
-
-
-
-
-
-
-1 2 3
-function y = squareThisNumber(x)  y = x^2
-
-
-
-將此文件存為 .m 檔
-addpath(&#39;&lt;檔案位址&gt;&#39;) : 這樣 Octave 就能找到此函式
-
-
-
-
-
-
-
-
-
-1 2 3 4
-function [y1, y2] = squareThisNumber(x)  y1 = x^2 y2 = x^3
-
-
-
-函式可返回多個值
-
-其他
-PS1(&#39;&gt;&gt; &#39;); : 可以簡化命令前字符
-賦予值時加上 ; : 可以不將賦予後的結果打印出來
-help : 幫助
-pwd : Octave 當前路徑
-可用 , 連接多條命令
-exit、quit : 關閉 Octave
-
-tags: 筆記 程式語言 機器學習 Octave]]></content>
-      <categories>
-        <category>筆記</category>
-      </categories>
-      <tags>
-        <tag>程式語言</tag>
-        <tag>筆記</tag>
-        <tag>機器學習</tag>
-        <tag>Octave</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 基礎</title>
-    <url>/2019/06/23/Python-basic/</url>
-    <content><![CDATA[[筆記] Python 基礎語言特性與熱門應用
-Python 是泛用的程式語言，強調易學好懂
-最近常用在數據分析、人工智慧
-
-安裝下載地址 : Python
-
-
-勾起來，之後操作方便許多
-
-資料與運算1. 變數與資料型態
-數字 : 3.5
-字串 : &quot;hello&quot;
-布林值 : True、False ( python 的 T 跟 F 為大寫 )
-可變列表 ( List ) : [3,4,5]、[&quot;hello&quot;,&quot;world&quot;]
-固定列表 ( Tuple ) : (3,4,5)、(&quot;hello&quot;,&quot;world&quot;)
-集合 : {3,4,5}、{&quot;hello&quot;,&quot;world&quot;}
-字典 : {&quot;apple&quot;:&quot;蘋果&quot;,&quot;data&quot;:&quot;資料&quot;}
-變數 : data=3 data 為變數，不用宣告
-
-2. 運算
-數字
-
-7//6 : 整數除法
-2**3 : 2 的 3 次方
-
-
-字串
-
-&quot;hell\&quot;o 輸出為 hell&quot;o : 想在字串中加入雙引好可以用 \ 跳脫
-
-&quot;&quot;&quot;hello&quot;&quot;&quot; or &#39;&#39;&#39;hello&#39;&#39;&#39; : 在裡面的換行會直接呈現
-
-字串會對內部的字元編號 ( 索引 )，從 0 開始算起，假設 s = &quot;hello&quot;
-
-s[0] 輸出為 h
-s[1:4] 輸出為 ell : 輸出字串中編號 1 到 4 ( 不包含 )
-s[1:] 輸出為 ello
-s[:4] 輸出為 hell
-
-
-
-
-有序列表 ( List、Tuple )
-
-List，假設 grades = [12,60,15,70,90]
-
-grades[1:4] = [] 輸出為 [12,90] : 連續刪除列表中編號 1 到 4 ( 不包含 )
-grades = grades + [12,33] 輸出為 [12,60,15,70,90,12,33]
-
-
-Tuple : 除了更動會出錯，其他都跟 List 一樣
-
-
-
-集合與字典
-
-集合，假設 s1 = {3,4,5} s2 = {4,5,6,7}
-
-10 in s1 輸出為 False，10 not in s1 輸出為 True
-&amp; : 交集，| : 聯集，- : 差集，^ : 反交集
-s = set(&quot;hello&quot;) s 輸出為 {&#39;l&#39;,&#39;h&#39;,&#39;e&#39;,&#39;o&#39;} : 把字串拆解為集合
-
-
-字典，假設 dic = {&quot;apple&quot;:&quot;蘋果&quot;,&quot;bug&quot;:&quot;蟲蟲&quot;}
-
-test in dic 輸出為 False，test not in dic 輸出為 True
-del dic[&quot;apple&quot;] : 刪除字典中的鍵值對
-dic = {x:x*2 for x in [3,4,5]} dic 輸出為 {3:6,4:8,5:10} : 從列表資料產生字典
-
-
-
-
-
-流程控制
-在 python {} 用縮排 ( tab ) 取代
-
-1. 判斷式
-
-
-
-
-
-
-
-1 2 3 4 5 6
-if True:     print(&quot;True 執行&quot;) elif False:     print(&quot;False 執行&quot;) else:     print(&quot;跑不到&quot;)
-
-
-python 目前不支援 switch
-2. 迴圈
-while
-
-
-
-
-
-
-
-
-
-1 2 3 4
-n = 1 while n&lt;10:     printf(n)     n+=1
-
-
-
-for
-
-迴圈跑列表
-
-
-
-
-
-
-
-
-1 2
-for x in [3, 5, 1]:     print(x)
-
-
-
-迴圈跑字串
-
-
-
-
-
-
-
-
-1 2
-for x in &quot;hello&quot;:     print(x)
-
-
-
-迴圈跑range
-
-
-
-
-
-
-
-
-1 2
-for x in range(5):     print(x)
-
-
-range(5) : 0，1，2，3，4range(3,7) : 3，4，5，6
-
-
-
-
-迴圈最後可加 else:，else 在迴圈結束前執行，被 break 強制結束就不會執行 else
-函式、模組與封包函式 : 用來做程式的包裝，同樣邏輯可以重複利用
-
-
-
-
-
-
-
-1 2 3 4 5 6 7
-def add(n1 = 1,n2 = 2):     result = n1 + n2     return result  print(add(3, 4)) #7 print(add()) #3 print(add(n2 = 3,n1 = 4))
-
-
-
-
-
-
-
-
-
-
-1 2 3 4 5 6 7 8
-def avg(*ns): #無限不定參數資料     sum = 0     for n in ns:         sum += n     print(sum/len(ns))  avg(3, 4) #3.5 avg(3, 5, 10) #6.0
-
-
-模組 : 將程式寫在一個檔案中，此檔案可重複載入使用
-載入
-
-
-
-
-
-
-
-
-
-1
-import sys as system #載入模組並取別名 system
-
-
-
-使用
-
-
-
-
-
-
-
-
-
-1 2 3
-print(system.platform) print(system.maxsize) print(system.path) #印出模組的搜尋路徑
-
-
-
-內建模組與自訂模組
-
-
-主程式
-
-
-
-
-
-
-
-
-
-1 2 3 4
-import sys #內建的模組 sys.path.append(&quot;modules&quot;) #在模組的搜尋路徑列表中新增路徑，這裡 &quot;modules&quot; 為資料夾 import geometry #自訂的模組，放在 &quot;modules&quot; 資料夾內 print(geometry.distance(1, 1, 5, 5))
-
-
-
-模組 : 放在 modules 資料夾內
-
-
-
-
-
-
-
-
-
-1 2 3 4
-def distance(x1, y1, x2, y2):     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5 def slope(x1, y1, x2, y2):     return (y2 - y1)/(x2 - x1)
-
-
-封包 : 用來整理、分類模組
-檔案中的資料夾為封包，檔案為模組
-
-
-建立封包
-檔案配置 :
-
-專案資料夾
-
-主程式.py
-
-封包資料夾
-
-__init__.py : 必要
-模組一.py
-模組二.py
-
-
-
-
-
-
-使用封包
-
-
-
-
-
-
-
-
-
-
-1
-import 封包名稱.模組名稱 as 模組別名
-
-
-類別與實體物件
-封裝的變數或函式，統稱類別的屬性
-
-類別
-定義類別
-
-
-
-
-
-
-
-
-1 2 3
-class 類別名稱:     定義封裝的變數     定義封裝的函式
-
-
-
-使用類別
-
-
-
-
-
-
-
-
-
-
-1
-類別名稱.屬性名稱
-
-
-實體物件
-建立實體物件
-
-
-
-
-
-
-
-
-
-1 2 3 4 5
-class 類別名稱:     def __init__(self): #定義初始化函式         透過操作 self 來定義實體屬性 # 建立實體物件，放入變數 obj 中 obj = 類別名稱() #呼叫初始化函式
-
-
-
-
-
-
-
-
-
-
-1 2 3 4 5 6
-class Point:     def __init__(self, x, y):         self.x = x         self.y = y  p = Point(1,5)
-
-
-
-使用實體物件
-
-
-
-
-
-
-
-
-
-1 2 3
-#實體物件.實體屬性名稱 p = Point(1,5) print(p.x + p.y)
-
-
-實體方法
-建立實體方法
-
-
-封裝在實體物件中的函式
-
-
-
-
-
-
-
-
-
-1 2 3 4 5 6 7
-class 類別名稱:     def __init__(self): #定義初始化函式         封裝在實體物件中的變數     def 方法名稱(self,更多自訂參數):         方法主體，透過 self 操作實體物件 # 建立實體物件，放入變數 obj 中 obj = 類別名稱() #呼叫初始化函式
-
-
-
-
-
-
-
-
-
-
-1 2 3 4 5 6 7
-class Point:     def __init__(self, x, y):         self.x = x         self.y = y     def show(self):         print(self.x, self.y) p = Point(1,5)
-
-
-
-使用實體方法
-
-
-
-
-
-
-
-
-
-1 2 3
-#實體物件.實體方法名稱(參數資料) p = Point(1,5) #建立實體物件 p.show() #呼叫實體方法
-
-
-文字檔案的讀取與儲存1. 開啟檔案
-
-
-
-
-
-
-
-1
-檔案物件 = open(檔案路徑, mode = 開啟模式, encoding = 編碼)
-
-
-
-開啟模式
-
-&quot;r&quot; : 讀取模式
-&quot;w&quot; : 寫入模式
-&quot;r+&quot; : 讀寫模式
-
-
-編碼
-
-&quot;utf-8&quot; : 中文常用編碼
-
-
-
-2. 讀取檔案
-讀取全部文字
-
-
-
-
-
-
-
-
-
-1
-檔案物件.read()
-
-
-
-一次讀取一行
-
-
-
-
-
-
-
-
-
-1 2
-for 變數 in 檔案物件:     從檔案依序讀取每行文字到變數中
-
-
-
-讀取 JSON 格式
-
-
-
-
-
-
-
-
-
-1 2
-import json 讀取到的資料 = json.load(檔案物件)
-
-
-3. 儲存檔案
-寫入文字
-
-
-
-
-
-
-
-
-
-1
-檔案物件.write(&quot;字串\n&quot;) #要換行就 \n
-
-
-
-寫入 JSON 格式
-
-
-
-
-
-
-
-
-
-1 2
-import json json.dump(要寫入的資料, 檔案物件)
-
-
-4. 關閉檔案
-
-
-
-
-
-
-
-1
-檔案物件.close()
-
-
-最佳實務
-
-
-
-
-
-
-
-1 2 3
-with open(檔案路徑, mode = 開啟模式) as 檔案物件:     讀取或寫入檔案的程式 #以上區塊會自動、安全的關閉檔案，不需 close
-
-
-亂數與統計模組random
-載入模組
-
-
-
-
-
-
-
-
-
-1
-import random
-
-
-
-使用 random
-
-
-
-
-
-
-
-
-
-1 2 3 4 5 6
-random.choice([0, 1, 5, 8]) #從列表中隨機選取 1 個資料 random.sample([0, 1, 5, 8], n) #從列表中隨機選取 n 個資料 random.shuffle([0, 1, 5, 8]) #將列表的資料就地隨機調換順序 random.random() # 0 ~1 之間的隨機數亂數 random.uniform(n, m) # 取得 n ~ m 之間的隨機亂數 random.normalvariate(n, m) # 取得平均數 n，標準差 m 的常態分配亂數
-
-
-常態分配範例 :
-
-statistics
-載入模組
-
-
-
-
-
-
-
-
-
-1
-import statistics
-
-
-
-使用 statistics
-
-
-
-
-
-
-
-
-
-1 2 3
-statistics.mean([1, 4, 6, 9]) #計算列表中數字的平均數 statistics.median([1, 4, 6, 9]) #計算列表中數字的中位數 statistics.stdev([1, 4, 6, 9]) #計算列表中數字的標準差
-
-
-網路連線與公開資料串接網路連線
-載入模組
-
-
-
-
-
-
-
-
-
-1
-import urllib.request as request
-
-
-
-下載特定網址資料
-
-
-
-
-
-
-
-
-
-1 2 3
-with request.urlopen(網址) as response:     data = response.read().decode(&quot;utf-8&quot;) print(data)
-
-
-公開資料串接
-確認資料格式
-
-JSON、CSV、或其他格式
-
-
-解讀格式
-
-解讀 JSON 使用內建的 JSON 模組
-
-
-
-tags: 筆記 程式語言 Python]]></content>
-      <categories>
-        <category>筆記</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>程式語言</tag>
-        <tag>筆記</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 連結至 MySQL 並進行操作</title>
-    <url>/2019/07/01/Python-connect-to-MySQL/</url>
-    <content><![CDATA[[實作] Python 連結至 MySQL 並進行操作安裝 MySQL 驅動
-
-
-
-
-
-
-
-1
-$ pip install mysql-connector-python mysql-connector-python
-
-
-
-在終端機輸入來安裝 MySQL 驅動
-
-
-
-
-
-
-
-
-
-1
-import mysql.connector
-
-
-
-接著就能在 Python 引入
-
-連結 MySQL
-
-
-
-
-
-
-
-1 2 3 4 5 6 7
-testdb = MySQL.connect(     host = &quot;localhost&quot;,     user = &quot;root&quot;,     password = &quot;&lt;密碼&gt;&quot;,     database = &quot;&lt;已存在的資料庫名稱&gt;&quot; #若尚未創建可不加這段 ) cursor = testdb.cursor()
-
-
-建立資料庫
-
-
-
-
-
-
-
-1
-cursor.execute(&quot;CREATE database &lt;資料庫名稱&gt;&quot;)
-
-
-建立資料表
-
-
-
-
-
-
-
-1
-cursor.execute(&quot;CREATE table &lt;Table 名稱&gt; (id INTEGER AUTO_INCREMENT PRIMARY Key, name VARCHAR(20), img VARCHAR(200))&quot;)
-
-
-插入資料
-
-
-
-
-
-
-
-1 2 3 4 5 6
-sqlstuff = &quot;INSERT INTO pokeshiny (name, img) VALUES (%s, %s)&quot;  records = [(Jack, Jack.png), (Mary, Mary.png)]  cursor.executemany(sqlstuff, records) pokedb.commit()
-
-
-tags: 實作 Python MySQL]]></content>
-      <categories>
-        <category>實作</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>MySQL</tag>
-        <tag>實作</tag>
       </tags>
   </entry>
   <entry>
@@ -6438,259 +5326,965 @@ tags: 筆記 程式語言 SQL 資料庫 MySQL]]></content>
         <category>筆記</category>
       </categories>
       <tags>
-        <tag>MySQL</tag>
-        <tag>程式語言</tag>
         <tag>筆記</tag>
+        <tag>程式語言</tag>
+        <tag>MySQL</tag>
         <tag>SQL</tag>
         <tag>資料庫</tag>
       </tags>
   </entry>
   <entry>
-    <title>VS code 安裝與好用套件</title>
-    <url>/2019/06/17/VScode-install/</url>
-    <content><![CDATA[[安裝] VS code 安裝與好用套件VS code : 免費且功能強大的高效率編輯器1. 下載
-下載地址 : VS code官網
+    <title>NodeJS、npm 的安裝與配置</title>
+    <url>/2019/06/17/NodeJS-npm-install/</url>
+    <content><![CDATA[[安裝] NodeJS、npm 的安裝與配置新版 NodeJS 裡面就包含了 npm1. 下載
+下載地址 : NodeJS官網
 
-2. 開啟
-在終端機輸入 code . 可開啟 VS code
+安裝在此目錄底下 C:\Program Files\nodejs
 
-3. 好用的套件
-Mithril Emmet : 提供了一種非常簡練的語法規則，然後立刻生成對應的HTML 結構或者CSS 代碼
-
-
-html:5 : 產生標準的HTML格式
+node -v 與 npm -v 檢查是否安裝成功
 
 
 
-&gt; : 產生巢狀HTML
-EX : nav&gt;ul&gt;li
+2. 配置 npm 的全局模塊的存放路徑以及cache的路徑
+建立 node_global、node_cache 兩個資料夾
+
+
+在終端機輸入
+
+npm config set prefix &quot;C:\Program Files\nodejs\node_global&quot;
+npm config set cache &quot;C:\Program Files\nodejs\node_cache&quot;
 
 
 
-更多語法規則
+3. 配置系統環境變量
+右鍵 本機，內容 → 進階系統設定 → 進階 → 環境變數 → 系統變數底下 新增 NODE_PATH
+
+新增路徑 C:\Program Files\nodejs\node_global\node_modules 上去
+
+更改使用者變數底下的 Path
+
+C:\Program Files\nodejs\node_modules 更改為 C:\Program Files\nodejs\node_global
+沒有就新增
 
 
-
-open in browser : 檢視HTML產出的網頁
-Ctrl + Shift + P or F1 輸入指令 Open in Default Browser
-
-Live Server : 修改HTML同時，即時更新網頁
-Ctrl + Shift + P or F1 輸入指令 Live Server: Open With Live Server
-
-P.S. 出現錯誤 : Open a folder or workspace... (File -&gt; Open Folder)
-
-需打開 folder or workspace 才能使用，file 不行
+重新開機
 
 
-
-
-
-tags: 安裝 VS code VS code套件]]></content>
+tags: 安裝 NodeJS npm]]></content>
       <categories>
         <category>安裝</category>
       </categories>
       <tags>
         <tag>安裝</tag>
-        <tag>VS code</tag>
+        <tag>NodeJS</tag>
+        <tag>npm</tag>
       </tags>
   </entry>
   <entry>
-    <title>解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題</title>
-    <url>/2026/03/14/adk-gemini-function-calling-fix/</url>
-    <content><![CDATA[問題描述當 Agent 掛有 google_search tool 時：
+    <title>Octave 基礎</title>
+    <url>/2019/07/12/Octave-basic/</url>
+    <content><![CDATA[[筆記] Octave 基礎運算語法
++ : 加
+- : 減
+* : 乘
+/ : 除
+^ : 次方
 
-不能直接將此 Agent 掛到 sub_agents
-會出現錯誤：
+邏輯語法
+==
+~= : 不等於
+&amp;&amp;
+||
+xor()
 
-AGENT_ERROR: Tool use with function calling is unsupported by the model
+矩陣創建
+A = [1 2; 3 4; 5 6] : 創建矩陣
+v = n:i:m : 生成 n 到 m，間隔 i 的矩陣
+v = n:m : 生成 n 到 m，間隔 1 的矩陣
+ones(n, m) : 生成都是 1 的矩陣，n rows，m columns
+zeros(n, m) : 生成都是 0 的矩陣，n rows，m columns
+rand(n, m) : 生成 0 到 1 內隨機數字的矩陣，n rows，m columns
+randn(n, m) : 生成常態分配的矩陣，n rows，m columns
+hist(變數, n) : 生成 n 個數據的直方圖
+eye(n) : 生成 n*n 的單位矩陣
+magic(n) : 生成 nn 矩陣，內涵元素為 1 ~ n  n，每行每列斜對角總和相同
 
-參考： GitHub Issue #53
-解決方案：將 Agent 包裝成 Agent Tool關鍵概念當 Agent 包含 google_search tool 時，必須用 agenttool.New() 將其轉為 Tool，才能被其他 Agent 調用。
-Go 實作import &quot;google.golang.org/adk/tool/agenttool&quot;// 1. 建立帶有 google_search 的 agentwebSearchAgent, err := llmagent.New(llmagent.Config&#123;    Name:        &quot;web_search_agent&quot;,    Model:       llmModel,    Description: &quot;A specialized agent with web search capabilities.&quot;,    Instruction: &quot;Use GoogleSearch tool to find information. Return concise results.&quot;,    Tools: []tool.Tool&#123;        geminitool.GoogleSearch&#123;&#125;,  // 關鍵：這個 agent 有 google_search    &#125;,&#125;)// 2. 將 agent 轉為 Agent Tool（解決方案）agentTool := agenttool.New(webSearchAgent, nil)  // 必須這樣包裝// 3. 掛到主 Agent 的 Tools（非 SubAgents）rootAgent, err := llmagent.New(llmagent.Config&#123;    Name:  &quot;root_agent&quot;,    Model: llmModel,    Tools: []tool.Tool&#123;agentTool&#125;,&#125;)
+矩陣操作查看
+disp(A) : 將 A 矩陣打印出來
+A(n, m) : 查看 n row，m column 的值，: 代表全部
+A([n m], :) : 查看 n row 和 m row 所有的值
+size(A, n) : 查看 A 是幾乘幾的矩陣，n 可以不輸入，1 為查看 row，2 為查看 column
+length(A) : 查看 A 的最大維度
+who : 查看當前所有的矩陣
+whos : 詳細查看當前所有的矩陣
+max(A) : 查看 A 向量的最大值與索引位置，若 A 為矩陣查看 A 矩陣內每個 column 的最大值
+max(A, [], n) : 查看 A 矩陣內的最大值，n &#x3D; 1 為查看 column，2 為查看 row
+min(A) : 查看 A 向量的最小值與索引位置，若 A 為矩陣查看 A 矩陣內每個 column 的最小值
+min(A, [], n) : 查看 A 矩陣內的最小值，n &#x3D; 1 為查看 column，2 為查看 row
+find(A &lt; n) : 查看元素小於 n 的位置
 
-Python 版本from google.adk.tools.agent_tool import AgentToolfrom google.adk.tools import google_searchfrom google.adk.agents import Agentweb_search_agent = Agent(    name=&quot;web_search_agent&quot;,    model=&quot;gemini-2.0-flash&quot;,    tools=[google_search]  # 有 google_search 的 agent)root_agent = Agent(    name=&quot;root_agent&quot;,    tools=[AgentTool(agent=web_search_agent)]  # 必須轉為 AgentTool)
+修改
+A = [A, [i; j; k]] : 給 A 矩陣新增一行 column，值為 i、j、k
+A(:) : 將 A 矩陣的所有元素排成一行向量
+V = [A B] : 將 A、B 矩陣左右合併
+V = [A; B] : 將 A、B 矩陣上下合併
+V = A(n:m) : 將 A 矩陣 n ~ m 筆資料放進 V
+clear A : 刪除 A 矩陣，單個 clear 是刪除所有矩陣
 
-關鍵重點
-Agent 有 google_search → 必須用 agenttool.New(agent, nil) 轉為 Tool
-然後掛到 Tools（而非 SubAgents）
-副作用：包裝後的 Agent Tool 無上下文記憶（詳見：Agent Tool 無上下文記憶，需改用 Sub-agent）
+載入存入
+load &lt;檔名&gt;.&lt;副檔名&gt; : 載入檔案
+save &lt;檔名&gt;.mat A : 將 A 矩陣存入檔案
+save &lt;檔名&gt;.txt A -ascii : 將 A 矩陣存入檔案，存成 text
 
-]]></content>
-      <categories>
-        <category>問題</category>
-      </categories>
-      <tags>
-        <tag>ADK</tag>
-        <tag>agent</tag>
-        <tag>google-search</tag>
-        <tag>bug</tag>
-        <tag>workaround</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ADK Sub-agent STOP 錯誤：停用 Thinking Mode</title>
-    <url>/2026/03/14/adk-subagent-stop-thinking-mode/</url>
-    <content><![CDATA[使用 Gemini 2.5 Flash 模型時，若 sub-agent 啟用思考模式（Thinking Mode），有時會導致該 sub-agent 回傳空的 content，觸發 ADK 的 STOP 錯誤，整個對話流程中斷。
-錯誤現象
-Sub-agent 被 transfer 進來後無回應
-Log 顯示 finish_reason 為 STOP 但 content 為空
-問題只在 sub-agent 上出現，root agent 不受影響
+矩陣運算
+A * B : A、B 矩陣相乘
+A .* B : A、B 矩陣純量相乘
+A .^ n : A 矩陣的 n 次方
+n ./ A : n 常數與 A 矩陣純量相除
+log(A) : 對 A 矩陣取 log
+exp(A) : 對 A 矩陣取 exp
+abs(A) : 對 A 矩陣取絕對值
+A&#39; : A 矩陣的轉置矩陣
+A &lt; 3 : true 回傳 1，false 回傳 0
+sum(a) : a 向量的總和
+sum(A, n) : A 矩陣的總和，1 為 column，2 為 row
+prod(a) : a 向量的總積
+floor(A) : A 矩陣取地板函數，捨去正小數至最近整數
+ceil(A) : A 矩陣取天花板函數，加入正小數至最近整數
+pinv(A) : A 矩陣的反矩陣
 
-根本原因Gemini 2.5 Flash 的思考模式會在回應中產生內部推理（thinking tokens），但在 ADK 的 multi-agent 架構中，sub-agent 的思考輸出有時無法正確轉換為可回傳的 content，導致空回應。
-解決方案：對 Sub-agent 停用思考模式在建立 sub-agent 時，透過 GenerateContentConfig 將 ThinkingBudget 設為 0：
-thinkingBudget := int32(0)subAgent, err := llmagent.New(llmagent.Config&#123;    Name:        &quot;sub_agent&quot;,    Model:       llmModel,    Description: &quot;...&quot;,    Instruction: &quot;...&quot;,    GenerateContentConfig: &amp;genai.GenerateContentConfig&#123;        ThinkingConfig: &amp;genai.ThinkingConfig&#123;            ThinkingBudget: &amp;thinkingBudget,  // 0 = 停用思考模式        &#125;,    &#125;,&#125;)
+繪製
+plot(n, m, &#39;r&#39;) : 繪圖，n 為 x 軸，m 為 y 軸，’r’ 為顏色，可以不加
+hold on : 讓已生成的圖像保持顯示，可以持續在上繪圖
+xlable(&#39;&lt;x 軸名稱&gt;&#39;) : 給 x 軸命名
+ylable(&#39;&lt;y 軸名稱&gt;&#39;) : 給 y 軸命名
+legend(&#39;&lt;第一個圖&gt;&#39;, &#39;&lt;第二個圖&gt;&#39;) : 給每個繪圖命名
+title(&#39;&lt;標題&gt;&#39;) : 給此圖命名
+print -dpng &#39;&lt;檔名&gt;.png&#39; : 儲存此圖為圖檔
+close : 關掉顯示中的繪圖
+figure(n); plot(n, m); : 生成繪圖於編號 n 圖像，可以同時顯示多張圖像
+subplot(n, m, i) : 生成 n * m 格子的圖像，目前使用第 i 個格子
+axis([n, m, i, j]) : 修改 x 軸 ( n ~ m )、y 軸 ( i ~ j ) 範圍
+clf : 清空圖像上的繪圖
+imagesc(A) : 將 A 矩陣可視化
+colorbar : 顯示代表數值的顏色表
+colormap gray : 將顏色表改為灰階
 
-
-⚠️ Root agent 不需要停用，只需對有問題的 sub-agent 套用即可。
-
-關鍵重點
-問題只發生在 sub-agent，root agent 不受影響
-ThinkingBudget = 0 停用思考模式，不影響回應品質
-此為 Gemini 2.5 Flash 特有問題，其他模型（如 Gemini 1.5）不需處理
-若日後 ADK 修復此問題，可移除此設定讓 sub-agent 恢復思考模式
-
-]]></content>
-      <categories>
-        <category>問題</category>
-      </categories>
-      <tags>
-        <tag>ADK</tag>
-        <tag>agent</tag>
-        <tag>bug</tag>
-        <tag>workaround</tag>
-        <tag>gemini</tag>
-        <tag>thinking-mode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Agent Tool 無上下文記憶，需改用 Sub-agent</title>
-    <url>/2026/03/14/agent-tool-no-context-memory/</url>
-    <content><![CDATA[問題描述在 ADK 中，透過 agenttool.New() 將 Agent 包裝成 Agent Tool 後，該 agent 在被呼叫時沒有父 agent 的對話記憶：
-
-Agent Tool 每次被呼叫都是無狀態的獨立執行
-無法存取父 agent 的對話歷史（session history）
-適合「給一個輸入、取得一個輸出」的無狀態任務（例如：查資料、分析圖片）
-
-對比：Sub-agent vs Agent Tool
-
-
-
-Sub-agent（sub_agents）
-Agent Tool（agenttool.New()）
-
-
-
-上下文記憶
-✅ 共享父 agent session
-❌ 無，每次獨立執行
-
-
-呼叫方式
-transfer_to_agent(agent_name=...)
-直接呼叫工具
+控制語法for
 
 
-適合情境
-需要對話歷史的複雜流程
-無狀態的單次查詢
 
 
-使用限制
-不能掛有 google_search tool
-可掛 google_search
 
 
-情境範例Agent Tool（無上下文記憶）適合「翻譯文字」、「分析圖片」等純無狀態任務：
-// translator_agent：純無狀態翻譯，不需要對話歷史translatorAgent, _ := llmagent.New(llmagent.Config&#123;    Name:        &quot;translator_agent&quot;,    Model:       llmModel,    Description: &quot;Translate text to English.&quot;,    Instruction: &quot;Translate the given text. Return only the translated result.&quot;,&#125;)// 包裝成 AgentTool，掛到 Tools（非 SubAgents）rootAgent, _ := llmagent.New(llmagent.Config&#123;    Name:  &quot;root_agent&quot;,    Model: llmModel,    Tools: []tool.Tool&#123;agenttool.New(translatorAgent, nil)&#125;,&#125;)
 
-呼叫時 translator_agent 只會看到當次傳入的 input，不知道之前對話說了什麼。
-Sub-agent（共享上下文記憶）適合「建立訂單」、「預約行程」等需要讀取對話歷史的流程：
-// booking_agent：需要知道使用者先前提到的日期、人數bookingAgent, _ := llmagent.New(llmagent.Config&#123;    Name:        &quot;booking_agent&quot;,    Model:       llmModel,    Description: &quot;Handle reservation booking.&quot;,    Instruction: &quot;Create bookings based on conversation context.&quot;,&#125;)// 掛到 SubAgents，透過 transfer_to_agent 呼叫rootAgent, _ := llmagent.New(llmagent.Config&#123;    Name:      &quot;root_agent&quot;,    Model:     llmModel,    SubAgents: []agent.Agent&#123;bookingAgent&#125;,&#125;)
+1 2 3
+for i = 1:10, %1 到 10     &lt;待執行程式碼&gt;; end;
 
-booking_agent 被 transfer 進來時，可以讀取整個 session 的對話歷史（使用者說了什麼日期、幾人等）。
-決策原則
-需要對話上下文？→ 用 Sub-agent純無狀態單次查詢？→ 用 Agent Tool
 
-具體判斷：
+while
 
-該 agent 需要知道「使用者之前說了什麼」→ Sub-agent
-該 agent 只需要「當次輸入」就能完成任務 → Agent Tool
-該 agent 帶有 google_search → 只能用 Agent Tool（ADK 限制）
 
-]]></content>
+
+
+
+
+
+1 2 3 4 5
+i = 1; while &lt;條件&gt;,     &lt;待執行程式碼&gt;;     i = i + 1; end;
+
+
+if
+
+
+
+
+
+
+
+1 2 3 4 5 6 7
+if &lt;條件&gt;,     &lt;待執行程式碼&gt;; elseif &lt;條件&gt;,     &lt;待執行程式碼&gt;; else     &lt;待執行程式碼&gt;; end;
+
+
+函式
+
+
+
+
+
+
+
+1 2 3
+function y = squareThisNumber(x)  y = x^2
+
+
+
+將此文件存為 .m 檔
+addpath(&#39;&lt;檔案位址&gt;&#39;) : 這樣 Octave 就能找到此函式
+
+
+
+
+
+
+
+
+
+1 2 3 4
+function [y1, y2] = squareThisNumber(x)  y1 = x^2 y2 = x^3
+
+
+
+函式可返回多個值
+
+其他
+PS1(&#39;&gt;&gt; &#39;); : 可以簡化命令前字符
+賦予值時加上 ; : 可以不將賦予後的結果打印出來
+help : 幫助
+pwd : Octave 當前路徑
+可用 , 連接多條命令
+exit、quit : 關閉 Octave
+
+tags: 筆記 程式語言 機器學習 Octave]]></content>
       <categories>
         <category>筆記</category>
       </categories>
       <tags>
-        <tag>ADK</tag>
-        <tag>agent</tag>
-        <tag>sub-agent</tag>
-        <tag>context-memory</tag>
-        <tag>architecture</tag>
+        <tag>筆記</tag>
+        <tag>程式語言</tag>
+        <tag>機器學習</tag>
+        <tag>Octave</tag>
       </tags>
   </entry>
   <entry>
-    <title>Aspire Dashboard — 本地 OTel 後端</title>
-    <url>/2026/03/14/aspire-dashboard-otel/</url>
-    <content><![CDATA[什麼是 Aspire DashboardAspire Dashboard 是 .NET Aspire 生態系的一個獨立 UI 工具，用於視覺化 OpenTelemetry 資料（Traces、Logs、Metrics）。雖然源自 .NET 生態，但它接收標準 OTLP 協定，任何語言的應用程式都可以把遙測資料送進來。
-選擇原因
-零安裝：一行 docker run，即可啟動完整 UI
-輕量：比完整 Jaeger + 儲存後端的 stack 簡單很多
-UI 完整：Traces waterfall、Log viewer、關聯查詢一應俱全
-接受 OTLP：標準協定，不綁定語言或框架
+    <title>Python 基礎</title>
+    <url>/2019/06/23/Python-basic/</url>
+    <content><![CDATA[[筆記] Python 基礎語言特性與熱門應用
+Python 是泛用的程式語言，強調易學好懂
+最近常用在數據分析、人工智慧
+
+安裝下載地址 : Python
 
 
-docker-compose 設定services:  aspire:    image: mcr.microsoft.com/dotnet/aspire-dashboard:latest    container_name: my-aspire    environment:      DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: &quot;true&quot;      DOTNET_DASHBOARD_OTLP_HTTP_ENDPOINT_URL: &quot;http://+:18890&quot;    ports:      - &quot;18888:18888&quot;   # Web UI      - &quot;4318:18890&quot;    # OTLP HTTP/1.1 endpoint
+勾起來，之後操作方便許多
 
-啟動後：
+資料與運算1. 變數與資料型態
+數字 : 3.5
+字串 : &quot;hello&quot;
+布林值 : True、False ( python 的 T 跟 F 為大寫 )
+可變列表 ( List ) : [3,4,5]、[&quot;hello&quot;,&quot;world&quot;]
+固定列表 ( Tuple ) : (3,4,5)、(&quot;hello&quot;,&quot;world&quot;)
+集合 : {3,4,5}、{&quot;hello&quot;,&quot;world&quot;}
+字典 : {&quot;apple&quot;:&quot;蘋果&quot;,&quot;data&quot;:&quot;資料&quot;}
+變數 : data=3 data 為變數，不用宣告
 
-Web UI：http://localhost:18888
-OTLP 接收端：http://localhost:4318
+2. 運算
+數字
 
-
-⚠️ 關鍵坑：HTTP&#x2F;1.1 vs gRPC PortAspire Dashboard 預設開兩個 OTLP port：
-
-
-
-Port（容器內）
-協定
-說明
-
-
-
-18889
-gRPC（HTTP&#x2F;2）
-預設 OTLP&#x2F;gRPC
+7//6 : 整數除法
+2**3 : 2 的 3 次方
 
 
-18890
-HTTP&#x2F;1.1
-OTLP&#x2F;HTTP
+字串
+
+&quot;hell\&quot;o 輸出為 hell&quot;o : 想在字串中加入雙引好可以用 \ 跳脫
+
+&quot;&quot;&quot;hello&quot;&quot;&quot; or &#39;&#39;&#39;hello&#39;&#39;&#39; : 在裡面的換行會直接呈現
+
+字串會對內部的字元編號 ( 索引 )，從 0 開始算起，假設 s = &quot;hello&quot;
+
+s[0] 輸出為 h
+s[1:4] 輸出為 ell : 輸出字串中編號 1 到 4 ( 不包含 )
+s[1:] 輸出為 ello
+s[:4] 輸出為 hell
 
 
-Go 的 otlploghttp &#x2F; otlptracehttp 使用 HTTP&#x2F;1.1，不是 gRPC。因此必須把容器的 18890（HTTP&#x2F;1.1）對應到主機的 4318，而不是 18889（gRPC）。
-錯誤設定（送到 gRPC port）→ 連線失敗或無資料：
-ports:  - &quot;4318:18889&quot;   # ❌ 錯：18889 是 gRPC，Go exporter 用 HTTP/1.1
-
-正確設定：
-environment:  DOTNET_DASHBOARD_OTLP_HTTP_ENDPOINT_URL: &quot;http://+:18890&quot;  # 啟用 HTTP/1.1ports:  - &quot;4318:18890&quot;   # ✅ 對：18890 是 HTTP/1.1
 
 
-應用程式設定環境變數指定 OTLP 端點（ADK &#x2F; OTel SDK 都會讀取）：
-OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
+有序列表 ( List、Tuple )
 
-或在程式碼中指定：
-// Go with otlptracehttpexporter, _ := otlptracehttp.New(ctx,    otlptracehttp.WithEndpoint(&quot;localhost:4318&quot;),    otlptracehttp.WithInsecure(),)
-]]></content>
+List，假設 grades = [12,60,15,70,90]
+
+grades[1:4] = [] 輸出為 [12,90] : 連續刪除列表中編號 1 到 4 ( 不包含 )
+grades = grades + [12,33] 輸出為 [12,60,15,70,90,12,33]
+
+
+Tuple : 除了更動會出錯，其他都跟 List 一樣
+
+
+
+集合與字典
+
+集合，假設 s1 = {3,4,5} s2 = {4,5,6,7}
+
+10 in s1 輸出為 False，10 not in s1 輸出為 True
+&amp; : 交集，| : 聯集，- : 差集，^ : 反交集
+s = set(&quot;hello&quot;) s 輸出為 {&#39;l&#39;,&#39;h&#39;,&#39;e&#39;,&#39;o&#39;} : 把字串拆解為集合
+
+
+字典，假設 dic = {&quot;apple&quot;:&quot;蘋果&quot;,&quot;bug&quot;:&quot;蟲蟲&quot;}
+
+test in dic 輸出為 False，test not in dic 輸出為 True
+del dic[&quot;apple&quot;] : 刪除字典中的鍵值對
+dic = {x:x*2 for x in [3,4,5]} dic 輸出為 {3:6,4:8,5:10} : 從列表資料產生字典
+
+
+
+
+
+流程控制
+在 python {} 用縮排 ( tab ) 取代
+
+1. 判斷式
+
+
+
+
+
+
+
+1 2 3 4 5 6
+if True:     print(&quot;True 執行&quot;) elif False:     print(&quot;False 執行&quot;) else:     print(&quot;跑不到&quot;)
+
+
+python 目前不支援 switch
+2. 迴圈
+while
+
+
+
+
+
+
+
+
+
+1 2 3 4
+n = 1 while n&lt;10:     printf(n)     n+=1
+
+
+
+for
+
+迴圈跑列表
+
+
+
+
+
+
+
+
+1 2
+for x in [3, 5, 1]:     print(x)
+
+
+
+迴圈跑字串
+
+
+
+
+
+
+
+
+1 2
+for x in &quot;hello&quot;:     print(x)
+
+
+
+迴圈跑range
+
+
+
+
+
+
+
+
+1 2
+for x in range(5):     print(x)
+
+
+range(5) : 0，1，2，3，4range(3,7) : 3，4，5，6
+
+
+
+
+迴圈最後可加 else:，else 在迴圈結束前執行，被 break 強制結束就不會執行 else
+函式、模組與封包函式 : 用來做程式的包裝，同樣邏輯可以重複利用
+
+
+
+
+
+
+
+1 2 3 4 5 6 7
+def add(n1 = 1,n2 = 2):     result = n1 + n2     return result  print(add(3, 4)) #7 print(add()) #3 print(add(n2 = 3,n1 = 4))
+
+
+
+
+
+
+
+
+
+
+1 2 3 4 5 6 7 8
+def avg(*ns): #無限不定參數資料     sum = 0     for n in ns:         sum += n     print(sum/len(ns))  avg(3, 4) #3.5 avg(3, 5, 10) #6.0
+
+
+模組 : 將程式寫在一個檔案中，此檔案可重複載入使用
+載入
+
+
+
+
+
+
+
+
+
+1
+import sys as system #載入模組並取別名 system
+
+
+
+使用
+
+
+
+
+
+
+
+
+
+1 2 3
+print(system.platform) print(system.maxsize) print(system.path) #印出模組的搜尋路徑
+
+
+
+內建模組與自訂模組
+
+
+主程式
+
+
+
+
+
+
+
+
+
+1 2 3 4
+import sys #內建的模組 sys.path.append(&quot;modules&quot;) #在模組的搜尋路徑列表中新增路徑，這裡 &quot;modules&quot; 為資料夾 import geometry #自訂的模組，放在 &quot;modules&quot; 資料夾內 print(geometry.distance(1, 1, 5, 5))
+
+
+
+模組 : 放在 modules 資料夾內
+
+
+
+
+
+
+
+
+
+1 2 3 4
+def distance(x1, y1, x2, y2):     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5 def slope(x1, y1, x2, y2):     return (y2 - y1)/(x2 - x1)
+
+
+封包 : 用來整理、分類模組
+檔案中的資料夾為封包，檔案為模組
+
+
+建立封包
+檔案配置 :
+
+專案資料夾
+
+主程式.py
+
+封包資料夾
+
+__init__.py : 必要
+模組一.py
+模組二.py
+
+
+
+
+
+
+使用封包
+
+
+
+
+
+
+
+
+
+
+1
+import 封包名稱.模組名稱 as 模組別名
+
+
+類別與實體物件
+封裝的變數或函式，統稱類別的屬性
+
+類別
+定義類別
+
+
+
+
+
+
+
+
+1 2 3
+class 類別名稱:     定義封裝的變數     定義封裝的函式
+
+
+
+使用類別
+
+
+
+
+
+
+
+
+
+
+1
+類別名稱.屬性名稱
+
+
+實體物件
+建立實體物件
+
+
+
+
+
+
+
+
+
+1 2 3 4 5
+class 類別名稱:     def __init__(self): #定義初始化函式         透過操作 self 來定義實體屬性 # 建立實體物件，放入變數 obj 中 obj = 類別名稱() #呼叫初始化函式
+
+
+
+
+
+
+
+
+
+
+1 2 3 4 5 6
+class Point:     def __init__(self, x, y):         self.x = x         self.y = y  p = Point(1,5)
+
+
+
+使用實體物件
+
+
+
+
+
+
+
+
+
+1 2 3
+#實體物件.實體屬性名稱 p = Point(1,5) print(p.x + p.y)
+
+
+實體方法
+建立實體方法
+
+
+封裝在實體物件中的函式
+
+
+
+
+
+
+
+
+
+1 2 3 4 5 6 7
+class 類別名稱:     def __init__(self): #定義初始化函式         封裝在實體物件中的變數     def 方法名稱(self,更多自訂參數):         方法主體，透過 self 操作實體物件 # 建立實體物件，放入變數 obj 中 obj = 類別名稱() #呼叫初始化函式
+
+
+
+
+
+
+
+
+
+
+1 2 3 4 5 6 7
+class Point:     def __init__(self, x, y):         self.x = x         self.y = y     def show(self):         print(self.x, self.y) p = Point(1,5)
+
+
+
+使用實體方法
+
+
+
+
+
+
+
+
+
+1 2 3
+#實體物件.實體方法名稱(參數資料) p = Point(1,5) #建立實體物件 p.show() #呼叫實體方法
+
+
+文字檔案的讀取與儲存1. 開啟檔案
+
+
+
+
+
+
+
+1
+檔案物件 = open(檔案路徑, mode = 開啟模式, encoding = 編碼)
+
+
+
+開啟模式
+
+&quot;r&quot; : 讀取模式
+&quot;w&quot; : 寫入模式
+&quot;r+&quot; : 讀寫模式
+
+
+編碼
+
+&quot;utf-8&quot; : 中文常用編碼
+
+
+
+2. 讀取檔案
+讀取全部文字
+
+
+
+
+
+
+
+
+
+1
+檔案物件.read()
+
+
+
+一次讀取一行
+
+
+
+
+
+
+
+
+
+1 2
+for 變數 in 檔案物件:     從檔案依序讀取每行文字到變數中
+
+
+
+讀取 JSON 格式
+
+
+
+
+
+
+
+
+
+1 2
+import json 讀取到的資料 = json.load(檔案物件)
+
+
+3. 儲存檔案
+寫入文字
+
+
+
+
+
+
+
+
+
+1
+檔案物件.write(&quot;字串\n&quot;) #要換行就 \n
+
+
+
+寫入 JSON 格式
+
+
+
+
+
+
+
+
+
+1 2
+import json json.dump(要寫入的資料, 檔案物件)
+
+
+4. 關閉檔案
+
+
+
+
+
+
+
+1
+檔案物件.close()
+
+
+最佳實務
+
+
+
+
+
+
+
+1 2 3
+with open(檔案路徑, mode = 開啟模式) as 檔案物件:     讀取或寫入檔案的程式 #以上區塊會自動、安全的關閉檔案，不需 close
+
+
+亂數與統計模組random
+載入模組
+
+
+
+
+
+
+
+
+
+1
+import random
+
+
+
+使用 random
+
+
+
+
+
+
+
+
+
+1 2 3 4 5 6
+random.choice([0, 1, 5, 8]) #從列表中隨機選取 1 個資料 random.sample([0, 1, 5, 8], n) #從列表中隨機選取 n 個資料 random.shuffle([0, 1, 5, 8]) #將列表的資料就地隨機調換順序 random.random() # 0 ~1 之間的隨機數亂數 random.uniform(n, m) # 取得 n ~ m 之間的隨機亂數 random.normalvariate(n, m) # 取得平均數 n，標準差 m 的常態分配亂數
+
+
+常態分配範例 :
+
+statistics
+載入模組
+
+
+
+
+
+
+
+
+
+1
+import statistics
+
+
+
+使用 statistics
+
+
+
+
+
+
+
+
+
+1 2 3
+statistics.mean([1, 4, 6, 9]) #計算列表中數字的平均數 statistics.median([1, 4, 6, 9]) #計算列表中數字的中位數 statistics.stdev([1, 4, 6, 9]) #計算列表中數字的標準差
+
+
+網路連線與公開資料串接網路連線
+載入模組
+
+
+
+
+
+
+
+
+
+1
+import urllib.request as request
+
+
+
+下載特定網址資料
+
+
+
+
+
+
+
+
+
+1 2 3
+with request.urlopen(網址) as response:     data = response.read().decode(&quot;utf-8&quot;) print(data)
+
+
+公開資料串接
+確認資料格式
+
+JSON、CSV、或其他格式
+
+
+解讀格式
+
+解讀 JSON 使用內建的 JSON 模組
+
+
+
+tags: 筆記 程式語言 Python]]></content>
       <categories>
-        <category>工具</category>
+        <category>筆記</category>
       </categories>
       <tags>
-        <tag>Aspire</tag>
-        <tag>OpenTelemetry</tag>
-        <tag>devtools</tag>
-        <tag>docker</tag>
-        <tag>observability</tag>
+        <tag>筆記</tag>
+        <tag>程式語言</tag>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python 連結至 MySQL 並進行操作</title>
+    <url>/2019/07/01/Python-connect-to-MySQL/</url>
+    <content><![CDATA[[實作] Python 連結至 MySQL 並進行操作安裝 MySQL 驅動
+
+
+
+
+
+
+
+1
+$ pip install mysql-connector-python mysql-connector-python
+
+
+
+在終端機輸入來安裝 MySQL 驅動
+
+
+
+
+
+
+
+
+
+1
+import mysql.connector
+
+
+
+接著就能在 Python 引入
+
+連結 MySQL
+
+
+
+
+
+
+
+1 2 3 4 5 6 7
+testdb = MySQL.connect(     host = &quot;localhost&quot;,     user = &quot;root&quot;,     password = &quot;&lt;密碼&gt;&quot;,     database = &quot;&lt;已存在的資料庫名稱&gt;&quot; #若尚未創建可不加這段 ) cursor = testdb.cursor()
+
+
+建立資料庫
+
+
+
+
+
+
+
+1
+cursor.execute(&quot;CREATE database &lt;資料庫名稱&gt;&quot;)
+
+
+建立資料表
+
+
+
+
+
+
+
+1
+cursor.execute(&quot;CREATE table &lt;Table 名稱&gt; (id INTEGER AUTO_INCREMENT PRIMARY Key, name VARCHAR(20), img VARCHAR(200))&quot;)
+
+
+插入資料
+
+
+
+
+
+
+
+1 2 3 4 5 6
+sqlstuff = &quot;INSERT INTO pokeshiny (name, img) VALUES (%s, %s)&quot;  records = [(Jack, Jack.png), (Mary, Mary.png)]  cursor.executemany(sqlstuff, records) pokedb.commit()
+
+
+tags: 實作 Python MySQL]]></content>
+      <categories>
+        <category>實作</category>
+      </categories>
+      <tags>
+        <tag>實作</tag>
+        <tag>Python</tag>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
@@ -6764,10 +6358,408 @@ tags: 實作 Python 網路爬蟲 BeautifulSoup]]></content>
         <category>實作</category>
       </categories>
       <tags>
-        <tag>Python</tag>
-        <tag>BeautifulSoup</tag>
         <tag>實作</tag>
+        <tag>Python</tag>
         <tag>網路爬蟲</tag>
+        <tag>BeautifulSoup</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VS code 安裝與好用套件</title>
+    <url>/2019/06/17/VScode-install/</url>
+    <content><![CDATA[[安裝] VS code 安裝與好用套件VS code : 免費且功能強大的高效率編輯器1. 下載
+下載地址 : VS code官網
+
+2. 開啟
+在終端機輸入 code . 可開啟 VS code
+
+3. 好用的套件
+Mithril Emmet : 提供了一種非常簡練的語法規則，然後立刻生成對應的HTML 結構或者CSS 代碼
+
+
+html:5 : 產生標準的HTML格式
+
+
+
+&gt; : 產生巢狀HTML
+EX : nav&gt;ul&gt;li
+
+
+
+更多語法規則
+
+
+
+open in browser : 檢視HTML產出的網頁
+Ctrl + Shift + P or F1 輸入指令 Open in Default Browser
+
+Live Server : 修改HTML同時，即時更新網頁
+Ctrl + Shift + P or F1 輸入指令 Live Server: Open With Live Server
+
+P.S. 出現錯誤 : Open a folder or workspace... (File -&gt; Open Folder)
+
+需打開 folder or workspace 才能使用，file 不行
+
+
+
+
+
+tags: 安裝 VS code VS code套件]]></content>
+      <categories>
+        <category>安裝</category>
+      </categories>
+      <tags>
+        <tag>VS code</tag>
+        <tag>安裝</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題</title>
+    <url>/2026/03/14/adk-gemini-function-calling-fix/</url>
+    <content><![CDATA[問題描述當 Agent 掛有 google_search tool 時：
+
+不能直接將此 Agent 掛到 sub_agents
+會出現錯誤：
+
+AGENT_ERROR: Tool use with function calling is unsupported by the model
+
+參考： GitHub Issue #53
+解決方案：將 Agent 包裝成 Agent Tool關鍵概念當 Agent 包含 google_search tool 時，必須用 agenttool.New() 將其轉為 Tool，才能被其他 Agent 調用。
+Go 實作import &quot;google.golang.org/adk/tool/agenttool&quot;// 1. 建立帶有 google_search 的 agentwebSearchAgent, err := llmagent.New(llmagent.Config&#123;    Name:        &quot;web_search_agent&quot;,    Model:       llmModel,    Description: &quot;A specialized agent with web search capabilities.&quot;,    Instruction: &quot;Use GoogleSearch tool to find information. Return concise results.&quot;,    Tools: []tool.Tool&#123;        geminitool.GoogleSearch&#123;&#125;,  // 關鍵：這個 agent 有 google_search    &#125;,&#125;)// 2. 將 agent 轉為 Agent Tool（解決方案）agentTool := agenttool.New(webSearchAgent, nil)  // 必須這樣包裝// 3. 掛到主 Agent 的 Tools（非 SubAgents）rootAgent, err := llmagent.New(llmagent.Config&#123;    Name:  &quot;root_agent&quot;,    Model: llmModel,    Tools: []tool.Tool&#123;agentTool&#125;,&#125;)
+
+Python 版本from google.adk.tools.agent_tool import AgentToolfrom google.adk.tools import google_searchfrom google.adk.agents import Agentweb_search_agent = Agent(    name=&quot;web_search_agent&quot;,    model=&quot;gemini-2.0-flash&quot;,    tools=[google_search]  # 有 google_search 的 agent)root_agent = Agent(    name=&quot;root_agent&quot;,    tools=[AgentTool(agent=web_search_agent)]  # 必須轉為 AgentTool)
+
+關鍵重點
+Agent 有 google_search → 必須用 agenttool.New(agent, nil) 轉為 Tool
+然後掛到 Tools（而非 SubAgents）
+副作用：包裝後的 Agent Tool 無上下文記憶（詳見：Agent Tool 無上下文記憶，需改用 Sub-agent）
+
+]]></content>
+      <categories>
+        <category>問題</category>
+      </categories>
+      <tags>
+        <tag>ADK</tag>
+        <tag>agent</tag>
+        <tag>google-search</tag>
+        <tag>bug</tag>
+        <tag>workaround</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ADK Sub-agent STOP 錯誤：停用 Thinking Mode</title>
+    <url>/2026/03/14/adk-subagent-stop-thinking-mode/</url>
+    <content><![CDATA[使用 Gemini 2.5 Flash 模型時，若 sub-agent 啟用思考模式（Thinking Mode），有時會導致該 sub-agent 回傳空的 content，觸發 ADK 的 STOP 錯誤，整個對話流程中斷。
+錯誤現象
+Sub-agent 被 transfer 進來後無回應
+Log 顯示 finish_reason 為 STOP 但 content 為空
+問題只在 sub-agent 上出現，root agent 不受影響
+
+根本原因Gemini 2.5 Flash 的思考模式會在回應中產生內部推理（thinking tokens），但在 ADK 的 multi-agent 架構中，sub-agent 的思考輸出有時無法正確轉換為可回傳的 content，導致空回應。
+解決方案：對 Sub-agent 停用思考模式在建立 sub-agent 時，透過 GenerateContentConfig 將 ThinkingBudget 設為 0：
+thinkingBudget := int32(0)subAgent, err := llmagent.New(llmagent.Config&#123;    Name:        &quot;sub_agent&quot;,    Model:       llmModel,    Description: &quot;...&quot;,    Instruction: &quot;...&quot;,    GenerateContentConfig: &amp;genai.GenerateContentConfig&#123;        ThinkingConfig: &amp;genai.ThinkingConfig&#123;            ThinkingBudget: &amp;thinkingBudget,  // 0 = 停用思考模式        &#125;,    &#125;,&#125;)
+
+
+⚠️ Root agent 不需要停用，只需對有問題的 sub-agent 套用即可。
+
+關鍵重點
+問題只發生在 sub-agent，root agent 不受影響
+ThinkingBudget = 0 停用思考模式，不影響回應品質
+此為 Gemini 2.5 Flash 特有問題，其他模型（如 Gemini 1.5）不需處理
+若日後 ADK 修復此問題，可移除此設定讓 sub-agent 恢復思考模式
+
+]]></content>
+      <categories>
+        <category>問題</category>
+      </categories>
+      <tags>
+        <tag>ADK</tag>
+        <tag>agent</tag>
+        <tag>bug</tag>
+        <tag>workaround</tag>
+        <tag>gemini</tag>
+        <tag>thinking-mode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Aspire Dashboard — 本地 OTel 後端</title>
+    <url>/2026/03/14/aspire-dashboard-otel/</url>
+    <content><![CDATA[什麼是 Aspire DashboardAspire Dashboard 是 .NET Aspire 生態系的一個獨立 UI 工具，用於視覺化 OpenTelemetry 資料（Traces、Logs、Metrics）。雖然源自 .NET 生態，但它接收標準 OTLP 協定，任何語言的應用程式都可以把遙測資料送進來。
+選擇原因
+零安裝：一行 docker run，即可啟動完整 UI
+輕量：比完整 Jaeger + 儲存後端的 stack 簡單很多
+UI 完整：Traces waterfall、Log viewer、關聯查詢一應俱全
+接受 OTLP：標準協定，不綁定語言或框架
+
+
+docker-compose 設定services:  aspire:    image: mcr.microsoft.com/dotnet/aspire-dashboard:latest    container_name: my-aspire    environment:      DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: &quot;true&quot;      DOTNET_DASHBOARD_OTLP_HTTP_ENDPOINT_URL: &quot;http://+:18890&quot;    ports:      - &quot;18888:18888&quot;   # Web UI      - &quot;4318:18890&quot;    # OTLP HTTP/1.1 endpoint
+
+啟動後：
+
+Web UI：http://localhost:18888
+OTLP 接收端：http://localhost:4318
+
+
+⚠️ 關鍵坑：HTTP&#x2F;1.1 vs gRPC PortAspire Dashboard 預設開兩個 OTLP port：
+
+
+
+Port（容器內）
+協定
+說明
+
+
+
+18889
+gRPC（HTTP&#x2F;2）
+預設 OTLP&#x2F;gRPC
+
+
+18890
+HTTP&#x2F;1.1
+OTLP&#x2F;HTTP
+
+
+Go 的 otlploghttp &#x2F; otlptracehttp 使用 HTTP&#x2F;1.1，不是 gRPC。因此必須把容器的 18890（HTTP&#x2F;1.1）對應到主機的 4318，而不是 18889（gRPC）。
+錯誤設定（送到 gRPC port）→ 連線失敗或無資料：
+ports:  - &quot;4318:18889&quot;   # ❌ 錯：18889 是 gRPC，Go exporter 用 HTTP/1.1
+
+正確設定：
+environment:  DOTNET_DASHBOARD_OTLP_HTTP_ENDPOINT_URL: &quot;http://+:18890&quot;  # 啟用 HTTP/1.1ports:  - &quot;4318:18890&quot;   # ✅ 對：18890 是 HTTP/1.1
+
+
+應用程式設定環境變數指定 OTLP 端點（ADK &#x2F; OTel SDK 都會讀取）：
+OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
+
+或在程式碼中指定：
+// Go with otlptracehttpexporter, _ := otlptracehttp.New(ctx,    otlptracehttp.WithEndpoint(&quot;localhost:4318&quot;),    otlptracehttp.WithInsecure(),)
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>Aspire</tag>
+        <tag>OpenTelemetry</tag>
+        <tag>devtools</tag>
+        <tag>docker</tag>
+        <tag>observability</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Agent Tool 無上下文記憶，需改用 Sub-agent</title>
+    <url>/2026/03/14/agent-tool-no-context-memory/</url>
+    <content><![CDATA[問題描述在 ADK 中，透過 agenttool.New() 將 Agent 包裝成 Agent Tool 後，該 agent 在被呼叫時沒有父 agent 的對話記憶：
+
+Agent Tool 每次被呼叫都是無狀態的獨立執行
+無法存取父 agent 的對話歷史（session history）
+適合「給一個輸入、取得一個輸出」的無狀態任務（例如：查資料、分析圖片）
+
+對比：Sub-agent vs Agent Tool
+
+
+
+Sub-agent（sub_agents）
+Agent Tool（agenttool.New()）
+
+
+
+上下文記憶
+✅ 共享父 agent session
+❌ 無，每次獨立執行
+
+
+呼叫方式
+transfer_to_agent(agent_name=...)
+直接呼叫工具
+
+
+適合情境
+需要對話歷史的複雜流程
+無狀態的單次查詢
+
+
+使用限制
+不能掛有 google_search tool
+可掛 google_search
+
+
+情境範例Agent Tool（無上下文記憶）適合「翻譯文字」、「分析圖片」等純無狀態任務：
+// translator_agent：純無狀態翻譯，不需要對話歷史translatorAgent, _ := llmagent.New(llmagent.Config&#123;    Name:        &quot;translator_agent&quot;,    Model:       llmModel,    Description: &quot;Translate text to English.&quot;,    Instruction: &quot;Translate the given text. Return only the translated result.&quot;,&#125;)// 包裝成 AgentTool，掛到 Tools（非 SubAgents）rootAgent, _ := llmagent.New(llmagent.Config&#123;    Name:  &quot;root_agent&quot;,    Model: llmModel,    Tools: []tool.Tool&#123;agenttool.New(translatorAgent, nil)&#125;,&#125;)
+
+呼叫時 translator_agent 只會看到當次傳入的 input，不知道之前對話說了什麼。
+Sub-agent（共享上下文記憶）適合「建立訂單」、「預約行程」等需要讀取對話歷史的流程：
+// booking_agent：需要知道使用者先前提到的日期、人數bookingAgent, _ := llmagent.New(llmagent.Config&#123;    Name:        &quot;booking_agent&quot;,    Model:       llmModel,    Description: &quot;Handle reservation booking.&quot;,    Instruction: &quot;Create bookings based on conversation context.&quot;,&#125;)// 掛到 SubAgents，透過 transfer_to_agent 呼叫rootAgent, _ := llmagent.New(llmagent.Config&#123;    Name:      &quot;root_agent&quot;,    Model:     llmModel,    SubAgents: []agent.Agent&#123;bookingAgent&#125;,&#125;)
+
+booking_agent 被 transfer 進來時，可以讀取整個 session 的對話歷史（使用者說了什麼日期、幾人等）。
+決策原則
+需要對話上下文？→ 用 Sub-agent純無狀態單次查詢？→ 用 Agent Tool
+
+具體判斷：
+
+該 agent 需要知道「使用者之前說了什麼」→ Sub-agent
+該 agent 只需要「當次輸入」就能完成任務 → Agent Tool
+該 agent 帶有 google_search → 只能用 Agent Tool（ADK 限制）
+
+]]></content>
+      <categories>
+        <category>筆記</category>
+      </categories>
+      <tags>
+        <tag>ADK</tag>
+        <tag>agent</tag>
+        <tag>sub-agent</tag>
+        <tag>context-memory</tag>
+        <tag>architecture</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OTel Custom Log Processor — 跨 Span 注入 Context</title>
+    <url>/2026/03/14/otel-custom-log-processor/</url>
+    <content><![CDATA[問題描述OTel Log Record 預設不帶 Span 的自訂屬性。例如：
+
+Trace Span 上帶有 session_id（由 ADK 在 StartInvokeAgentSpan 時寫入）
+Log Record 雖然與同一個 Span 關聯，但不會自動繼承 Span 的 attribute
+
+結果：JSONL log 中的 session 欄位為空，無法按 session 分組查詢。
+
+解決方案：實作自訂 Log Processor透過包裝標準 BatchProcessor，在每筆 Log Record 被送出前，從當前 Span Context 讀取 attribute，注入到 Log Record：
+type SessionEnrichProcessor struct &#123;    inner sdklog.Processor  // 被包裝的 Processor（通常是 BatchProcessor）&#125;func (p *SessionEnrichProcessor) OnEmit(ctx context.Context, record *sdklog.Record) error &#123;    sessionID := extractSessionID(ctx)    if sessionID != &quot;&quot; &#123;        record.AddAttributes(log.String(&quot;session.id&quot;, sessionID))    &#125;    return p.inner.OnEmit(ctx, record)&#125;
+
+ADK 的 session ID 存在 Span 的 gen_ai.conversation.id attribute，需要透過型別斷言存取：
+func extractSessionID(ctx context.Context) string &#123;    span := trace.SpanFromContext(ctx)    // 斷言為 ReadOnlySpan（由 OTel SDK 實作）    if roSpan, ok := span.(interface &#123;        Attributes() []attribute.KeyValue    &#125;); ok &#123;        for _, kv := range roSpan.Attributes() &#123;            if kv.Key == &quot;gen_ai.conversation.id&quot; &#123;                return kv.Value.AsString()            &#125;        &#125;    &#125;    return &quot;&quot;&#125;
+
+
+整合至 OTel PipelinejsonlExp, _ := NewJSONLExporter(&quot;logs&quot;, version)logProcessor := NewSessionEnrichProcessor(    sdklog.NewBatchProcessor(jsonlExp),  // 包裝 BatchProcessor)// 也可以同時送到 AspireotlpProcessor := sdklog.NewBatchProcessor(otlpExporter)telemetry.Setup(ctx,    telemetry.WithLogRecordProcessors(logProcessor, otlpProcessor),)
+
+
+通用模式這個技巧可應用於任何「需要把 Span 上的資訊注入到 Log」的場景：
+
+
+
+需求
+Span Attribute
+注入到 Log
+
+
+
+關聯 session
+gen_ai.conversation.id
+session.id
+
+
+關聯使用者
+user.id
+user.id
+
+
+關聯請求
+http.request.id
+request.id
+
+
+關聯租戶
+tenant.id
+tenant.id
+
+
+核心步驟：
+
+實作 sdklog.Processor 介面（OnEmit、Shutdown、ForceFlush）
+在 OnEmit 中從 ctx 取得 Span，讀取目標 attribute
+用 record.AddAttributes() 注入
+呼叫 p.inner.OnEmit(ctx, record) 繼續傳遞
+
+]]></content>
+      <categories>
+        <category>筆記</category>
+      </categories>
+      <tags>
+        <tag>OpenTelemetry</tag>
+        <tag>pattern</tag>
+        <tag>Go</tag>
+        <tag>implementation</tag>
+        <tag>logging</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OpenTelemetry 可觀測性三種訊號（Traces、Metrics、Logs）與 Exporters</title>
+    <url>/2026/03/14/otel-three-signals/</url>
+    <content><![CDATA[什麼是 OpenTelemetryOpenTelemetry（OTel）是一套開源的可觀測性標準與 SDK，統一了蒐集 Traces、Metrics、Logs 的方式，讓應用程式可以不綁定特定後端（Jaeger、Zipkin、Datadog 等）地輸出遙測資料。
+
+三種訊號（Signals）1. Traces &amp; SpansTrace 代表一次完整的操作鏈（例如：處理一個使用者請求的全過程）。
+Span 是 Trace 的最小單位，記錄一段工作的開始&#x2F;結束時間與屬性：
+Trace: 處理訂單請求├── Span: route_request          (root span)│   ├── Span: parse_order_message│   ├── Span: call_llm           (LLM 推論)│   └── Span: create_order       (DB 寫入)
+
+每個 Span 帶有：
+
+trace_id：所屬 Trace 的唯一 ID
+span_id：自身的唯一 ID
+parent_span_id：父 Span 的 ID
+attributes：任意 key-value 屬性（如 gen_ai.agent.name）
+
+2. MetricsMetric 是數值型的聚合量測，適合監控系統健康狀態：
+
+Counter：只增不減（如請求總數、錯誤數）
+Gauge：可增可減的當前值（如記憶體用量）
+Histogram：分佈統計（如請求延遲的百分位數）
+
+3. Log RecordsOTel Log 是結構化的事件記錄，與 Trace 可以關聯（同一個 trace_id&#x2F;span_id），但也可獨立存在。
+每筆 Log Record 帶有：
+
+timestamp：事件發生時間
+severity：嚴重等級（INFO、WARN、ERROR…）
+body：事件內容
+attributes：額外欄位（如 token 用量、model 名稱）
+resource：產生此 log 的服務資訊（service.name、service.version）
+
+
+OTel SDK Pipeline三種訊號共用同一套 SDK 架構：
+Instrumentation（程式碼產生遙測）    ↓Provider（TracerProvider / MeterProvider / LoggerProvider）    ↓Processor（BatchProcessor、SimpleProcessor、自訂...）    ↓Exporter（OTLP、Jaeger、Zipkin、自訂...）    ↓後端（Aspire Dashboard、Grafana、Datadog...）
+
+Exporter 負責將蒐集到的訊號送到後端：
+
+
+
+Exporter
+協定
+適合場景
+
+
+
+otlptracehttp
+OTLP&#x2F;HTTP
+送 Traces 到任何 OTLP 相容後端
+
+
+otlploghttp
+OTLP&#x2F;HTTP
+送 Logs 到任何 OTLP 相容後端
+
+
+自訂 Exporter
+任意
+寫檔、送 DB、客製化格式
+
+
+
+與 ADK 的關係Google ADK（Agent Development Kit）內建 OTel 支援，會自動為每次 LLM 呼叫產生：
+
+Span：記錄 invoke 的起訖時間、agent 名稱、session ID
+Log Record：記錄 LLM 的 input prompt 和 output content、token 用量
+
+開發者只需設定 Exporter 和後端，不需手動埋點：
+// ADK 自動產生 OTel 資料，開發者只需設定 Exportererr = telemetry.Setup(ctx,    telemetry.WithResource(res),    telemetry.WithLogRecordProcessors(myProcessor),    telemetry.WithGenAICaptureMessageContent(true),  // 開啟 prompt/response 內容捕捉)
+]]></content>
+      <categories>
+        <category>筆記</category>
+      </categories>
+      <tags>
+        <tag>OpenTelemetry</tag>
+        <tag>observability</tag>
+        <tag>logging</tag>
+        <tag>concept</tag>
+        <tag>tracing</tag>
+        <tag>metrics</tag>
       </tags>
   </entry>
   <entry>
@@ -6862,178 +6854,168 @@ jq 查詢範例# 查看特定 session 的所有 LLM 對話jq &#x27;select(.sessi
       <tags>
         <tag>OpenTelemetry</tag>
         <tag>observability</tag>
+        <tag>implementation</tag>
         <tag>logging</tag>
         <tag>JSONL</tag>
-        <tag>implementation</tag>
         <tag>LLM</tag>
       </tags>
   </entry>
   <entry>
-    <title>OTel Custom Log Processor — 跨 Span 注入 Context</title>
-    <url>/2026/03/14/otel-custom-log-processor/</url>
-    <content><![CDATA[問題描述OTel Log Record 預設不帶 Span 的自訂屬性。例如：
+    <title>如何更改 Github-Page 的網域</title>
+    <url>/2019/06/20/Change-domain/</url>
+    <content><![CDATA[[實作] 如何更改 Github-Page 的網域1. 首先要先有個自己的域名
+用買的或使用免費的都可以
 
-Trace Span 上帶有 session_id（由 ADK 在 StartInvokeAgentSpan 時寫入）
-Log Record 雖然與同一個 Span 關聯，但不會自動繼承 Span 的 attribute
-
-結果：JSONL log 中的 session 欄位為空，無法按 session 分組查詢。
-
-解決方案：實作自訂 Log Processor透過包裝標準 BatchProcessor，在每筆 Log Record 被送出前，從當前 Span Context 讀取 attribute，注入到 Log Record：
-type SessionEnrichProcessor struct &#123;    inner sdklog.Processor  // 被包裝的 Processor（通常是 BatchProcessor）&#125;func (p *SessionEnrichProcessor) OnEmit(ctx context.Context, record *sdklog.Record) error &#123;    sessionID := extractSessionID(ctx)    if sessionID != &quot;&quot; &#123;        record.AddAttributes(log.String(&quot;session.id&quot;, sessionID))    &#125;    return p.inner.OnEmit(ctx, record)&#125;
-
-ADK 的 session ID 存在 Span 的 gen_ai.conversation.id attribute，需要透過型別斷言存取：
-func extractSessionID(ctx context.Context) string &#123;    span := trace.SpanFromContext(ctx)    // 斷言為 ReadOnlySpan（由 OTel SDK 實作）    if roSpan, ok := span.(interface &#123;        Attributes() []attribute.KeyValue    &#125;); ok &#123;        for _, kv := range roSpan.Attributes() &#123;            if kv.Key == &quot;gen_ai.conversation.id&quot; &#123;                return kv.Value.AsString()            &#125;        &#125;    &#125;    return &quot;&quot;&#125;
+這裡推薦免費域名網站 : NCTU.ME
 
 
-整合至 OTel PipelinejsonlExp, _ := NewJSONLExporter(&quot;logs&quot;, version)logProcessor := NewSessionEnrichProcessor(    sdklog.NewBatchProcessor(jsonlExp),  // 包裝 BatchProcessor)// 也可以同時送到 AspireotlpProcessor := sdklog.NewBatchProcessor(otlpExporter)telemetry.Setup(ctx,    telemetry.WithLogRecordProcessors(logProcessor, otlpProcessor),)
-
-
-通用模式這個技巧可應用於任何「需要把 Span 上的資訊注入到 Log」的場景：
+這是交大免費提供的網域服務，交大學生有學校信箱就能直接使用，校外人士就必須申請一個TWID帳號進行實名認證
 
 
 
-需求
-Span Attribute
-注入到 Log
+
+申請帳號 : 交大信箱 or TWID帳號
+
+申請網域 : 網域管理 → 新增網域
+
+每個帳號只能申請三個域名
+
+域名格式為 : &lt;輸入的字元&gt;.nctu.me
 
 
 
-關聯 session
-gen_ai.conversation.id
-session.id
+
+新增DNS紀錄 : DNS管理 → 新增紀錄
+
+在 A 紀錄底下填上你要綁定的服務商的 DNS Server IP Github 的 DNS Server IP 是 185.199.108~111.153 其中一個 在終端機 ping &lt;your name&gt;.github.io 就可以看到
+也可以用 CNAME 紀錄，改成填上 &lt;your name&gt;.github.io
+
+等待一下，DNS 設定會在1、2分鐘內設定完成
 
 
-關聯使用者
-user.id
-user.id
+2. 綁定網域
+到 Github 專案的 Settings 頁面
+在 GitHub Pages 下的 custom domain 欄位中填上剛剛申請的域名
+按下 save 就完成了
 
 
-關聯請求
-http.request.id
-request.id
+hexo d -g 會導致 Github 上的 CNAME 消失
+
+解決方法 : 在本地端目錄底下的 source 建一個 CNAME 並打上域名
 
 
-關聯租戶
-tenant.id
-tenant.id
 
 
-核心步驟：
 
-實作 sdklog.Processor 介面（OnEmit、Shutdown、ForceFlush）
-在 OnEmit 中從 ctx 取得 Span，讀取目標 attribute
-用 record.AddAttributes() 注入
-呼叫 p.inner.OnEmit(ctx, record) 繼續傳遞
 
-]]></content>
+
+
+
+1 2 3
+cd blog //你的hexo根目錄名 cd source touch CNAME
+
+
+tags: 實作 Hexo Blog Git 網域]]></content>
       <categories>
-        <category>筆記</category>
+        <category>實作</category>
       </categories>
       <tags>
-        <tag>OpenTelemetry</tag>
-        <tag>logging</tag>
-        <tag>implementation</tag>
-        <tag>pattern</tag>
-        <tag>Go</tag>
+        <tag>實作</tag>
+        <tag>Git</tag>
+        <tag>Hexo Blog</tag>
       </tags>
   </entry>
   <entry>
-    <title>OpenTelemetry 可觀測性三種訊號（Traces、Metrics、Logs）與 Exporters</title>
-    <url>/2026/03/14/otel-three-signals/</url>
-    <content><![CDATA[什麼是 OpenTelemetryOpenTelemetry（OTel）是一套開源的可觀測性標準與 SDK，統一了蒐集 Traces、Metrics、Logs 的方式，讓應用程式可以不綁定特定後端（Jaeger、Zipkin、Datadog 等）地輸出遙測資料。
+    <title>BeautifulSoup 解析後無法存入 MySQL</title>
+    <url>/2019/07/01/BeautifulSoup-save-to-MySQL-problem/</url>
+    <content><![CDATA[[問題] BeautifulSoup 解析後無法存入 MySQL在練習爬蟲，使用 BeautifulSoup 分析 HTML 後，準備將資料存進 MySQL 時，出現 Python &#39;navigablestring&#39; cannot be converted to a MySQL type 的錯誤
 
-三種訊號（Signals）1. Traces &amp; SpansTrace 代表一次完整的操作鏈（例如：處理一個使用者請求的全過程）。
-Span 是 Trace 的最小單位，記錄一段工作的開始&#x2F;結束時間與屬性：
-Trace: 處理訂單請求├── Span: route_request          (root span)│   ├── Span: parse_order_message│   ├── Span: call_llm           (LLM 推論)│   └── Span: create_order       (DB 寫入)
+問題描述 :navigablestring 是 BeautifulSoup 中的一種類型 &lt;class &#39;bs4.element.NavigableString&#39;&gt;，不是 MySQL 所認識的類型，所以會導致存入失敗
+解決問題 :只要將要存入的參數轉換類型就可以了，有兩種方法 :
 
-每個 Span 帶有：
+str(&lt;要轉換的參數&gt;)
+&lt;要轉換的參數&gt;.encode(&#39;utf-8&#39;)
 
-trace_id：所屬 Trace 的唯一 ID
-span_id：自身的唯一 ID
-parent_span_id：父 Span 的 ID
-attributes：任意 key-value 屬性（如 gen_ai.agent.name）
-
-2. MetricsMetric 是數值型的聚合量測，適合監控系統健康狀態：
-
-Counter：只增不減（如請求總數、錯誤數）
-Gauge：可增可減的當前值（如記憶體用量）
-Histogram：分佈統計（如請求延遲的百分位數）
-
-3. Log RecordsOTel Log 是結構化的事件記錄，與 Trace 可以關聯（同一個 trace_id&#x2F;span_id），但也可獨立存在。
-每筆 Log Record 帶有：
-
-timestamp：事件發生時間
-severity：嚴重等級（INFO、WARN、ERROR…）
-body：事件內容
-attributes：額外欄位（如 token 用量、model 名稱）
-resource：產生此 log 的服務資訊（service.name、service.version）
-
-
-OTel SDK Pipeline三種訊號共用同一套 SDK 架構：
-Instrumentation（程式碼產生遙測）    ↓Provider（TracerProvider / MeterProvider / LoggerProvider）    ↓Processor（BatchProcessor、SimpleProcessor、自訂...）    ↓Exporter（OTLP、Jaeger、Zipkin、自訂...）    ↓後端（Aspire Dashboard、Grafana、Datadog...）
-
-Exporter 負責將蒐集到的訊號送到後端：
+P.S. 當然你的資料庫要能接受 UTF-8 編碼
 
 
 
-Exporter
-協定
-適合場景
 
 
 
-otlptracehttp
-OTLP&#x2F;HTTP
-送 Traces 到任何 OTLP 相容後端
 
 
-otlploghttp
-OTLP&#x2F;HTTP
-送 Logs 到任何 OTLP 相容後端
-
-
-自訂 Exporter
-任意
-寫檔、送 DB、客製化格式
+1 2 3 4 5 6 7 8
+testdb = MySQL.connect(     host = &quot;localhost&quot;,     user = &quot;root&quot;,     password = &quot;&lt;密碼&gt;&quot;,     database = &quot;&lt;已存在的資料庫名稱&gt;&quot;, #若尚未創建可不加這段     charset=&#39;utf8&#39; ) cursor = testdb.cursor()
 
 
 
-與 ADK 的關係Google ADK（Agent Development Kit）內建 OTel 支援，會自動為每次 LLM 呼叫產生：
+加上 charset=&#39;utf8&#39; 可以保證連接的資料庫能接受 UTF-8 編碼
 
-Span：記錄 invoke 的起訖時間、agent 名稱、session ID
-Log Record：記錄 LLM 的 input prompt 和 output content、token 用量
 
-開發者只需設定 Exporter 和後端，不需手動埋點：
-// ADK 自動產生 OTel 資料，開發者只需設定 Exportererr = telemetry.Setup(ctx,    telemetry.WithResource(res),    telemetry.WithLogRecordProcessors(myProcessor),    telemetry.WithGenAICaptureMessageContent(true),  // 開啟 prompt/response 內容捕捉)
-]]></content>
+
+
+
+
+
+
+
+1
+cursor.execute(&quot;CREATE database &lt;資料庫名稱&gt; DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci&quot;)
+
+
+
+在創建資料庫時，這樣就能接受 UTF-8 編碼
+
+tags: 問題 Python MySQL BeautifulSoup]]></content>
       <categories>
-        <category>筆記</category>
+        <category>問題</category>
       </categories>
       <tags>
-        <tag>OpenTelemetry</tag>
-        <tag>observability</tag>
-        <tag>logging</tag>
-        <tag>concept</tag>
-        <tag>tracing</tag>
-        <tag>metrics</tag>
+        <tag>問題</tag>
+        <tag>Python</tag>
+        <tag>MySQL</tag>
+        <tag>BeautifulSoup</tag>
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2026/03/14/hello-world/</url>
-    <content><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick StartCreate a new post$ hexo new &quot;My New Post&quot;
+    <title>Cmder 的安裝與配置</title>
+    <url>/2019/06/17/Cmder-install/</url>
+    <content><![CDATA[[安裝] Cmder 的安裝與配置Cmder : 好用的window命令提示字元1. 下載
+下載地址 : Cmder官網
+分為Mini跟Full(Full包含了Git for Windows)
 
-More info: Writing
-Run server$ hexo server
+下載下來為壓縮檔，解壓縮後放在此目錄底下 C:\Program Files\cmder1.3.11
+2. 以管理員身分運行Cmder右鍵 Cmder.exe，內容 → 相容性 → 勾選 以系統管理員的身分執行此程式
 
-More info: Server
-Generate static files$ hexo generate
+3. 以 win + R 開啟 Cmder
+新增路徑到系統的環境變數
+右鍵 本機，內容 → 進階系統設定 → 進階 → 環境變數 → 編輯 系統變數底下的 Path
 
-More info: Generating
-Deploy to remote sites$ hexo deploy
+新增路徑 C:\Program Files\cmder1.3.11 上去
 
-More info: Deployment
-]]></content>
+
+啟動 win + R
+
+
+
+4. 新增 Cmder 到右鍵選單在管理員身分下執行Cmder.exe /REGISTER ALL
+
+5. 將 λ 改成熟悉的 $
+打開 C:\Program Files\cmder1.3.11\vendor\clink.lua
+找到 lambda = &quot;λ&quot; 將 λ 改成 $
+重啟Cmder
+打開 C:\Program Files\cmder1.3.11\vendor\profile.ps1
+找到 Microsoft.PowerShell.UtilityWrite-Host &quot;nλ&quot; 將 λ 改成 $
+重啟Cmder
+
+切換C槽、D槽 : 在終端機輸入 C: or D:tags: 安裝 Cmder]]></content>
+      <categories>
+        <category>安裝</category>
+      </categories>
+      <tags>
+        <tag>安裝</tag>
+        <tag>Cmder</tag>
+      </tags>
   </entry>
 </search>
