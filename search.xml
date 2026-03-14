@@ -87,7 +87,7 @@ cd blog //你的hexo根目錄名cd sourcetouch CNAME
 
 切換C槽、D槽 : 在終端機輸入 C: or D:]]></content>
       <categories>
-        <category>安裝</category>
+        <category>工具</category>
       </categories>
       <tags>
         <tag>安裝</tag>
@@ -192,7 +192,7 @@ $ git add .$ git commit -m &quot;message&quot;$ git push heroku master
 
 ]]></content>
       <categories>
-        <category>問題</category>
+        <category>技巧</category>
       </categories>
       <tags>
         <tag>程式語言</tag>
@@ -1069,7 +1069,7 @@ sibling : 鄰居
 
 ]]></content>
       <categories>
-        <category>函式庫</category>
+        <category>工具</category>
       </categories>
       <tags>
         <tag>程式語言</tag>
@@ -3387,7 +3387,7 @@ C:\Program Files\nodejs\node_modules 更改為 C:\Program Files\nodejs\node_glob
 
 ]]></content>
       <categories>
-        <category>安裝</category>
+        <category>工具</category>
       </categories>
       <tags>
         <tag>安裝</tag>
@@ -3511,7 +3511,7 @@ P.S. 出現錯誤 : Open a folder or workspace... (File -&gt; Open Folder)
 
 ]]></content>
       <categories>
-        <category>安裝</category>
+        <category>工具</category>
       </categories>
       <tags>
         <tag>安裝</tag>
@@ -4258,7 +4258,7 @@ tenant.id
 
 ]]></content>
       <categories>
-        <category>筆記</category>
+        <category>技巧</category>
       </categories>
       <tags>
         <tag>OpenTelemetry</tag>

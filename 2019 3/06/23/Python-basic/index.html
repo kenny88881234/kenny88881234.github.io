@@ -1,0 +1,446 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Python 基礎 | Kenny's Blog</title><meta name="author" content="Kenny Li"><meta name="copyright" content="Kenny Li"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="[筆記] Python 基礎語言特性與熱門應用 Python 是泛用的程式語言，強調易學好懂 最近常用在數據分析、人工智慧  安裝下載地址 : Python   勾起來，之後操作方便許多  資料與運算1. 變數與資料型態 數字 : 3.5 字串 : &quot;hello&quot; 布林值 : True、False ( python 的 T 跟 F 為大寫 ) 可變列表 ( List ) : [">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 基礎">
+<meta property="og:url" content="https://kenny88881234.github.io/2019/06/23/Python-basic/index.html">
+<meta property="og:site_name" content="Kenny&#39;s Blog">
+<meta property="og:description" content="[筆記] Python 基礎語言特性與熱門應用 Python 是泛用的程式語言，強調易學好懂 最近常用在數據分析、人工智慧  安裝下載地址 : Python   勾起來，之後操作方便許多  資料與運算1. 變數與資料型態 數字 : 3.5 字串 : &quot;hello&quot; 布林值 : True、False ( python 的 T 跟 F 為大寫 ) 可變列表 ( List ) : [">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kenny88881234.github.io/img/avatar.png">
+<meta property="article:published_time" content="2019-06-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-14T14:38:23.027Z">
+<meta property="article:author" content="Kenny Li">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="程式語言">
+<meta property="article:tag" content="筆記">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kenny88881234.github.io/img/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Python 基礎",
+  "url": "https://kenny88881234.github.io/2019/06/23/Python-basic/",
+  "image": "https://kenny88881234.github.io/img/avatar.png",
+  "datePublished": "2019-06-22T16:00:00.000Z",
+  "dateModified": "2026-03-14T14:38:23.027Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Kenny Li",
+      "url": "https://kenny88881234.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://kenny88881234.github.io/2019/06/23/Python-basic/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"找不到符合您查詢的內容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Python 基礎',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="Kenny's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">38</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">65</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Kenny's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">Python 基礎</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Python 基礎</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">發表於</span><time datetime="2019-06-22T16:00:00.000Z" title="發表於 2019-06-23 00:00:00">2019-06-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AD%86%E8%A8%98/">筆記</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="筆記-Python-基礎"><a href="#筆記-Python-基礎" class="headerlink" title="[筆記] Python 基礎"></a>[筆記] Python 基礎</h1><h3 id="語言特性與熱門應用"><a href="#語言特性與熱門應用" class="headerlink" title="語言特性與熱門應用"></a>語言特性與熱門應用</h3><ul>
+<li>Python 是泛用的程式語言，強調易學好懂</li>
+<li>最近常用在數據分析、人工智慧</li>
+</ul>
+<h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><p>下載地址 : <a target="_blank" rel="noopener" href="https://www.python.org/">Python</a></p>
+<p><img src="https://i.imgur.com/wBDpXag.png"></p>
+<ul>
+<li>勾起來，之後操作方便許多</li>
+</ul>
+<h3 id="資料與運算"><a href="#資料與運算" class="headerlink" title="資料與運算"></a>資料與運算</h3><h4 id="1-變數與資料型態"><a href="#1-變數與資料型態" class="headerlink" title="1. 變數與資料型態"></a>1. 變數與資料型態</h4><ul>
+<li>數字 : <code>3.5</code></li>
+<li>字串 : <code>&quot;hello&quot;</code></li>
+<li>布林值 : <code>True</code>、<code>False</code> ( python 的 T 跟 F 為大寫 )</li>
+<li>可變列表 ( List ) : <code>[3,4,5]</code>、<code>[&quot;hello&quot;,&quot;world&quot;]</code></li>
+<li>固定列表 ( Tuple ) : <code>(3,4,5)</code>、<code>(&quot;hello&quot;,&quot;world&quot;)</code></li>
+<li>集合 : <code>{3,4,5}</code>、<code>{&quot;hello&quot;,&quot;world&quot;}</code></li>
+<li>字典 : <code>{&quot;apple&quot;:&quot;蘋果&quot;,&quot;data&quot;:&quot;資料&quot;}</code></li>
+<li>變數 : <code>data=3</code> data 為變數，不用宣告</li>
+</ul>
+<h4 id="2-運算"><a href="#2-運算" class="headerlink" title="2. 運算"></a>2. 運算</h4><ol>
+<li><p>數字</p>
+<ul>
+<li><code>7//6</code> : 整數除法</li>
+<li><code>2**3</code> : 2 的 3 次方</li>
+</ul>
+</li>
+<li><p>字串</p>
+<ul>
+<li><p><code>&quot;hell\&quot;o</code> 輸出為 <code>hell&quot;o</code> : 想在字串中加入雙引好可以用 <code>\</code> 跳脫</p>
+</li>
+<li><p><code>&quot;&quot;&quot;hello&quot;&quot;&quot;</code> or <code>&#39;&#39;&#39;hello&#39;&#39;&#39;</code> : 在裡面的換行會直接呈現</p>
+</li>
+<li><p>字串會對內部的字元編號 ( 索引 )，從 0 開始算起，假設 <code>s = &quot;hello&quot;</code></p>
+<ul>
+<li><code>s[0]</code> 輸出為 <code>h</code></li>
+<li><code>s[1:4]</code> 輸出為 <code>ell</code> : 輸出字串中編號 1 到 4 ( 不包含 )</li>
+<li><code>s[1:]</code> 輸出為 <code>ello</code></li>
+<li><code>s[:4]</code> 輸出為 <code>hell</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>有序列表 ( List、Tuple )</p>
+<ul>
+<li><p>List，假設 <code>grades = [12,60,15,70,90]</code></p>
+<ul>
+<li><code>grades[1:4] = []</code> 輸出為 <code>[12,90]</code> : 連續刪除列表中編號 1 到 4 ( 不包含 )</li>
+<li><code>grades = grades + [12,33]</code> 輸出為 <code>[12,60,15,70,90,12,33]</code></li>
+</ul>
+</li>
+<li><p>Tuple : 除了更動會出錯，其他都跟 List 一樣</p>
+</li>
+</ul>
+</li>
+<li><p>集合與字典</p>
+<ul>
+<li><p>集合，假設 <code>s1 = {3,4,5}</code> <code>s2 = {4,5,6,7}</code></p>
+<ul>
+<li><code>10 in s1</code> 輸出為 <code>False</code>，<code>10 not in s1</code> 輸出為 <code>True</code></li>
+<li><code>&amp;</code> : 交集，<code>|</code> : 聯集，<code>-</code> : 差集，<code>^</code> : 反交集</li>
+<li><code>s = set(&quot;hello&quot;)</code> s 輸出為 <code>{&#39;l&#39;,&#39;h&#39;,&#39;e&#39;,&#39;o&#39;}</code> : 把字串拆解為集合</li>
+</ul>
+</li>
+<li><p>字典，假設 <code>dic = {&quot;apple&quot;:&quot;蘋果&quot;,&quot;bug&quot;:&quot;蟲蟲&quot;}</code></p>
+<ul>
+<li><code>test in dic</code> 輸出為 <code>False</code>，<code>test not in dic</code> 輸出為 <code>True</code></li>
+<li><code>del dic[&quot;apple&quot;]</code> : 刪除字典中的鍵值對</li>
+<li><code>dic = {x:x*2 for x in [3,4,5]}</code> dic 輸出為 <code>{3:6,4:8,5:10}</code> : 從列表資料產生字典</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h3><ul>
+<li>在 python <code>{}</code> 用縮排 ( tab ) 取代</li>
+</ul>
+<h4 id="1-判斷式"><a href="#1-判斷式" class="headerlink" title="1. 判斷式"></a>1. 判斷式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if True:</span><br><span class="line">    print(&quot;True 執行&quot;)</span><br><span class="line">elif False:</span><br><span class="line">    print(&quot;False 執行&quot;)</span><br><span class="line">else:</span><br><span class="line">    print(&quot;跑不到&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>python 目前不支援 switch</strong></p>
+<h4 id="2-迴圈"><a href="#2-迴圈" class="headerlink" title="2. 迴圈"></a>2. 迴圈</h4><ol>
+<li>while</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n = 1</span><br><span class="line">while n&lt;10:</span><br><span class="line">    printf(n)</span><br><span class="line">    n+=1</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>for</p>
+<ul>
+<li><p>迴圈跑列表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for x in [3, 5, 1]:</span><br><span class="line">    print(x)</span><br></pre></td></tr></table></figure></li>
+<li><p>迴圈跑字串</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for x in &quot;hello&quot;:</span><br><span class="line">    print(x)</span><br></pre></td></tr></table></figure></li>
+<li><p>迴圈跑range</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for x in range(5):</span><br><span class="line">    print(x)</span><br></pre></td></tr></table></figure>
+
+<p><code>range(5)</code> : 0，1，2，3，4<br><code>range(3,7)</code> : 3，4，5，6</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>迴圈最後可加 <code>else:</code>，else 在迴圈結束前執行，被 break 強制結束就不會執行 else</strong></p>
+<h3 id="函式、模組與封包"><a href="#函式、模組與封包" class="headerlink" title="函式、模組與封包"></a>函式、模組與封包</h3><h4 id="函式-用來做程式的包裝，同樣邏輯可以重複利用"><a href="#函式-用來做程式的包裝，同樣邏輯可以重複利用" class="headerlink" title="函式 : 用來做程式的包裝，同樣邏輯可以重複利用"></a>函式 : 用來做程式的包裝，同樣邏輯可以重複利用</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def add(n1 = 1,n2 = 2):</span><br><span class="line">    result = n1 + n2</span><br><span class="line">    return result</span><br><span class="line"></span><br><span class="line">print(add(3, 4)) #7</span><br><span class="line">print(add()) #3</span><br><span class="line">print(add(n2 = 3,n1 = 4))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def avg(*ns): #無限不定參數資料</span><br><span class="line">    sum = 0</span><br><span class="line">    for n in ns:</span><br><span class="line">        sum += n</span><br><span class="line">    print(sum/len(ns))</span><br><span class="line"></span><br><span class="line">avg(3, 4) #3.5</span><br><span class="line">avg(3, 5, 10) #6.0</span><br></pre></td></tr></table></figure>
+
+<h4 id="模組-將程式寫在一個檔案中，此檔案可重複載入使用"><a href="#模組-將程式寫在一個檔案中，此檔案可重複載入使用" class="headerlink" title="模組 : 將程式寫在一個檔案中，此檔案可重複載入使用"></a>模組 : 將程式寫在一個檔案中，此檔案可重複載入使用</h4><ol>
+<li>載入</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import sys as system #載入模組並取別名 system</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>使用</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(system.platform)</span><br><span class="line">print(system.maxsize)</span><br><span class="line">print(system.path) #印出模組的搜尋路徑</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>內建模組與自訂模組</li>
+</ol>
+<ul>
+<li>主程式</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import sys #內建的模組</span><br><span class="line">sys.path.append(&quot;modules&quot;) #在模組的搜尋路徑列表中新增路徑，這裡 &quot;modules&quot; 為資料夾</span><br><span class="line">import geometry #自訂的模組，放在 &quot;modules&quot; 資料夾內</span><br><span class="line">print(geometry.distance(1, 1, 5, 5))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>模組 : 放在 <code>modules</code> 資料夾內</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def distance(x1, y1, x2, y2):</span><br><span class="line">    return ((x2 - x1)**2 + (y2 - y1)**2)**0.5</span><br><span class="line">def slope(x1, y1, x2, y2):</span><br><span class="line">    return (y2 - y1)/(x2 - x1)</span><br></pre></td></tr></table></figure>
+
+<h4 id="封包-用來整理、分類模組"><a href="#封包-用來整理、分類模組" class="headerlink" title="封包 : 用來整理、分類模組"></a>封包 : 用來整理、分類模組</h4><ul>
+<li>檔案中的資料夾為封包，檔案為模組</li>
+</ul>
+<ol>
+<li><p>建立封包</p>
+<p>檔案配置 :</p>
+<ul>
+<li><p>專案資料夾</p>
+<ul>
+<li><p><code>主程式.py</code></p>
+</li>
+<li><p>封包資料夾</p>
+<ul>
+<li><code>__init__.py</code> : 必要</li>
+<li><code>模組一.py</code></li>
+<li><code>模組二.py</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>使用封包</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import 封包名稱.模組名稱 as 模組別名</span><br></pre></td></tr></table></figure>
+
+<h3 id="類別與實體物件"><a href="#類別與實體物件" class="headerlink" title="類別與實體物件"></a>類別與實體物件</h3><ul>
+<li>封裝的變數或函式，統稱類別的屬性</li>
+</ul>
+<h4 id="類別"><a href="#類別" class="headerlink" title="類別"></a>類別</h4><ol>
+<li><p>定義類別</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class 類別名稱:</span><br><span class="line">    定義封裝的變數</span><br><span class="line">    定義封裝的函式</span><br></pre></td></tr></table></figure></li>
+<li><p>使用類別</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">類別名稱.屬性名稱</span><br></pre></td></tr></table></figure>
+
+<h4 id="實體物件"><a href="#實體物件" class="headerlink" title="實體物件"></a>實體物件</h4><ol>
+<li>建立實體物件</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class 類別名稱:</span><br><span class="line">    def __init__(self): #定義初始化函式</span><br><span class="line">        透過操作 self 來定義實體屬性</span><br><span class="line"># 建立實體物件，放入變數 obj 中</span><br><span class="line">obj = 類別名稱() #呼叫初始化函式</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class Point:</span><br><span class="line">    def __init__(self, x, y):</span><br><span class="line">        self.x = x</span><br><span class="line">        self.y = y</span><br><span class="line"></span><br><span class="line">p = Point(1,5)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>使用實體物件</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#實體物件.實體屬性名稱</span><br><span class="line">p = Point(1,5)</span><br><span class="line">print(p.x + p.y)</span><br></pre></td></tr></table></figure>
+
+<h4 id="實體方法"><a href="#實體方法" class="headerlink" title="實體方法"></a>實體方法</h4><ol>
+<li>建立實體方法</li>
+</ol>
+<ul>
+<li>封裝在實體物件中的函式</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class 類別名稱:</span><br><span class="line">    def __init__(self): #定義初始化函式</span><br><span class="line">        封裝在實體物件中的變數</span><br><span class="line">    def 方法名稱(self,更多自訂參數):</span><br><span class="line">        方法主體，透過 self 操作實體物件</span><br><span class="line"># 建立實體物件，放入變數 obj 中</span><br><span class="line">obj = 類別名稱() #呼叫初始化函式</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Point:</span><br><span class="line">    def __init__(self, x, y):</span><br><span class="line">        self.x = x</span><br><span class="line">        self.y = y</span><br><span class="line">    def show(self):</span><br><span class="line">        print(self.x, self.y)</span><br><span class="line">p = Point(1,5)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>使用實體方法</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#實體物件.實體方法名稱(參數資料)</span><br><span class="line">p = Point(1,5) #建立實體物件</span><br><span class="line">p.show() #呼叫實體方法</span><br></pre></td></tr></table></figure>
+
+<h3 id="文字檔案的讀取與儲存"><a href="#文字檔案的讀取與儲存" class="headerlink" title="文字檔案的讀取與儲存"></a>文字檔案的讀取與儲存</h3><h4 id="1-開啟檔案"><a href="#1-開啟檔案" class="headerlink" title="1. 開啟檔案"></a>1. 開啟檔案</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">檔案物件 = open(檔案路徑, mode = 開啟模式, encoding = 編碼)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>開啟模式</p>
+<ul>
+<li><code>&quot;r&quot;</code> : 讀取模式</li>
+<li><code>&quot;w&quot;</code> : 寫入模式</li>
+<li><code>&quot;r+&quot;</code> : 讀寫模式</li>
+</ul>
+</li>
+<li><p>編碼</p>
+<ul>
+<li><code>&quot;utf-8&quot;</code> : 中文常用編碼</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-讀取檔案"><a href="#2-讀取檔案" class="headerlink" title="2. 讀取檔案"></a>2. 讀取檔案</h4><ul>
+<li>讀取全部文字</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">檔案物件.read()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>一次讀取一行</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for 變數 in 檔案物件:</span><br><span class="line">    從檔案依序讀取每行文字到變數中</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>讀取 JSON 格式</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line">讀取到的資料 = json.load(檔案物件)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-儲存檔案"><a href="#3-儲存檔案" class="headerlink" title="3. 儲存檔案"></a>3. 儲存檔案</h4><ul>
+<li>寫入文字</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">檔案物件.write(&quot;字串\n&quot;) #要換行就 \n</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>寫入 JSON 格式</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line">json.dump(要寫入的資料, 檔案物件)</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-關閉檔案"><a href="#4-關閉檔案" class="headerlink" title="4. 關閉檔案"></a>4. 關閉檔案</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">檔案物件.close()</span><br></pre></td></tr></table></figure>
+
+<h4 id="最佳實務"><a href="#最佳實務" class="headerlink" title="最佳實務"></a>最佳實務</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with open(檔案路徑, mode = 開啟模式) as 檔案物件:</span><br><span class="line">    讀取或寫入檔案的程式</span><br><span class="line">#以上區塊會自動、安全的關閉檔案，不需 close</span><br></pre></td></tr></table></figure>
+
+<h3 id="亂數與統計模組"><a href="#亂數與統計模組" class="headerlink" title="亂數與統計模組"></a>亂數與統計模組</h3><h4 id="random"><a href="#random" class="headerlink" title="random"></a>random</h4><ol>
+<li>載入模組</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>使用 random</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">random.choice([0, 1, 5, 8]) #從列表中隨機選取 1 個資料</span><br><span class="line">random.sample([0, 1, 5, 8], n) #從列表中隨機選取 n 個資料</span><br><span class="line">random.shuffle([0, 1, 5, 8]) #將列表的資料就地隨機調換順序</span><br><span class="line">random.random() # 0 ~1 之間的隨機數亂數</span><br><span class="line">random.uniform(n, m) # 取得 n ~ m 之間的隨機亂數</span><br><span class="line">random.normalvariate(n, m) # 取得平均數 n，標準差 m 的常態分配亂數</span><br></pre></td></tr></table></figure>
+
+<p>常態分配範例 :</p>
+<p><img src="https://i.imgur.com/Ilx8LtH.png"></p>
+<h4 id="statistics"><a href="#statistics" class="headerlink" title="statistics"></a>statistics</h4><ol>
+<li>載入模組</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import statistics</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>使用 statistics</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">statistics.mean([1, 4, 6, 9]) #計算列表中數字的平均數</span><br><span class="line">statistics.median([1, 4, 6, 9]) #計算列表中數字的中位數</span><br><span class="line">statistics.stdev([1, 4, 6, 9]) #計算列表中數字的標準差</span><br></pre></td></tr></table></figure>
+
+<h3 id="網路連線與公開資料串接"><a href="#網路連線與公開資料串接" class="headerlink" title="網路連線與公開資料串接"></a>網路連線與公開資料串接</h3><h4 id="網路連線"><a href="#網路連線" class="headerlink" title="網路連線"></a>網路連線</h4><ol>
+<li>載入模組</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import urllib.request as request</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>下載特定網址資料</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with request.urlopen(網址) as response:</span><br><span class="line">    data = response.read().decode(&quot;utf-8&quot;)</span><br><span class="line">print(data)</span><br></pre></td></tr></table></figure>
+
+<h4 id="公開資料串接"><a href="#公開資料串接" class="headerlink" title="公開資料串接"></a>公開資料串接</h4><ol>
+<li><p>確認資料格式</p>
+<ul>
+<li>JSON、CSV、或其他格式</li>
+</ul>
+</li>
+<li><p>解讀格式</p>
+<ul>
+<li>解讀 JSON 使用內建的 JSON 模組</li>
+</ul>
+</li>
+</ol>
+<h6 id="tags-筆記-程式語言-Python"><a href="#tags-筆記-程式語言-Python" class="headerlink" title="tags: 筆記 程式語言 Python"></a>tags: <code>筆記</code> <code>程式語言</code> <code>Python</code></h6></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://kenny88881234.github.io">Kenny Li</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://kenny88881234.github.io/2019/06/23/Python-basic/">https://kenny88881234.github.io/2019/06/23/Python-basic/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://kenny88881234.github.io" target="_blank">Kenny's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a><a class="post-meta__tags" href="/tags/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/">程式語言</a><a class="post-meta__tags" href="/tags/%E7%AD%86%E8%A8%98/">筆記</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2019/06/23/Python-web-crawler/" title="Python 實作 網路爬蟲 ( web crawler )"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Python 實作 網路爬蟲 ( web crawler )</div></div><div class="info-2"><div class="info-item-1">[實作] Python 實作 網路爬蟲 ( web crawler )基本流程 連線到特定網址，抓取資料 解析資料，取得實際想要的部分  抓取資料 盡可能地，讓程式模仿一個普通使用者的樣子，因為許多網站不希望人家用程式去抓取他們的資料 必須包含 Headers  123456789import urllib.request as req#建立一個 Request 物件，附加 Request Headers 的資訊url = &quot;網址&quot;request = req.Request(url, headers = &#123;    &quot;User-Agent&quot;:&quot;需要的資訊&quot; #到網頁 → F12 → Network → 通常是最上面的那個 → Headers → Request Headers → user-agent&#125;)with req.urlopen(request) as response:    data = response.read().decode(&quot;utf-8&quot;)  解析資料 JSON...</div></div></div></a><a class="pagination-related" href="/2019/06/23/Flask-on-Heroku/" title="Flask 網站開發並部署上 Heroku"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Flask 網站開發並部署上 Heroku</div></div><div class="info-2"><div class="info-item-1">[實作] Flask 網站開發並部署上 Heroku Flask 是一種 python 中常用的 web 框架，python中常用的框架有 :  django Flask tornado    環境建置基本流程 安裝 Flask 套件 建立專案資料夾，撰寫程式 啟動伺服器，測試網站運作  安裝 Flask 套件1$ pip install Flask  建立專案 建立網站專案   隨便找個你想放的位置建一個資料夾   撰寫程式  123456789from flask import Flaskapp = Flask(__name__) # __name__ 為 python 內建的變數，他會儲存目前程式在哪個模組下執行@app.route(&quot;/&quot;) #函式的裝飾 ( Decorator )，以底下函式為基礎，提供附加的功能，這邊 &quot;/&quot; 代表根目錄def home():    return &quot;Hello Flask&quot;    if __name__ == &quot;__main__&quot;: #如果以主程式運行   ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2019/07/12/Octave-basic/" title="Octave 基礎"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-07-12</div><div class="info-item-2">Octave 基礎</div></div><div class="info-2"><div class="info-item-1">[筆記] Octave 基礎運算語法 + : 加 - : 減 * : 乘 / : 除 ^ : 次方  邏輯語法 == ~= : 不等於 &amp;&amp; || xor()  矩陣創建 A = [1 2; 3 4; 5 6] : 創建矩陣 v = n:i:m : 生成 n 到 m，間隔 i 的矩陣 v = n:m : 生成 n 到 m，間隔 1 的矩陣 ones(n, m) : 生成都是 1 的矩陣，n rows，m columns zeros(n, m) : 生成都是 0 的矩陣，n rows，m columns rand(n, m) : 生成 0 到 1 內隨機數字的矩陣，n rows，m columns randn(n, m) : 生成常態分配的矩陣，n rows，m columns hist(變數, n) : 生成 n 個數據的直方圖 eye(n) : 生成 n*n 的單位矩陣 magic(n) : 生成 nn 矩陣，內涵元素為 1 ~ n  n，每行每列斜對角總和相同  矩陣操作查看 disp(A) : 將 A 矩陣打印出來 A(n, m) : 查看 n row，m ...</div></div></div></a><a class="pagination-related" href="/2019/07/22/Golang-basic/" title="Golang 基礎"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-07-22</div><div class="info-item-2">Golang 基礎</div></div><div class="info-2"><div class="info-item-1">[筆記] Golang 基礎基本特性 泛用的程式語言 強調效能 易學 垃圾回收 ( 內存管理 ) 編譯語言 ( Compiled language )  安裝下載地址 : Golang 官方網址 流程 撰寫程式  1234567package main //可執行的城市必須使用 mainimport &quot;fmt&quot; //載入內建 fmt 封包，用來做基本輸出輸入func main() &#123;	fmt.Println(&quot;Hello&quot;)&#125;   建置 ( build ) : go build &lt;檔名&gt;.go   建置完會出現 .exe 檔   執行程式 : 直接在終端機打上 ./ + .exe 檔的檔名    Workspaces src : 放置原始碼檔案 pkg : 放置使用到的函式庫 bin : 放置執行檔  資料、資料型態、變數資料型態 int : 整數 ( int8、int16、int32、int64、uint8、uint16… )  float64 : 浮點數 ( float32、complex128 ) 1v...</div></div></div></a><a class="pagination-related" href="/2019/06/28/MySQL-basic/" title="MySQL 基礎"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-06-28</div><div class="info-item-2">MySQL 基礎</div></div><div class="info-2"><div class="info-item-1">[筆記] MySQL 基礎基本介紹什麼是 Database  DBMS 為向 Database 存取的訪問接口 通常稱 DBMS + Database 為 Database，EX : MySQL、Oracle、MongoDB…等等  SQL 與 NoSQL 區別在於有沒有使用 SQL 語言，NoSQL 的資料儲存可以不需要固定的表格模式 SQL : MySQL、Oracle…等等 NoSQL : MongoDB…等等  安裝Window :  建議用 Installer 下載安裝 : MySQL Installer 5.7.26 中間跳過的步驟默認就好   建議選擇 Developer Default   這步檢查依賴，Execute 就好   這邊設定密碼   這邊輸入剛剛設定的密碼，點擊 Check   之後在這裡進行操作，輸入剛剛設定的密碼     P.S.後來在另一台電腦一直無法安裝，有閃退的情況，後來安裝 8.0.16 就正常了 macOS :  下載地址 : MySQL 官網 - MySQL Community Server 5.7  Database 與 Table...</div></div></div></a><a class="pagination-related" href="/2019/06/17/CSS-basic/" title="CSS 基礎"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-06-17</div><div class="info-item-2">CSS 基礎</div></div><div class="info-2"><div class="info-item-1">[筆記] CSS 基礎特性寫在後面的CSS會覆蓋前面的CSS 用法 Inline 1&lt;p style=&quot;color: red&quot;&gt;text&lt;/p&gt; Internal 123456789101112131415&lt;html&gt;&lt;head&gt;&lt;title&gt;CSS Example&lt;/title&gt;&lt;style&gt;    p &#123;        color: red;    &#125;    a &#123;        color: blue;    &#125;&lt;/style&gt;... External  style.css檔 1234567p &#123;    color: red;&#125;a &#123;    color: blue;&#125; HTML檔 12345&lt;html&gt;&lt;head&gt;    &lt;title&gt;CSS Example&lt;/title&gt;    &lt;link rel=&quot;styleshe...</div></div></div></a><a class="pagination-related" href="/2019/06/17/Javascript-basic/" title="Javascript 基礎"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-06-17</div><div class="info-item-2">Javascript 基礎</div></div><div class="info-2"><div class="info-item-1">[筆記] Javascript 基礎語言特性 動態型別語言  單一變數的型別可能會隨時改變   弱型別語言  執行期間才檢查型別  優點 : 開發快  缺點 : 大專案難以維護，無法知道型別  typescript強制javascript宣告型別     物件導向語言  除了原始型別，其他都是物件  原始型別 : Numbers、String、Booleans…等  物件可以包含物件  value可以關聯function        javascript物件特性 javascript物件是個容器(Container)  可以包含屬性(Property)和方法(Method、Function)   javascript物件其實是HashMap  屬性名稱一定是字串  取得屬性方法有兩種  物件取法 : car.name 陣列取法 : car[&#39;name&#39;]   數字不能當變數    javascript沒有class，不需要建構式(constructor)就能建立物件  javascript的constructor就是函式，稱建構式函式  使用new來透過建構式函...</div></div></div></a><a class="pagination-related" href="/2019/08/09/Machine-learning-system-design/" title="機器學習 系統的設計"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-08-09</div><div class="info-item-2">機器學習 系統的設計</div></div><div class="info-2"><div class="info-item-1">[筆記] 機器學習 系統的設計提高機器準確性的方法 收集大量數據 開發複雜的特徵量 開發算法以不同方式處理輸入  P.S. 很難說哪個項目最有用 誤差分析 ( Error analysis ) 從簡單的算法開始，快速實作，並在交叉驗證集測試  繪製出學習曲線，已確定算法該往哪個方向進行  手動檢查交叉驗證集中錯誤的資料，查找這些資料大多數發生錯誤的特徵  例如 : 分類垃圾郵件時，釣魚郵件大多數分類錯誤，就針對釣魚郵件下去改善算法   將錯誤結果數值化很重要，否則很難評估算法性能   P.S. 分析時最好用交叉驗證集測試，如果用測試集去做誤差分析，算法只會越來越偏向測試集，在最後完成算法時，測試結果就會變得沒什麼參考價值 偏斜類 ( Skewed classes ) 問題 偏斜類是指大量的樣本傾向了某個類型，例如 :  通過邏輯回歸來預測病人是否有罹患癌症  y = 1 為罹癌，y = 0 為沒有罹癌   假設此錯誤率只有 1%，但我們的測試集中只有 0.5% 的人罹癌  這時只要使用算法 :  hθ(x) &#x3D; 0   此算法的錯誤率甚至只有 0.5%     查準率 ...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Kenny Li</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">38</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">65</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/kenny88881234" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.facebook.com/yihsienl1" target="_blank" title="Facebook"><i class="fab fa-facebook" style="color: #1877f2;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">感謝訪問本站</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AD%86%E8%A8%98-Python-%E5%9F%BA%E7%A4%8E"><span class="toc-number">1.</span> <span class="toc-text">[筆記] Python 基礎</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AA%9E%E8%A8%80%E7%89%B9%E6%80%A7%E8%88%87%E7%86%B1%E9%96%80%E6%87%89%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">語言特性與熱門應用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D"><span class="toc-number">1.2.</span> <span class="toc-text">安裝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B3%87%E6%96%99%E8%88%87%E9%81%8B%E7%AE%97"><span class="toc-number">1.3.</span> <span class="toc-text">資料與運算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%AE%8A%E6%95%B8%E8%88%87%E8%B3%87%E6%96%99%E5%9E%8B%E6%85%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 變數與資料型態</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%81%8B%E7%AE%97"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. 運算</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="toc-number">1.4.</span> <span class="toc-text">流程控制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%A4%E6%96%B7%E5%BC%8F"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. 判斷式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%BF%B4%E5%9C%88"><span class="toc-number">1.4.2.</span> <span class="toc-text">2. 迴圈</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E5%BC%8F%E3%80%81%E6%A8%A1%E7%B5%84%E8%88%87%E5%B0%81%E5%8C%85"><span class="toc-number">1.5.</span> <span class="toc-text">函式、模組與封包</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E5%BC%8F-%E7%94%A8%E4%BE%86%E5%81%9A%E7%A8%8B%E5%BC%8F%E7%9A%84%E5%8C%85%E8%A3%9D%EF%BC%8C%E5%90%8C%E6%A8%A3%E9%82%8F%E8%BC%AF%E5%8F%AF%E4%BB%A5%E9%87%8D%E8%A4%87%E5%88%A9%E7%94%A8"><span class="toc-number">1.5.1.</span> <span class="toc-text">函式 : 用來做程式的包裝，同樣邏輯可以重複利用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E7%B5%84-%E5%B0%87%E7%A8%8B%E5%BC%8F%E5%AF%AB%E5%9C%A8%E4%B8%80%E5%80%8B%E6%AA%94%E6%A1%88%E4%B8%AD%EF%BC%8C%E6%AD%A4%E6%AA%94%E6%A1%88%E5%8F%AF%E9%87%8D%E8%A4%87%E8%BC%89%E5%85%A5%E4%BD%BF%E7%94%A8"><span class="toc-number">1.5.2.</span> <span class="toc-text">模組 : 將程式寫在一個檔案中，此檔案可重複載入使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%81%E5%8C%85-%E7%94%A8%E4%BE%86%E6%95%B4%E7%90%86%E3%80%81%E5%88%86%E9%A1%9E%E6%A8%A1%E7%B5%84"><span class="toc-number">1.5.3.</span> <span class="toc-text">封包 : 用來整理、分類模組</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%9E%E5%88%A5%E8%88%87%E5%AF%A6%E9%AB%94%E7%89%A9%E4%BB%B6"><span class="toc-number">1.6.</span> <span class="toc-text">類別與實體物件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%9E%E5%88%A5"><span class="toc-number">1.6.1.</span> <span class="toc-text">類別</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%A6%E9%AB%94%E7%89%A9%E4%BB%B6"><span class="toc-number">1.6.2.</span> <span class="toc-text">實體物件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%A6%E9%AB%94%E6%96%B9%E6%B3%95"><span class="toc-number">1.6.3.</span> <span class="toc-text">實體方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E5%AD%97%E6%AA%94%E6%A1%88%E7%9A%84%E8%AE%80%E5%8F%96%E8%88%87%E5%84%B2%E5%AD%98"><span class="toc-number">1.7.</span> <span class="toc-text">文字檔案的讀取與儲存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E9%96%8B%E5%95%9F%E6%AA%94%E6%A1%88"><span class="toc-number">1.7.1.</span> <span class="toc-text">1. 開啟檔案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%AE%80%E5%8F%96%E6%AA%94%E6%A1%88"><span class="toc-number">1.7.2.</span> <span class="toc-text">2. 讀取檔案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%84%B2%E5%AD%98%E6%AA%94%E6%A1%88"><span class="toc-number">1.7.3.</span> <span class="toc-text">3. 儲存檔案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E9%97%9C%E9%96%89%E6%AA%94%E6%A1%88"><span class="toc-number">1.7.4.</span> <span class="toc-text">4. 關閉檔案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%AF%A6%E5%8B%99"><span class="toc-number">1.7.5.</span> <span class="toc-text">最佳實務</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%82%E6%95%B8%E8%88%87%E7%B5%B1%E8%A8%88%E6%A8%A1%E7%B5%84"><span class="toc-number">1.8.</span> <span class="toc-text">亂數與統計模組</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#random"><span class="toc-number">1.8.1.</span> <span class="toc-text">random</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#statistics"><span class="toc-number">1.8.2.</span> <span class="toc-text">statistics</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B6%B2%E8%B7%AF%E9%80%A3%E7%B7%9A%E8%88%87%E5%85%AC%E9%96%8B%E8%B3%87%E6%96%99%E4%B8%B2%E6%8E%A5"><span class="toc-number">1.9.</span> <span class="toc-text">網路連線與公開資料串接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B6%B2%E8%B7%AF%E9%80%A3%E7%B7%9A"><span class="toc-number">1.9.1.</span> <span class="toc-text">網路連線</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AC%E9%96%8B%E8%B3%87%E6%96%99%E4%B8%B2%E6%8E%A5"><span class="toc-number">1.9.2.</span> <span class="toc-text">公開資料串接</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#tags-%E7%AD%86%E8%A8%98-%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80-Python"><span class="toc-number">1.9.2.1.</span> <span class="toc-text">tags: 筆記 程式語言 Python</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/adk-gemini-function-calling-fix/" title="解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題">解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/agent-tool-no-context-memory/" title="Agent Tool 無上下文記憶，需改用 Sub-agent">Agent Tool 無上下文記憶，需改用 Sub-agent</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/adk-subagent-stop-thinking-mode/" title="ADK Sub-agent STOP 錯誤：停用 Thinking Mode">ADK Sub-agent STOP 錯誤：停用 Thinking Mode</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/jsonl-llm-log-persistence/" title="JSONL LLM Log 持久化方案">JSONL LLM Log 持久化方案</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/aspire-dashboard-otel/" title="Aspire Dashboard — 本地 OTel 後端">Aspire Dashboard — 本地 OTel 後端</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2019 - 2026 By Kenny Li</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  資料載入中</span></div><div class="local-search-input"><input placeholder="搜尋文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
