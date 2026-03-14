@@ -1,0 +1,947 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Golang 基礎 | Kenny's Blog</title><meta name="author" content="Kenny Li"><meta name="copyright" content="Kenny Li"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="[筆記] Golang 基礎基本特性 泛用的程式語言 強調效能 易學 垃圾回收 ( 內存管理 ) 編譯語言 ( Compiled language )  安裝下載地址 : Golang 官方網址 流程 撰寫程式          1 2 3 4 5 6 7 package main &#x2F;&#x2F;可執行的城市必須使用 main  import &quot;fmt&quot; &#x2F;&#x2F;載入內建 fmt 封包，用來">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang 基礎">
+<meta property="og:url" content="https://kenny88881234.github.io/2019/07/22/Golang-basic/index.html">
+<meta property="og:site_name" content="Kenny&#39;s Blog">
+<meta property="og:description" content="[筆記] Golang 基礎基本特性 泛用的程式語言 強調效能 易學 垃圾回收 ( 內存管理 ) 編譯語言 ( Compiled language )  安裝下載地址 : Golang 官方網址 流程 撰寫程式          1 2 3 4 5 6 7 package main &#x2F;&#x2F;可執行的城市必須使用 main  import &quot;fmt&quot; &#x2F;&#x2F;載入內建 fmt 封包，用來">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kenny88881234.github.io/img/avatar.png">
+<meta property="article:published_time" content="2019-07-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-14T14:24:23.098Z">
+<meta property="article:author" content="Kenny Li">
+<meta property="article:tag" content="Golang">
+<meta property="article:tag" content="程式語言">
+<meta property="article:tag" content="筆記">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kenny88881234.github.io/img/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Golang 基礎",
+  "url": "https://kenny88881234.github.io/2019/07/22/Golang-basic/",
+  "image": "https://kenny88881234.github.io/img/avatar.png",
+  "datePublished": "2019-07-21T16:00:00.000Z",
+  "dateModified": "2026-03-14T14:24:23.098Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Kenny Li",
+      "url": "https://kenny88881234.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://kenny88881234.github.io/2019/07/22/Golang-basic/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"找不到符合您查詢的內容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Golang 基礎',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="Kenny's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">65</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Kenny's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">Golang 基礎</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Golang 基礎</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">發表於</span><time datetime="2019-07-21T16:00:00.000Z" title="發表於 2019-07-22 00:00:00">2019-07-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AD%86%E8%A8%98/">筆記</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="筆記-Golang-基礎"><a href="#筆記-Golang-基礎" class="headerlink" title="[筆記] Golang 基礎"></a>[筆記] Golang 基礎</h1><h3 id="基本特性"><a href="#基本特性" class="headerlink" title="基本特性"></a>基本特性</h3><ul>
+<li>泛用的程式語言</li>
+<li>強調效能</li>
+<li>易學</li>
+<li>垃圾回收 ( 內存管理 )</li>
+<li>編譯語言 ( Compiled language )</li>
+</ul>
+<h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><p>下載地址 : <a target="_blank" rel="noopener" href="https://golang.org/dl/">Golang 官方網址</a></p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ol>
+<li>撰寫程式</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5 6 7</code></td>
+<td><code>package main //可執行的城市必須使用 main  import &quot;fmt&quot; //載入內建 fmt 封包，用來做基本輸出輸入  func main() { 	fmt.Println(&quot;Hello&quot;) }</code></td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>建置 ( build ) : <code>go build &lt;檔名&gt;.go</code></p>
+<p><img src="https://i.imgur.com/PPNK5AY.png"></p>
+<ul>
+<li>建置完會出現 <code>.exe</code> 檔</li>
+</ul>
+</li>
+<li><p>執行程式 : 直接在終端機打上 <code>./</code> + <code>.exe</code> 檔的檔名</p>
+<p><img src="https://i.imgur.com/rNTc4GS.png"></p>
+</li>
+</ol>
+<h3 id="Workspaces"><a href="#Workspaces" class="headerlink" title="Workspaces"></a>Workspaces</h3><ul>
+<li>src : 放置原始碼檔案</li>
+<li>pkg : 放置使用到的函式庫</li>
+<li>bin : 放置執行檔</li>
+</ul>
+<h3 id="資料、資料型態、變數"><a href="#資料、資料型態、變數" class="headerlink" title="資料、資料型態、變數"></a>資料、資料型態、變數</h3><h4 id="資料型態"><a href="#資料型態" class="headerlink" title="資料型態"></a>資料型態</h4><ul>
+<li><p>int : 整數 ( int8、int16、int32、int64、uint8、uint16… )</p>
+</li>
+<li><p>float64 : 浮點數 ( float32、complex128 )</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>var x complex128 = complex(1, 2) //1 + 2i</code></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>string : <code>&quot;&quot;</code>，字串</p>
+<ul>
+<li><p>String package</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5 6 7 8 9</code></td>
+<td><code>Compare(a, b) //比較 a 與 b 字串 Contains(str, substr) //判斷 str 是否包含 substr HasPrefix(str, prefix) //判斷 prefix 是否為 str 的前置字元 Index(str, substr) //判斷 substr 在 str 第一個出現的位置 Replace(str, old, new, n) //將 str 前 n 個 old 替換成 new TrimSpace(str) //去掉 str 頭尾的空白 ToUpper(str) //轉成大寫 ToLower(str) //轉成小寫 ...</code></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>Strconv package</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5</code></td>
+<td><code>Atoi(str) //將字串轉換為數字 Itoa(num) //將數字轉換為字串 FormatFloat(f, fmt, prec, bitSize) //將浮點數轉換為字串 ParseFloat(str, bitSize) //將字串轉換為浮點數 ...</code></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+<li><p>bool : 布林值</p>
+</li>
+<li><p>rune : <code>&#39;&#39;</code>，字元，實際存放整數，所以印出來會是整數</p>
+<ul>
+<li><p>Unicode package</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5 6 7 8</code></td>
+<td><code>IsDigit(r rune) //判斷 r 是否為十進制數字 IsSpace(r rune) //判斷 r 是否為空白 IsLetter(r rune) //判斷 r 是否為字母 IsLower(r rune) //判斷 r 是否為小寫 IsPunct(r rune) //判斷 r 是否為符號 ToUpper(r rune) //轉成大寫 ToLower(r rune) //轉成小寫 ...</code></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="資料型態轉換"><a href="#資料型態轉換" class="headerlink" title="資料型態轉換"></a>資料型態轉換</h4><p><code>type(變數)</code> : 以資料型態把變數括起來，例如 :</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>int32(x)</code></td>
+</tr>
+</tbody></table>
+<h4 id="變數宣告"><a href="#變數宣告" class="headerlink" title="變數宣告"></a>變數宣告</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>var &lt;變數名稱&gt; &lt;資料型態名稱&gt; //宣告變數 var &lt;變數名稱&gt; = 100 //宣告變數並賦予值，自動判別型別 &lt;變數名稱&gt; := 100 //宣告變數並賦予值，自動判別型別</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>const</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5</code></td>
+<td><code>const &lt;變數名稱&gt; = 100 //const 宣告為固定值，不可改變 const ( //多個 const 宣告     &lt;變數名稱&gt; = &quot;Hi&quot;     &lt;變數名稱&gt; = 1000 )</code></td>
+</tr>
+</tbody></table>
+</li>
+<li><p>iota</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4</code></td>
+<td><code>const (     &lt;變數名稱&gt; = iota //0     &lt;變數名稱&gt; //1 )</code></td>
+</tr>
+</tbody></table>
+<p>iota 初始為 0，每次 const 都會讓 iota 初始化</p>
+</li>
+</ul>
+<h4 id="資料型態重命名"><a href="#資料型態重命名" class="headerlink" title="資料型態重命名"></a>資料型態重命名</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2</code></td>
+<td><code>type IDnum int //重命名後，int 還是可以用 var pid IDnum</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>重命名後就可以使用新的資料型態名稱來宣告變數</li>
+</ul>
+<h4 id="變數可視範圍-Variable-Scope"><a href="#變數可視範圍-Variable-Scope" class="headerlink" title="變數可視範圍 ( Variable Scope )"></a>變數可視範圍 ( Variable Scope )</h4><p>GO 裡面是以 <code>{}</code> 來分隔區塊的</p>
+<ul>
+<li>Universe block : 整個 GO 的程式碼</li>
+<li>Package block : package 內的程式碼</li>
+<li>File block : 檔案內的程式碼</li>
+<li>if、for、switch… : 語法內的程式碼</li>
+<li>switch、select 內的子句 : 子句內的程式碼</li>
+</ul>
+<h3 id="基本輸入與輸出"><a href="#基本輸入與輸出" class="headerlink" title="基本輸入與輸出"></a>基本輸入與輸出</h3><h4 id="載入內建封包"><a href="#載入內建封包" class="headerlink" title="載入內建封包"></a>載入內建封包</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>import &quot;fmt&quot;</code></td>
+</tr>
+</tbody></table>
+<h4 id="從終端介面輸入"><a href="#從終端介面輸入" class="headerlink" title="從終端介面輸入"></a>從終端介面輸入</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>fmt.Scanln(&amp;變數名稱, &amp;變數名稱, ...) //以換行為結束 fmt.Scan(&amp;變數名稱, &amp;變數名稱, ...) //以換行或空白為結束 fmt.Scanf(&quot;變數格式，EX : %d&quot;, &amp;變數名稱) //跟 C 語言的用法一樣</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>&amp;變數名稱</code> : 取得變數的指標 ( Pointer )</li>
+</ul>
+<h4 id="印出到終端介面"><a href="#印出到終端介面" class="headerlink" title="印出到終端介面"></a>印出到終端介面</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>fmt.Println(資料, 資料, ...) //換行 fmt.Print(資料, 資料, ...) //不換行 fmt.Printf(&quot;變數格式，EX : %d&quot;, 變數名稱) //跟 C 語言的用法一樣</code></td>
+</tr>
+</tbody></table>
+<h3 id="指標-Pointer"><a href="#指標-Pointer" class="headerlink" title="指標 ( Pointer )"></a>指標 ( Pointer )</h3><ul>
+<li><code>&amp;</code> : 傳回變數或函式的地址</li>
+<li><code>*</code> : 傳回此地址的值</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5 6</code></td>
+<td><code>var x int = 1 var y int var ip *int //ip is pointer to int  ip = &amp;x //ip now points to x y = *ip //y is now 1</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>new()</code> : 這個函式用來創建變數，並給予變數指標</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2</code></td>
+<td><code>ptr := new(int) *ptr = 3</code></td>
+</tr>
+</tbody></table>
+<h3 id="結構控制"><a href="#結構控制" class="headerlink" title="結構控制"></a>結構控制</h3><h4 id="if"><a href="#if" class="headerlink" title="if"></a>if</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>if &lt;條件&gt; { //條件沒有小括弧     &lt;待執行程式&gt; }</code></td>
+</tr>
+</tbody></table>
+<h4 id="for-loops-Go-沒有-while，for-是唯一的循環語句"><a href="#for-loops-Go-沒有-while，for-是唯一的循環語句" class="headerlink" title="for loops ( Go 沒有 while，for 是唯一的循環語句 )"></a>for loops ( Go 沒有 while，for 是唯一的循環語句 )</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>for &lt;初始值&gt;;&lt;結束值&gt;;&lt;更新值&gt; {     &lt;待執行程式&gt; }</code></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5</code></td>
+<td><code>&lt;初始值&gt; for &lt;結束值&gt; { //類似 while     &lt;待執行程式&gt;     &lt;更新值&gt; }</code></td>
+</tr>
+</tbody></table>
+<h4 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5 6 7 8</code></td>
+<td><code>switch &lt;變數&gt; { //Go 不需要 break     case &lt;變數為此執行此行&gt;:         &lt;待執行程式&gt;     case &lt;變數為此執行此行&gt;:         &lt;待執行程式&gt;     default:         &lt;待執行程式&gt; }</code></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5 6 7 8</code></td>
+<td><code>switch { //switch 不用變數 tag 時，類似 if、else if     case &lt;條件&gt;:         &lt;待執行程式&gt;     case &lt;條件&gt;:         &lt;待執行程式&gt;     default:         &lt;待執行程式&gt; }</code></td>
+</tr>
+</tbody></table>
+<h3 id="複合型別"><a href="#複合型別" class="headerlink" title="複合型別"></a>複合型別</h3><h4 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h4><ul>
+<li>固定空間的元素集合</li>
+<li>以 <code>[]</code> 宣告與表示</li>
+<li>索引從 0 開始</li>
+<li>初始值為 0 或空字串</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>var x [5]int x[0] = 2 fmt.Printf(x[1]) //印出為 0</code></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>var x [5]int = [5]{1, 2, 3, 4, 5}</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>宣告並給予初始值</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>x := [...]int {1, 2, 3, 4}</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>...</code> 可以用於不定數</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5</code></td>
+<td><code>x := [3]int {1, 2, 3}  for i, v range x { fmt.Printf(&quot;ind %d, val %d&quot;, i, v) }</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>在 for loop 使用 <code>range</code>，<code>range</code> 會回傳兩個數值，索引值與此索引內的值</li>
+</ul>
+<h4 id="Slices"><a href="#Slices" class="headerlink" title="Slices"></a>Slices</h4><ul>
+<li><p>可動態的增加空間，不需像 array 一樣指定大小</p>
+</li>
+<li><p>由三個元件組成</p>
+<ul>
+<li>Pointer : 指向一個 array 的指標</li>
+<li>Length : 資料實際長度，<code>len()</code> 可傳回 Slice 的長度</li>
+<li>Capacity : 容量，<code>cap()</code> 可傳回 Slice 的容量</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>arr := [...]string {&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;, &quot;g&quot;} s1 := arr[1:3] //{&quot;b&quot;, &quot;c&quot;} s2 := arr[2:5] //{&quot;c&quot;, &quot;d&quot;, &quot;e&quot;}</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>s1、s2 為 Slices</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>sli := []int {1, 2, 3}</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>宣告方法，也可以不給予初始值</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2</code></td>
+<td><code>sli1 = make([]int, 10) //len = cap = 10 sli2 = make([]int, 10, 15) //len = 10,cap = 15</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>使用 <code>make()</code> 宣告</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2</code></td>
+<td><code>sli = make([]int, 0, 3) sli = append(sli, 100) //len 會跟著增加</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>使用 <code>append()</code> 增加 Slice 內的元素</li>
+</ul>
+<h4 id="Hash-Tables"><a href="#Hash-Tables" class="headerlink" title="Hash Tables"></a>Hash Tables</h4><ul>
+<li><p>Key 和 value</p>
+</li>
+<li><p>優點 :</p>
+<ul>
+<li>較快的搜尋速度 : 比起 list 一個一個找快很多</li>
+<li>有意義的 Key : Key 非整數，是可以命名的字串，在撰寫程式時較容易辨別</li>
+</ul>
+</li>
+<li><p>缺點 :</p>
+<ul>
+<li>可能會有碰撞 : 兩個 Key hash 到同個位置，碰撞會使程式慢上一些，但發生機率極低</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.imgur.com/95GqlGl.png"></p>
+<h4 id="Maps"><a href="#Maps" class="headerlink" title="Maps"></a>Maps</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5</code></td>
+<td><code>var idMap1 map[string]int //宣告 idMap2 = make(map[string]int) //以 make() 宣告 idMap3 := map[string]int { //宣告並給予值     &quot;joe&quot; : 123 }</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>宣告</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>fmt.Println(idMap[&quot;joe&quot;])</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>使用</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>idMap[&quot;jane&quot;] = 456</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>新增</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>delete(idMap, &quot;joe&quot;)</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>刪除</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2</code></td>
+<td><code>id, p := idMap[&quot;joe&quot;] fmt.Println(len(idMap))</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>id 為 value，p 為是否存在此 Key，存在為 true</li>
+<li><code>len()</code> 可查看此 Map 有多少鍵值對</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>for key, val := range idMap {     fmt.Println(key, val) }</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>Map 在 for loop 的應用</li>
+</ul>
+<h4 id="Structs"><a href="#Structs" class="headerlink" title="Structs"></a>Structs</h4><ul>
+<li>多種資料型態的集合</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5 6</code></td>
+<td><code>type struct Person {     name string     addr string     phone string } var p1 Person</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>宣告</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>p1 := new(Person)</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>以 <code>new()</code> 宣告並初始化</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>p1 := Person(name : &quot;joe&quot;, addr : &quot;a st.&quot;, phone : &quot;123&quot;)</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>宣告並賦予值</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2</code></td>
+<td><code>p1.name = &quot;joe&quot; x = p1.addr</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>賦予值與使用</li>
+</ul>
+<h3 id="協定與格式"><a href="#協定與格式" class="headerlink" title="協定與格式"></a>協定與格式</h3><h4 id="RFC-Requests-for-Comments"><a href="#RFC-Requests-for-Comments" class="headerlink" title="RFC ( Requests for Comments )"></a>RFC ( Requests for Comments )</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>import &quot;net/http&quot;  http.Get(www.uci.edu)</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>使用 HTTP 協定，GET、POST、PUT…等等</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>import &quot;net&quot;  net.Dial(&quot;tcp&quot;, &quot;uci.edu:80&quot;)</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>使用於 TCP&#x2F;IP 連線與撰寫 socket 程式</li>
+</ul>
+<h4 id="JSON-JavaScript-Object-Notation"><a href="#JSON-JavaScript-Object-Notation" class="headerlink" title="JSON ( JavaScript Object Notation )"></a>JSON ( JavaScript Object Notation )</h4><ul>
+<li>是一種屬性鍵值對，類似 struct 或 map</li>
+<li>鍵值可以是任意基本資料型態，Bool、Number、String、Array…等等</li>
+<li>unicode 編碼</li>
+<li>RFC 之一</li>
+<li>可以結合多種資料型態</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td><code>p1 := Person(name : &quot;joe&quot;, addr : &quot;a st.&quot;, phone : &quot;123&quot;)</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>struct</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5</code></td>
+<td><code>{     &quot;name&quot;:&quot;joe&quot;,     &quot;addr&quot; : &quot;a st.&quot;,     &quot;phone&quot; : &quot;123&quot; }</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>JSON，相當於上面的 struct</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>import &quot;encoding/json&quot;  barr, err := json.Marshal(p1)</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>將 struct <code>p1</code> 轉換成 JSON 格式</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>var p2 Person  err := json.Unmarshal(barr, &amp;p2)</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>將 JSON 格式轉換成 go object 放進 <code>p2</code></li>
+<li>會自動適應 Person 的各項屬性，若無會回傳 err</li>
+</ul>
+<h4 id="File"><a href="#File" class="headerlink" title="File"></a>File</h4><p><strong>ioutil</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>import &quot;ioutil&quot;  data, e := ioutil.ReadFile(&quot;test.txt&quot;)</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>ReadFile 可以讀取檔案內容，不須開啟與關閉檔案，如果檔案過大可能會造成錯誤</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3</code></td>
+<td><code>data = &quot;Hello, world&quot;  err := ioutil.WriteFile(&quot;outfile.txt&quot;, data, 0777)</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>WriteFile 會創建一個檔案並寫入資料後關閉，<code>0777</code> 為權限</li>
+</ul>
+<p><strong>os</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5 6 7 8</code></td>
+<td><code>import &quot;os&quot;  f, err := os.Open(&quot;dt.txt&quot;) //開啟檔案  barr := make([]byte, 10) nb, err := f.Read(barr) //讀取檔案前 10 byte 進 barr，nb 為讀取多少 byte  f.Close() //關閉檔案</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>開啟檔案後，讀取並關閉</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1 2 3 4 5</code></td>
+<td><code>f, err := os.Create(&quot;outfile.txt&quot;)  barr := []byte{1, 2, 3} nb, err := f.Write(barr) nb, err := f.WriteString(&quot;Hi&quot;) //寫入字串</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li>創建檔案並寫入</li>
+</ul>
+<h6 id="tags-筆記-程式語言-Golang"><a href="#tags-筆記-程式語言-Golang" class="headerlink" title="tags: 筆記 程式語言 Golang"></a>tags: <code>筆記</code> <code>程式語言</code> <code>Golang</code></h6></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://kenny88881234.github.io">Kenny Li</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://kenny88881234.github.io/2019/07/22/Golang-basic/">https://kenny88881234.github.io/2019/07/22/Golang-basic/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://kenny88881234.github.io" target="_blank">Kenny's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/">程式語言</a><a class="post-meta__tags" href="/tags/%E7%AD%86%E8%A8%98/">筆記</a><a class="post-meta__tags" href="/tags/Golang/">Golang</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2019/07/24/Machine-learning-overfitting-problem/" title="機器學習 過度擬合問題 ( overfitting )"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">機器學習 過度擬合問題 ( overfitting )</div></div><div class="info-2"><div class="info-item-1">[筆記] 機器學習 過度擬合問題 ( overfitting )過度擬合 ( overfitting ) 與擬合不足 ( underfitting )  過度擬合 ( 右圖 )  特徵量過多，資料量過少 解決方法 :   降低特徵量  人工檢查，保留較重要的特徵量 也有演算法 ( model selection algorithm ) 可以選擇何為較重要的特徵值   正規化  可以保留所有的特徵量，但減少 θⱼ 的大小 當擁有需多有用的特徵量時，正規化是很有效的使所有特徵量都會有貢獻     擬合不足 ( 左圖 )  特徵量過少    正規化 ( Regularization )代價函數原理 : 將 θⱼ 乘上較大的係數，可以使 θⱼ 大幅下降，降低一些特徵值的影響力  例如 :   θ₃、θ₄ 會大幅下降，甚至可以忽略 θ₀ + θ₁x + θ₂x² + θ₃x³ + θ₄x⁴ → θ₀ + θ₁x + θ₂x²      正規化後的代價函數 λ 為正規化參數，如果過大會因為 θⱼ ( j ≠ 0 ) 全都趨近於 0 導致 underfitting  正規化線性回歸 ( Reg...</div></div></div></a><a class="pagination-related" href="/2019/07/19/Machine-learning-logistic-regression/" title="機器學習 邏輯回歸"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">機器學習 邏輯回歸</div></div><div class="info-2"><div class="info-item-1">[筆記] 機器學習 邏輯回歸用於分類 ( Classification ) 邏輯回歸算法 ( Logistic Regression )hθ(x) = g(θᵀx) : 邏輯回歸算式 邏輯函數 ( Logistic Function ) 又稱 S 函數( Sigmoid Function )  此函數圖如下 :    此函數可以將任何實數映射到 (0, 1) 區間內  假如 hΘ(x) &#x3D; 0.7，那預測為 1 的機率是 70%，為 0 的機率是 30%  hθ(x) = P(y=1 | x;θ) = 1 − P(y=0 | x;θ) P(y=0 | x;θ) + P(y=1 | x;θ) = 1            1 2 3 4 5 6 function g = sigmoid(z)  g = zeros(size(z)); g = 1 ./ (1 + e .^ -z);  end    在 Octave 上的邏輯函數函式  決策邊界 ( Decision Boundary ) 為了得到 0 與 1，按此轉換 : hθ(x) ≥ 0.5 → y = 1 hθ(x)...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2019/06/23/Python-basic/" title="Python 基礎"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-06-23</div><div class="info-item-2">Python 基礎</div></div><div class="info-2"><div class="info-item-1">[筆記] Python 基礎語言特性與熱門應用 Python 是泛用的程式語言，強調易學好懂 最近常用在數據分析、人工智慧  安裝下載地址 : Python   勾起來，之後操作方便許多  資料與運算1. 變數與資料型態 數字 : 3.5 字串 : &quot;hello&quot; 布林值 : True、False ( python 的 T 跟 F 為大寫 ) 可變列表 ( List ) : [3,4,5]、[&quot;hello&quot;,&quot;world&quot;] 固定列表 ( Tuple ) : (3,4,5)、(&quot;hello&quot;,&quot;world&quot;) 集合 : {3,4,5}、{&quot;hello&quot;,&quot;world&quot;} 字典 : {&quot;apple&quot;:&quot;蘋果&quot;,&quot;data&quot;:&quot;資料&quot;} 變數 : data=3 data 為變數，不用宣告  2. 運算 數字  7//6 : 整數除法 2**3 : 2 的 3 次方  ...</div></div></div></a><a class="pagination-related" href="/2019/06/17/Javascript-basic/" title="Javascript 基礎"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-06-17</div><div class="info-item-2">Javascript 基礎</div></div><div class="info-2"><div class="info-item-1">[筆記] Javascript 基礎語言特性 動態型別語言  單一變數的型別可能會隨時改變   弱型別語言  執行期間才檢查型別  優點 : 開發快  缺點 : 大專案難以維護，無法知道型別  typescript強制javascript宣告型別     物件導向語言  除了原始型別，其他都是物件  原始型別 : Numbers、String、Booleans…等  物件可以包含物件  value可以關聯function        javascript物件特性 javascript物件是個容器(Container)  可以包含屬性(Property)和方法(Method、Function)   javascript物件其實是HashMap  屬性名稱一定是字串  取得屬性方法有兩種  物件取法 : car.name 陣列取法 : car[&#39;name&#39;]   數字不能當變數    javascript沒有class，不需要建構式(constructor)就能建立物件  javascript的constructor就是函式，稱建構式函式  使用new來透過建構式函...</div></div></div></a><a class="pagination-related" href="/2019/06/28/MySQL-basic/" title="MySQL 基礎"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-06-28</div><div class="info-item-2">MySQL 基礎</div></div><div class="info-2"><div class="info-item-1">[筆記] MySQL 基礎基本介紹什麼是 Database  DBMS 為向 Database 存取的訪問接口 通常稱 DBMS + Database 為 Database，EX : MySQL、Oracle、MongoDB…等等  SQL 與 NoSQL 區別在於有沒有使用 SQL 語言，NoSQL 的資料儲存可以不需要固定的表格模式 SQL : MySQL、Oracle…等等 NoSQL : MongoDB…等等  安裝Window :  建議用 Installer 下載安裝 : MySQL Installer 5.7.26 中間跳過的步驟默認就好   建議選擇 Developer Default   這步檢查依賴，Execute 就好   這邊設定密碼   這邊輸入剛剛設定的密碼，點擊 Check   之後在這裡進行操作，輸入剛剛設定的密碼     P.S.後來在另一台電腦一直無法安裝，有閃退的情況，後來安裝 8.0.16 就正常了 macOS :  下載地址 : MySQL 官網 - MySQL Community Server 5.7  Database 與 Table...</div></div></div></a><a class="pagination-related" href="/2019/07/12/Octave-basic/" title="Octave 基礎"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-07-12</div><div class="info-item-2">Octave 基礎</div></div><div class="info-2"><div class="info-item-1">[筆記] Octave 基礎運算語法 + : 加 - : 減 * : 乘 / : 除 ^ : 次方  邏輯語法 == ~= : 不等於 &amp;&amp; || xor()  矩陣創建 A = [1 2; 3 4; 5 6] : 創建矩陣 v = n:i:m : 生成 n 到 m，間隔 i 的矩陣 v = n:m : 生成 n 到 m，間隔 1 的矩陣 ones(n, m) : 生成都是 1 的矩陣，n rows，m columns zeros(n, m) : 生成都是 0 的矩陣，n rows，m columns rand(n, m) : 生成 0 到 1 內隨機數字的矩陣，n rows，m columns randn(n, m) : 生成常態分配的矩陣，n rows，m columns hist(變數, n) : 生成 n 個數據的直方圖 eye(n) : 生成 n*n 的單位矩陣 magic(n) : 生成 nn 矩陣，內涵元素為 1 ~ n  n，每行每列斜對角總和相同  矩陣操作查看 disp(A) : 將 A 矩陣打印出來 A(n, m) : 查看 n row，m ...</div></div></div></a><a class="pagination-related" href="/2019/06/17/CSS-basic/" title="CSS 基礎"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-06-17</div><div class="info-item-2">CSS 基礎</div></div><div class="info-2"><div class="info-item-1">[筆記] CSS 基礎特性寫在後面的CSS會覆蓋前面的CSS 用法 Inline         1 &lt;p style=&quot;color: red&quot;&gt;text&lt;/p&gt;    Internal         1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 &lt;html&gt; &lt;head&gt; &lt;title&gt;CSS Example&lt;/title&gt; &lt;style&gt;      p {         color: red;     }      a {         color: blue;     }  &lt;/style&gt; ...    External  style.css檔         1 2 3 4 5 6 7 p {     color: red; }  a {     color: blue; }    HTML檔         1 2 3 4 5 &lt;html&gt; &lt;head&gt;     &lt;title&gt;CSS E...</div></div></div></a><a class="pagination-related" href="/2019/08/08/Madvice-for-model/" title="機器學習 有效的改善模型"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-08-08</div><div class="info-item-2">機器學習 有效的改善模型</div></div><div class="info-2"><div class="info-item-1">[筆記] 機器學習 有效的改善模型改善方法 取得更多訓練資料 嘗試較少的特徵量 嘗試較多的特徵量 嘗試多項式的特徵量 嘗試增加 λ 嘗試減少 λ  機器學習診斷法 ( Machine learning diagnostic )評估假設 ( Evaluating a Hypothesis ) 我們的假設可能使訓練樣本的誤差較小，但仍然不準確 ( 因為過度擬合 )，這時就必須評估假設  為了評估假設，將訓練樣本分為兩組 :  70% 的隨機數據當訓練集 30% 的隨機數據當測試集   過程 :  使用新的訓練集學習出 θ 和最小化的 Jtrain(θ) 使用新的測試集計算出測試集錯誤率 ( The test set error ) Jtest(θ)   測試集錯誤率 ( The test set error )    線性回歸 :   邏輯回歸 :   判斷是否錯誤   算出錯誤率     模型選擇 ( Model selection ) 鑑於具有需多不同的多項式模型，我們必須要有方法來做模型的選擇  將訓練樣本分為三組 :  60% 的隨機數據當訓練集 20% 的隨機數據當交叉驗證...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Kenny Li</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">39</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">65</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/kenny88881234" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.facebook.com/yihsienl1" target="_blank" title="Facebook"><i class="fab fa-facebook" style="color: #1877f2;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">感謝訪問本站</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AD%86%E8%A8%98-Golang-%E5%9F%BA%E7%A4%8E"><span class="toc-number">1.</span> <span class="toc-text">[筆記] Golang 基礎</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%89%B9%E6%80%A7"><span class="toc-number">1.1.</span> <span class="toc-text">基本特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%9D"><span class="toc-number">1.2.</span> <span class="toc-text">安裝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Workspaces"><span class="toc-number">1.4.</span> <span class="toc-text">Workspaces</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B3%87%E6%96%99%E3%80%81%E8%B3%87%E6%96%99%E5%9E%8B%E6%85%8B%E3%80%81%E8%AE%8A%E6%95%B8"><span class="toc-number">1.5.</span> <span class="toc-text">資料、資料型態、變數</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B3%87%E6%96%99%E5%9E%8B%E6%85%8B"><span class="toc-number">1.5.1.</span> <span class="toc-text">資料型態</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B3%87%E6%96%99%E5%9E%8B%E6%85%8B%E8%BD%89%E6%8F%9B"><span class="toc-number">1.5.2.</span> <span class="toc-text">資料型態轉換</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%8A%E6%95%B8%E5%AE%A3%E5%91%8A"><span class="toc-number">1.5.3.</span> <span class="toc-text">變數宣告</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B3%87%E6%96%99%E5%9E%8B%E6%85%8B%E9%87%8D%E5%91%BD%E5%90%8D"><span class="toc-number">1.5.4.</span> <span class="toc-text">資料型態重命名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%8A%E6%95%B8%E5%8F%AF%E8%A6%96%E7%AF%84%E5%9C%8D-Variable-Scope"><span class="toc-number">1.5.5.</span> <span class="toc-text">變數可視範圍 ( Variable Scope )</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%BC%B8%E5%85%A5%E8%88%87%E8%BC%B8%E5%87%BA"><span class="toc-number">1.6.</span> <span class="toc-text">基本輸入與輸出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BC%89%E5%85%A5%E5%85%A7%E5%BB%BA%E5%B0%81%E5%8C%85"><span class="toc-number">1.6.1.</span> <span class="toc-text">載入內建封包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%9E%E7%B5%82%E7%AB%AF%E4%BB%8B%E9%9D%A2%E8%BC%B8%E5%85%A5"><span class="toc-number">1.6.2.</span> <span class="toc-text">從終端介面輸入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%B0%E5%87%BA%E5%88%B0%E7%B5%82%E7%AB%AF%E4%BB%8B%E9%9D%A2"><span class="toc-number">1.6.3.</span> <span class="toc-text">印出到終端介面</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E6%A8%99-Pointer"><span class="toc-number">1.7.</span> <span class="toc-text">指標 ( Pointer )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B5%90%E6%A7%8B%E6%8E%A7%E5%88%B6"><span class="toc-number">1.8.</span> <span class="toc-text">結構控制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#if"><span class="toc-number">1.8.1.</span> <span class="toc-text">if</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#for-loops-Go-%E6%B2%92%E6%9C%89-while%EF%BC%8Cfor-%E6%98%AF%E5%94%AF%E4%B8%80%E7%9A%84%E5%BE%AA%E7%92%B0%E8%AA%9E%E5%8F%A5"><span class="toc-number">1.8.2.</span> <span class="toc-text">for loops ( Go 沒有 while，for 是唯一的循環語句 )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#switch"><span class="toc-number">1.8.3.</span> <span class="toc-text">switch</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A4%87%E5%90%88%E5%9E%8B%E5%88%A5"><span class="toc-number">1.9.</span> <span class="toc-text">複合型別</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Arrays"><span class="toc-number">1.9.1.</span> <span class="toc-text">Arrays</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Slices"><span class="toc-number">1.9.2.</span> <span class="toc-text">Slices</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hash-Tables"><span class="toc-number">1.9.3.</span> <span class="toc-text">Hash Tables</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Maps"><span class="toc-number">1.9.4.</span> <span class="toc-text">Maps</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Structs"><span class="toc-number">1.9.5.</span> <span class="toc-text">Structs</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%94%E5%AE%9A%E8%88%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.10.</span> <span class="toc-text">協定與格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RFC-Requests-for-Comments"><span class="toc-number">1.10.1.</span> <span class="toc-text">RFC ( Requests for Comments )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JSON-JavaScript-Object-Notation"><span class="toc-number">1.10.2.</span> <span class="toc-text">JSON ( JavaScript Object Notation )</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#File"><span class="toc-number">1.10.3.</span> <span class="toc-text">File</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#tags-%E7%AD%86%E8%A8%98-%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80-Golang"><span class="toc-number">1.10.3.1.</span> <span class="toc-text">tags: 筆記 程式語言 Golang</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/hello-world/" title="Hello World">Hello World</a><time datetime="2026-03-14T10:43:47.750Z" title="發表於 2026-03-14 18:43:47">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/adk-gemini-function-calling-fix/" title="解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題">解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/adk-subagent-stop-thinking-mode/" title="ADK Sub-agent STOP 錯誤：停用 Thinking Mode">ADK Sub-agent STOP 錯誤：停用 Thinking Mode</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/agent-tool-no-context-memory/" title="Agent Tool 無上下文記憶，需改用 Sub-agent">Agent Tool 無上下文記憶，需改用 Sub-agent</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/aspire-dashboard-otel/" title="Aspire Dashboard — 本地 OTel 後端">Aspire Dashboard — 本地 OTel 後端</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2019 - 2026 By Kenny Li</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  資料載入中</span></div><div class="local-search-input"><input placeholder="搜尋文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
