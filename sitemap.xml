@@ -2,15 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://kenny88881234.github.io/2026/03/14/adk-gemini-function-calling-fix/</loc>
-    
-    <lastmod>2026-03-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://kenny88881234.github.io/2026/03/14/adk-subagent-stop-thinking-mode/</loc>
     
     <lastmod>2026-03-13</lastmod>
@@ -20,25 +11,25 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/2026/03/14/aspire-dashboard-otel/</loc>
-    
-    <lastmod>2026-03-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/2026/03/14/jsonl-llm-log-persistence/</loc>
-    
-    <lastmod>2026-03-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://kenny88881234.github.io/2026/03/14/agent-tool-no-context-memory/</loc>
+    
+    <lastmod>2026-03-13</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/2026/03/14/adk-gemini-function-calling-fix/</loc>
+    
+    <lastmod>2026-03-13</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/2026/03/14/aspire-dashboard-otel/</loc>
     
     <lastmod>2026-03-13</lastmod>
     
@@ -57,6 +48,15 @@
   
   <url>
     <loc>https://kenny88881234.github.io/2026/03/14/otel-three-signals/</loc>
+    
+    <lastmod>2026-03-13</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/2026/03/14/jsonl-llm-log-persistence/</loc>
     
     <lastmod>2026-03-13</lastmod>
     
@@ -290,7 +290,7 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/2019/06/17/CSS-basic/</loc>
+    <loc>https://kenny88881234.github.io/2019/06/17/Cmder-install/</loc>
     
     <lastmod>2019-06-16</lastmod>
     
@@ -299,7 +299,7 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/2019/06/17/Cmder-install/</loc>
+    <loc>https://kenny88881234.github.io/2019/06/17/CSS-basic/</loc>
     
     <lastmod>2019-06-16</lastmod>
     
@@ -344,49 +344,21 @@
 
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/%E5%95%8F%E9%A1%8C/</loc>
+    <loc>https://kenny88881234.github.io/tags/Git/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/Python/</loc>
+    <loc>https://kenny88881234.github.io/tags/%E5%AF%A6%E4%BD%9C/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/MySQL/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/BeautifulSoup/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/%E7%AD%86%E8%A8%98/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/CSS/</loc>
+    <loc>https://kenny88881234.github.io/tags/Hexo-Blog/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -407,7 +379,7 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/%E5%AF%A6%E4%BD%9C/</loc>
+    <loc>https://kenny88881234.github.io/tags/Python/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -435,21 +407,14 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
+    <loc>https://kenny88881234.github.io/tags/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/Git/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/SourceTree/</loc>
+    <loc>https://kenny88881234.github.io/tags/%E5%95%8F%E9%A1%8C/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -470,7 +435,49 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/Hexo-Blog/</loc>
+    <loc>https://kenny88881234.github.io/tags/%E7%AD%86%E8%A8%98/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/CSS/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/MySQL/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/BeautifulSoup/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/Golang/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/SourceTree/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -485,20 +492,6 @@
   
   <url>
     <loc>https://kenny88881234.github.io/tags/Sitemap/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/Golang/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/VS-code/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -540,27 +533,6 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/%E7%B7%9A%E6%80%A7%E5%9B%9E%E6%AD%B8/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/%E6%94%B9%E5%96%84%E6%A8%A1%E5%9E%8B/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/%E7%A5%9E%E7%B6%93%E7%B6%B2%E8%B7%AF/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://kenny88881234.github.io/tags/%E9%82%8F%E8%BC%AF%E5%9B%9E%E6%AD%B8/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -575,6 +547,27 @@
   </url>
   
   <url>
+    <loc>https://kenny88881234.github.io/tags/%E6%94%B9%E5%96%84%E6%A8%A1%E5%9E%8B/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/%E7%B7%9A%E6%80%A7%E5%9B%9E%E6%AD%B8/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/%E7%A5%9E%E7%B6%93%E7%B6%B2%E8%B7%AF/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://kenny88881234.github.io/tags/%E9%81%8E%E5%BA%A6%E6%93%AC%E5%90%88%E5%95%8F%E9%A1%8C/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -582,14 +575,7 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/NodeJS/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/npm/</loc>
+    <loc>https://kenny88881234.github.io/tags/VS-code/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -617,7 +603,28 @@
   </url>
   
   <url>
+    <loc>https://kenny88881234.github.io/tags/NodeJS/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/npm/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://kenny88881234.github.io/tags/%E7%B6%B2%E8%B7%AF%E7%88%AC%E8%9F%B2/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/%E7%B3%BB%E7%B5%B1%E8%A8%AD%E8%A8%88/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -638,7 +645,7 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/google-search/</loc>
+    <loc>https://kenny88881234.github.io/tags/gemini/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -659,14 +666,35 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/gemini/</loc>
+    <loc>https://kenny88881234.github.io/tags/thinking-mode/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/thinking-mode/</loc>
+    <loc>https://kenny88881234.github.io/tags/sub-agent/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/context-memory/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/architecture/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/google-search/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -708,55 +736,6 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/logging/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/JSONL/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/implementation/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/LLM/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/sub-agent/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/context-memory/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kenny88881234.github.io/tags/architecture/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://kenny88881234.github.io/tags/pattern/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -771,7 +750,14 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/tags/%E7%B3%BB%E7%B5%B1%E8%A8%AD%E8%A8%88/</loc>
+    <loc>https://kenny88881234.github.io/tags/implementation/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/tags/logging/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -798,17 +784,24 @@
     <priority>0.2</priority>
   </url>
   
-
-  
   <url>
-    <loc>https://kenny88881234.github.io/categories/%E5%95%8F%E9%A1%8C/</loc>
+    <loc>https://kenny88881234.github.io/tags/JSONL/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/categories/%E7%AD%86%E8%A8%98/</loc>
+    <loc>https://kenny88881234.github.io/tags/LLM/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+
+  
+  <url>
+    <loc>https://kenny88881234.github.io/categories/%E5%AF%A6%E4%BD%9C/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -822,7 +815,14 @@
   </url>
   
   <url>
-    <loc>https://kenny88881234.github.io/categories/%E5%AF%A6%E4%BD%9C/</loc>
+    <loc>https://kenny88881234.github.io/categories/%E5%95%8F%E9%A1%8C/</loc>
+    <lastmod>2026-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kenny88881234.github.io/categories/%E7%AD%86%E8%A8%98/</loc>
     <lastmod>2026-03-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
