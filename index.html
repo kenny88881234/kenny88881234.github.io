@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Kenny's Blog - 唯一不變的就是一直變化</title><meta name="author" content="Kenny Li"><meta name="copyright" content="Kenny Li"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="Kenny&#39;s Blog">
+<meta property="og:url" content="https://kenny88881234.github.io/index.html">
+<meta property="og:site_name" content="Kenny&#39;s Blog">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kenny88881234.github.io/img/avatar.png">
+<meta property="article:author" content="Kenny Li">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kenny88881234.github.io/img/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Kenny's Blog",
+  "alternateName": [
+    "唯一不變的就是一直變化",
+    "kenny88881234.github.io"
+  ],
+  "url": "https://kenny88881234.github.io/"
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://kenny88881234.github.io/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"找不到符合您查詢的內容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Kenny\'s Blog',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="Kenny's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">65</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(/img/cover.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Kenny's Blog</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">Kenny's Blog</h1><div id="site_social_icons"><a class="social-icon" href="https://github.com/kenny88881234" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.facebook.com/yihsienl1" target="_blank" title="Facebook"><i class="fab fa-facebook" style="color: #1877f2;"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/03/14/adk-subagent-stop-thinking-mode/" title="ADK Sub-agent STOP 錯誤：停用 Thinking Mode">ADK Sub-agent STOP 錯誤：停用 Thinking Mode</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%95%8F%E9%A1%8C/">問題</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/ADK/">ADK</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/agent/">agent</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/gemini/">gemini</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/bug/">bug</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/workaround/">workaround</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/thinking-mode/">thinking-mode</a></span></div><div class="content">使用 Gemini 2.5 Flash 模型時，若 sub-agent 啟用思考模式（Thinking Mode），有時會導致該 sub-agent 回傳空的 content，觸發 ADK 的 STOP 錯誤，整個對話流程中斷。 錯誤現象 Sub-agent 被 transfer 進來後無回應 Log 顯示 finish_reason 為 STOP 但 content 為空 問題只在 sub-agent 上出現，root agent 不受影響  根本原因Gemini 2.5 Flash 的思考模式會在回應中產生內部推理（thinking tokens），但在 ADK 的 multi-agent 架構中，sub-agent 的思考輸出有時無法正確轉換為可回傳的 content，導致空回應。 解決方案：對 Sub-agent 停用思考模式在建立 sub-agent 時，透過 GenerateContentConfig 將 ThinkingBudget 設為 0： 12345678910111213thinkingBudget := int32(0)subAgent, err := l...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/03/14/agent-tool-no-context-memory/" title="Agent Tool 無上下文記憶，需改用 Sub-agent">Agent Tool 無上下文記憶，需改用 Sub-agent</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AD%86%E8%A8%98/">筆記</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/ADK/">ADK</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/agent/">agent</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/sub-agent/">sub-agent</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/context-memory/">context-memory</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/architecture/">architecture</a></span></div><div class="content">問題描述在 ADK 中，透過 agenttool.New() 將 Agent 包裝成 Agent Tool 後，該 agent 在被呼叫時沒有父 agent 的對話記憶：  Agent Tool 每次被呼叫都是無狀態的獨立執行 無法存取父 agent 的對話歷史（session history） 適合「給一個輸入、取得一個輸出」的無狀態任務（例如：查資料、分析圖片）  對比：Sub-agent vs Agent Tool    Sub-agent（sub_agents） Agent Tool（agenttool.New()）    上下文記憶 ✅ 共享父 agent session ❌ 無，每次獨立執行   呼叫方式 transfer_to_agent(agent_name=...) 直接呼叫工具   適合情境 需要對話歷史的複雜流程 無狀態的單次查詢   使用限制 不能掛有 google_search tool 可掛 google_search   情境範例Agent Tool（無上下文記憶）適合「翻譯文字」、「分析圖片」等純無狀態任務： 1234567891011121314...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/03/14/adk-gemini-function-calling-fix/" title="解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題">解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%95%8F%E9%A1%8C/">問題</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/ADK/">ADK</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/agent/">agent</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/bug/">bug</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/workaround/">workaround</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/google-search/">google-search</a></span></div><div class="content">問題描述當 Agent 掛有 google_search tool 時：  不能直接將此 Agent 掛到 sub_agents 會出現錯誤：  1AGENT_ERROR: Tool use with function calling is unsupported by the model  參考： GitHub Issue #53 解決方案：將 Agent 包裝成 Agent Tool關鍵概念當 Agent 包含 google_search tool 時，必須用 agenttool.New() 將其轉為 Tool，才能被其他 Agent 調用。 Go 實作12345678910111213141516171819202122import &quot;google.golang.org/adk/tool/agenttool&quot;// 1. 建立帶有 google_search 的 agentwebSearchAgent, err := llmagent.New(llmagent.Config&#123;    Name:        &quot;web_search_ag...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/03/14/aspire-dashboard-otel/" title="Aspire Dashboard — 本地 OTel 後端">Aspire Dashboard — 本地 OTel 後端</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Aspire/">Aspire</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/OpenTelemetry/">OpenTelemetry</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/devtools/">devtools</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/docker/">docker</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/observability/">observability</a></span></div><div class="content">什麼是 Aspire DashboardAspire Dashboard 是 .NET Aspire 生態系的一個獨立 UI 工具，用於視覺化 OpenTelemetry 資料（Traces、Logs、Metrics）。雖然源自 .NET 生態，但它接收標準 OTLP 協定，任何語言的應用程式都可以把遙測資料送進來。 選擇原因 零安裝：一行 docker run，即可啟動完整 UI 輕量：比完整 Jaeger + 儲存後端的 stack 簡單很多 UI 完整：Traces waterfall、Log viewer、關聯查詢一應俱全 接受 OTLP：標準協定，不綁定語言或框架   docker-compose 設定12345678910services:  aspire:    image: mcr.microsoft.com/dotnet/aspire-dashboard:latest    container_name: my-aspire    environment:      DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: &quo...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/03/14/otel-custom-log-processor/" title="OTel Custom Log Processor — 跨 Span 注入 Context">OTel Custom Log Processor — 跨 Span 注入 Context</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AD%86%E8%A8%98/">筆記</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/OpenTelemetry/">OpenTelemetry</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/pattern/">pattern</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Go/">Go</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/implementation/">implementation</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/logging/">logging</a></span></div><div class="content">問題描述OTel Log Record 預設不帶 Span 的自訂屬性。例如：  Trace Span 上帶有 session_id（由 ADK 在 StartInvokeAgentSpan 時寫入） Log Record 雖然與同一個 Span 關聯，但不會自動繼承 Span 的 attribute  結果：JSONL log 中的 session 欄位為空，無法按 session 分組查詢。  解決方案：實作自訂 Log Processor透過包裝標準 BatchProcessor，在每筆 Log Record 被送出前，從當前 Span Context 讀取 attribute，注入到 Log Record： 1234567891011type SessionEnrichProcessor struct &#123;    inner sdklog.Processor  // 被包裝的 Processor（通常是 BatchProcessor）&#125;func (p *SessionEnrichProcessor) OnEmit(ctx context.Context,...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/03/14/otel-three-signals/" title="OpenTelemetry 可觀測性三種訊號（Traces、Metrics、Logs）與 Exporters">OpenTelemetry 可觀測性三種訊號（Traces、Metrics、Logs）與 Exporters</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AD%86%E8%A8%98/">筆記</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/OpenTelemetry/">OpenTelemetry</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/observability/">observability</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/logging/">logging</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/concept/">concept</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/tracing/">tracing</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/metrics/">metrics</a></span></div><div class="content">什麼是 OpenTelemetryOpenTelemetry（OTel）是一套開源的可觀測性標準與 SDK，統一了蒐集 Traces、Metrics、Logs 的方式，讓應用程式可以不綁定特定後端（Jaeger、Zipkin、Datadog 等）地輸出遙測資料。  三種訊號（Signals）1. Traces &amp; SpansTrace 代表一次完整的操作鏈（例如：處理一個使用者請求的全過程）。 Span 是 Trace 的最小單位，記錄一段工作的開始&#x2F;結束時間與屬性： 12345Trace: 處理訂單請求├── Span: route_request          (root span)│   ├── Span: parse_order_message│   ├── Span: call_llm           (LLM 推論)│   └── Span: create_order       (DB 寫入)  每個 Span 帶有：  trace_id：所屬 Trace 的唯一 ID span_id：自身的唯一 ID parent_span_id：父 S...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/03/14/jsonl-llm-log-persistence/" title="JSONL LLM Log 持久化方案">JSONL LLM Log 持久化方案</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AF%A6%E4%BD%9C/">實作</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/OpenTelemetry/">OpenTelemetry</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/observability/">observability</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/implementation/">implementation</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/logging/">logging</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/JSONL/">JSONL</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/LLM/">LLM</a></span></div><div class="content">動機OTel 將 LLM 的 prompt 與 response 送到 Aspire Dashboard 可即時查看，但資料不持久。 JSONL 持久化的目的：  歷史對話存檔：保留所有 LLM 的 input&#x2F;output，供後續分析 提示詞優化分析：比對不同 prompt 版本在相同情境下的輸出差異 版本追蹤：每筆 log 帶有 git commit hash，可精確對應到當時的提示詞版本，評估修改效果   架構：OTel 雙路徑輸出ADK 預設的 OTLP pipeline 和自訂 JSONL pipeline 是兩條獨立路徑： 123456789ADK Framework（產生 OTel Log Records）    │    ├──→ ADK 內建 OTLP Log Pipeline → Aspire Dashboard（即時視覺化）    │    └──→ SessionEnrichProcessor（注入 session ID）             ↓         BatchProcessor（緩衝）             ↓        ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2019/08/15/Machine-learning-Support-Vector-Machines/" title="機器學習 支持向量機 ( Support Vector Machines )">機器學習 支持向量機 ( Support Vector Machines )</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2019-08-14T16:00:00.000Z" title="發表於 2019-08-15 00:00:00">2019-08-15</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AD%86%E8%A8%98/">筆記</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%AD%86%E8%A8%98/">筆記</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92/">機器學習</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%A9%9FSVM/">支持向量機SVM</a></span></div><div class="content">[筆記] 機器學習 支持向量機 ( Support Vector Machines ) 簡稱 SVM 屬於監督式學習算法 主要用於找到一個決策邊界 ( decision boundary ) 讓兩類的邊界 ( margins ) 最大化 大間距分類器 ( Large margin classifiers )  SVM 的代價函數   將 邏輯回歸的代價函數 * $\dfrac{m}{λ}$ 可以將 C 看成 $\dfrac{1}{λ}$，優化目標相同，SVM 的 C 與邏輯函數的 λ 只是透過不同方法來控制權重   這裡 hθ(x) 的定義 :  hθ(x) &#x3D; 1，if θTx ≥ 0 hθ(x) &#x3D; 0，otherwise   cost1(z) 與 cost0(z) 的圖 :   支持向量機的條件更加嚴格 :  hθ(x) &#x3D; 1，if θTx ≥ 1 hθ(x) &#x3D; 0，if θTx ≤ -1     C 值的大小 :  當 C 非常大 :  相當於 λ 非常小 對於誤差點，也會進行很好的擬合 造成過度擬合的情況   當 C 非常小 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2019/08/13/Hexo-use-mathJax/" title="如何在 Hexo 上使用數學式">如何在 Hexo 上使用數學式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2019-08-12T16:00:00.000Z" title="發表於 2019-08-13 00:00:00">2019-08-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%95%8F%E9%A1%8C/">問題</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/Hexo-Blog/">Hexo Blog</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%95%8F%E9%A1%8C/">問題</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/mathJax/">mathJax</a></span></div><div class="content">[問題] 如何在 Hexo 上使用數學式平常很習慣先用 HackMD 寫好筆記或文章後，再複製起來貼到 Hexo 上，但最近寫的筆記需要使用到數學式，一開始在 HackMD 撰寫渲染都很正常，但一貼到 Hexo 上，數學式就出錯了   在 Hexo 上的顯示    正常的顯示  問題描述 :因為 Hexo 本身沒有支援數學式的顯示，所以必須更換渲染引擎使用 mathJax 來渲染數學式 解決問題 :這邊是使用 hexo-theme-melody 的主題，所以是依照他們的文件解決  更換渲染引擎 1$ npm uninstall hexo-renderer-marked --save   先將 Hexo 原本的渲染引擎 marked 刪除，在部落格的根目錄執行 1$ npm install hexo-renderer-kramed --save 在安裝上新的渲染引擎 kramed，在部落格的根目錄執行    設定 melody.yml.yml 123mathjax:  enable: true  cdn: https://cdn.jsdelivr.net/npm/mathjax/M...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2019/08/09/Machine-learning-system-design/" title="機器學習 系統的設計">機器學習 系統的設計</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2019-08-08T16:00:00.000Z" title="發表於 2019-08-09 00:00:00">2019-08-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%AD%86%E8%A8%98/">筆記</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%AD%86%E8%A8%98/">筆記</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92/">機器學習</a><span class="article-meta-link">•</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E7%B3%BB%E7%B5%B1%E8%A8%AD%E8%A8%88/">系統設計</a></span></div><div class="content">[筆記] 機器學習 系統的設計提高機器準確性的方法 收集大量數據 開發複雜的特徵量 開發算法以不同方式處理輸入  P.S. 很難說哪個項目最有用 誤差分析 ( Error analysis ) 從簡單的算法開始，快速實作，並在交叉驗證集測試  繪製出學習曲線，已確定算法該往哪個方向進行  手動檢查交叉驗證集中錯誤的資料，查找這些資料大多數發生錯誤的特徵  例如 : 分類垃圾郵件時，釣魚郵件大多數分類錯誤，就針對釣魚郵件下去改善算法   將錯誤結果數值化很重要，否則很難評估算法性能   P.S. 分析時最好用交叉驗證集測試，如果用測試集去做誤差分析，算法只會越來越偏向測試集，在最後完成算法時，測試結果就會變得沒什麼參考價值 偏斜類 ( Skewed classes ) 問題 偏斜類是指大量的樣本傾向了某個類型，例如 :  通過邏輯回歸來預測病人是否有罹患癌症  y = 1 為罹癌，y = 0 為沒有罹癌   假設此錯誤率只有 1%，但我們的測試集中只有 0.5% 的人罹癌  這時只要使用算法 :  hθ(x) &#x3D; 0   此算法的錯誤率甚至只有 0.5%     查準率 ...</div></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/#content-inner">4</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Kenny Li</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">65</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/kenny88881234" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.facebook.com/yihsienl1" target="_blank" title="Facebook"><i class="fab fa-facebook" style="color: #1877f2;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">感謝訪問本站</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/adk-subagent-stop-thinking-mode/" title="ADK Sub-agent STOP 錯誤：停用 Thinking Mode">ADK Sub-agent STOP 錯誤：停用 Thinking Mode</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/agent-tool-no-context-memory/" title="Agent Tool 無上下文記憶，需改用 Sub-agent">Agent Tool 無上下文記憶，需改用 Sub-agent</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/adk-gemini-function-calling-fix/" title="解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題">解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/aspire-dashboard-otel/" title="Aspire Dashboard — 本地 OTel 後端">Aspire Dashboard — 本地 OTel 後端</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/14/otel-custom-log-processor/" title="OTel Custom Log Processor — 跨 Span 注入 Context">OTel Custom Log Processor — 跨 Span 注入 Context</a><time datetime="2026-03-13T16:00:00.000Z" title="發表於 2026-03-14 00:00:00">2026-03-14</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分類</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%87%BD%E5%BC%8F%E5%BA%AB/"><span class="card-category-list-name">函式庫</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%95%8F%E9%A1%8C/"><span class="card-category-list-name">問題</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AE%89%E8%A3%9D/"><span class="card-category-list-name">安裝</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AF%A6%E4%BD%9C/"><span class="card-category-list-name">實作</span><span class="card-category-list-count">7</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">工具</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AD%86%E8%A8%98/"><span class="card-category-list-name">筆記</span><span class="card-category-list-count">17</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>標籤</span></div><div class="card-tag-cloud"><a href="/tags/Golang/" style="font-size: 1.1em; color: #999">Golang</a> <a href="/tags/OpenTelemetry/" style="font-size: 1.27em; color: #99a0a9">OpenTelemetry</a> <a href="/tags/Go/" style="font-size: 1.1em; color: #999">Go</a> <a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">工具</a> <a href="/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%A9%9FSVM/" style="font-size: 1.1em; color: #999">支持向量機SVM</a> <a href="/tags/NodeJS/" style="font-size: 1.1em; color: #999">NodeJS</a> <a href="/tags/%E6%94%B9%E5%96%84%E6%A8%A1%E5%9E%8B/" style="font-size: 1.1em; color: #999">改善模型</a> <a href="/tags/Python/" style="font-size: 1.33em; color: #99a2af">Python</a> <a href="/tags/Web-%E6%A1%86%E6%9E%B6/" style="font-size: 1.1em; color: #999">Web 框架</a> <a href="/tags/Google-Search-Console/" style="font-size: 1.1em; color: #999">Google Search Console</a> <a href="/tags/%E5%AF%A6%E4%BD%9C/" style="font-size: 1.39em; color: #99a4b4">實作</a> <a href="/tags/observability/" style="font-size: 1.21em; color: #999ea4">observability</a> <a href="/tags/Javascript/" style="font-size: 1.16em; color: #999b9e">Javascript</a> <a href="/tags/Octave/" style="font-size: 1.1em; color: #999">Octave</a> <a href="/tags/Heroku/" style="font-size: 1.1em; color: #999">Heroku</a> <a href="/tags/%E5%AE%89%E8%A3%9D/" style="font-size: 1.21em; color: #999ea4">安裝</a> <a href="/tags/%E7%B3%BB%E7%B5%B1%E8%A8%AD%E8%A8%88/" style="font-size: 1.1em; color: #999">系統設計</a> <a href="/tags/sub-agent/" style="font-size: 1.1em; color: #999">sub-agent</a> <a href="/tags/Flask/" style="font-size: 1.1em; color: #999">Flask</a> <a href="/tags/bug/" style="font-size: 1.16em; color: #999b9e">bug</a> <a href="/tags/%E8%B3%87%E6%96%99%E5%BA%AB/" style="font-size: 1.1em; color: #999">資料庫</a> <a href="/tags/SQL/" style="font-size: 1.1em; color: #999">SQL</a> <a href="/tags/mathJax/" style="font-size: 1.1em; color: #999">mathJax</a> <a href="/tags/BeautifulSoup/" style="font-size: 1.16em; color: #999b9e">BeautifulSoup</a> <a href="/tags/pattern/" style="font-size: 1.1em; color: #999">pattern</a> <a href="/tags/gemini/" style="font-size: 1.1em; color: #999">gemini</a> <a href="/tags/thinking-mode/" style="font-size: 1.1em; color: #999">thinking-mode</a> <a href="/tags/%E6%A9%9F%E5%99%A8%E5%AD%B8%E7%BF%92/" style="font-size: 1.44em; color: #99a7ba">機器學習</a> <a href="/tags/agent/" style="font-size: 1.21em; color: #999ea4">agent</a> <a href="/tags/%E5%95%8F%E9%A1%8C/" style="font-size: 1.33em; color: #99a2af">問題</a> <a href="/tags/Git/" style="font-size: 1.21em; color: #999ea4">Git</a> <a href="/tags/%E9%81%8E%E5%BA%A6%E6%93%AC%E5%90%88%E5%95%8F%E9%A1%8C/" style="font-size: 1.1em; color: #999">過度擬合問題</a> <a href="/tags/Sitemap/" style="font-size: 1.1em; color: #999">Sitemap</a> <a href="/tags/ADK/" style="font-size: 1.21em; color: #999ea4">ADK</a> <a href="/tags/implementation/" style="font-size: 1.16em; color: #999b9e">implementation</a> <a href="/tags/%E7%AD%86%E8%A8%98/" style="font-size: 1.5em; color: #99a9bf">筆記</a> <a href="/tags/C/" style="font-size: 1.1em; color: #999">C#</a> <a href="/tags/%E5%85%A8%E5%9F%9F%E8%AE%8A%E6%95%B8/" style="font-size: 1.1em; color: #999">全域變數</a> <a href="/tags/context-memory/" style="font-size: 1.1em; color: #999">context-memory</a> <a href="/tags/workaround/" style="font-size: 1.16em; color: #999b9e">workaround</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>歸檔</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/03/">
+            <span class="card-archive-list-date">
+              三月 2026
+            </span>
+            <span class="card-archive-list-count">7</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2019/08/">
+            <span class="card-archive-list-date">
+              八月 2019
+            </span>
+            <span class="card-archive-list-count">5</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2019/07/">
+            <span class="card-archive-list-date">
+              七月 2019
+            </span>
+            <span class="card-archive-list-count">9</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2019/06/">
+            <span class="card-archive-list-date">
+              六月 2019
+            </span>
+            <span class="card-archive-list-count">16</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>網站資訊</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章數量 :</div><div class="item-count">37</div></div><div class="webinfo-item"><div class="item-name">訪客數 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">總瀏覽量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最後更新時間 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-03-14T16:35:54.591Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2019 - 2026 By Kenny Li</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  資料載入中</span></div><div class="local-search-input"><input placeholder="搜尋文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
