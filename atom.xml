@@ -10,7 +10,27 @@
   <rights>All rights reserved 2026, Kenny Li</rights>
   <subtitle>唯一不變的就是一直變化</subtitle>
   <title>Kenny's Blog</title>
-  <updated>2026-03-12T16:00:00.000Z</updated>
+  <updated>2026-03-15T16:00:00.000Z</updated>
+  <entry>
+    <author>
+      <name>Kenny Li</name>
+    </author>
+    <category term="筆記" scheme="https://kenny88881234.github.io/categories/%E7%AD%86%E8%A8%98/"/>
+    <category term="筆記" scheme="https://kenny88881234.github.io/tags/%E7%AD%86%E8%A8%98/"/>
+    <category term="adk" scheme="https://kenny88881234.github.io/tags/adk/"/>
+    <category term="ai-agent" scheme="https://kenny88881234.github.io/tags/ai-agent/"/>
+    <content>
+      <![CDATA[<h1 id="ADK-Go-入門-01-什麼是-Google-ADK"><a href="#ADK-Go-入門-01-什麼是-Google-ADK" class="headerlink" title="ADK Go 入門 01 - 什麼是 Google ADK"></a>ADK Go 入門 01 - 什麼是 Google ADK</h1><p>Google ADK（Agent Development Kit）是 Google 推出的開源框架，專門用來建構、編排和部署 AI Agent。它的核心價值不在於讓你「呼叫 LLM」，而是讓你設計一套能夠<strong>主動決策、使用工具、協同運作</strong>的 Agent 系統。</p><hr><h2 id="為什麼不直接呼叫-LLM-API"><a href="#為什麼不直接呼叫-LLM-API" class="headerlink" title="為什麼不直接呼叫 LLM API"></a>為什麼不直接呼叫 LLM API</h2><p>直接呼叫 LLM API 只是一問一答：你送 prompt，模型回 text。一旦任務需要多步驟、使用外部工具、或由多個角色協作，就需要自己管理狀態、工具呼叫、錯誤重試、對話歷史⋯⋯ADK 把這些基礎設施都打包好了。</p><table><thead><tr><th>面向</th><th>直接呼叫 API</th><th>使用 ADK</th></tr></thead><tbody><tr><td>工具呼叫</td><td>自己解析 function call</td><td>框架自動處理</td></tr><tr><td>多輪對話</td><td>手動維護 messages[]</td><td>框架管理 session</td></tr><tr><td>多 Agent 協作</td><td>自行設計路由邏輯</td><td>內建 transfer 機制</td></tr><tr><td>可觀測性</td><td>自己埋 log</td><td>內建 OTel 整合</td></tr><tr><td>Web UI</td><td>自建</td><td>內建 launcher</td></tr></tbody></table><h2 id="ADK-適合什麼場景"><a href="#ADK-適合什麼場景" class="headerlink" title="ADK 適合什麼場景"></a>ADK 適合什麼場景</h2><ul><li>需要呼叫外部工具（資料庫、API、搜尋）的 Agent</li><li>由多個專責 Agent 組成的複雜系統（客服、訂單、商品各自一個 Agent）</li><li>需要快速驗證 Agent 行為的原型開發（內建 Web UI）</li><li>需要追蹤 LLM 呼叫 trace 的生產環境</li></ul><h2 id="ADK-不適合什麼場景"><a href="#ADK-不適合什麼場景" class="headerlink" title="ADK 不適合什麼場景"></a>ADK 不適合什麼場景</h2><ul><li>單純的文字生成或摘要任務（直接呼叫 API 更輕量）</li><li>不需要工具整合的簡單問答系統</li><li>對框架依賴有顧慮的極度精簡部署</li></ul><h2 id="ADK-目前支援的語言"><a href="#ADK-目前支援的語言" class="headerlink" title="ADK 目前支援的語言"></a>ADK 目前支援的語言</h2><p>ADK 官方支援 <strong>Python</strong> 和 <strong>Go</strong>，核心概念相同，API 略有差異。本系列筆記以 Go 為主要範例語言。</p><hr>]]>
+    </content>
+    <id>https://kenny88881234.github.io/2026/03/16/adk-go-intro-01-what-is-google-adk/</id>
+    <link href="https://kenny88881234.github.io/2026/03/16/adk-go-intro-01-what-is-google-adk/"/>
+    <published>2026-03-15T16:00:00.000Z</published>
+    <summary>
+      <![CDATA[<h1 id="ADK-Go-入門-01-什麼是-Google-ADK"><a href="#ADK-Go-入門-01-什麼是-Google-ADK" class="headerlink" title="ADK Go 入門 01 - 什麼是 Google ADK"></a>ADK]]>
+    </summary>
+    <title>ADK Go 入門 01 - 什麼是 Google ADK</title>
+    <updated>2026-03-15T16:00:00.000Z</updated>
+  </entry>
   <entry>
     <author>
       <name>Kenny Li</name>
@@ -416,26 +436,5 @@
     </summary>
     <title>Octave 基礎</title>
     <updated>2019-07-11T16:00:00.000Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>Kenny Li</name>
-    </author>
-    <category term="問題" scheme="https://kenny88881234.github.io/categories/%E5%95%8F%E9%A1%8C/"/>
-    <category term="問題" scheme="https://kenny88881234.github.io/tags/%E5%95%8F%E9%A1%8C/"/>
-    <category term="Python" scheme="https://kenny88881234.github.io/tags/Python/"/>
-    <category term="MySQL" scheme="https://kenny88881234.github.io/tags/MySQL/"/>
-    <category term="BeautifulSoup" scheme="https://kenny88881234.github.io/tags/BeautifulSoup/"/>
-    <content>
-      <![CDATA[<h1 id="問題-BeautifulSoup-解析後無法存入-MySQL"><a href="#問題-BeautifulSoup-解析後無法存入-MySQL" class="headerlink" title="[問題] BeautifulSoup 解析後無法存入 MySQL"></a>[問題] BeautifulSoup 解析後無法存入 MySQL</h1><p>在練習爬蟲，使用 BeautifulSoup 分析 HTML 後，準備將資料存進 MySQL 時，出現 <code>Python &#39;navigablestring&#39; cannot be converted to a MySQL type</code> 的錯誤</p><p><img src="https://i.imgur.com/FwOoTQV.png"></p><h3 id="問題描述"><a href="#問題描述" class="headerlink" title="問題描述 :"></a>問題描述 :</h3><p><code>navigablestring</code> 是 BeautifulSoup 中的一種類型 <code>&lt;class &#39;bs4.element.NavigableString&#39;&gt;</code>，不是 MySQL 所認識的類型，所以會導致存入失敗</p><h3 id="解決問題"><a href="#解決問題" class="headerlink" title="解決問題 :"></a>解決問題 :</h3><p>只要將要存入的參數轉換類型就可以了，有兩種方法 :</p><ul><li><code>str(&lt;要轉換的參數&gt;)</code></li><li><code>&lt;要轉換的參數&gt;.encode(&#39;utf-8&#39;)</code></li></ul><p>P.S. 當然你的資料庫要能接受 UTF-8 編碼</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">testdb = MySQL.connect(</span><br><span class="line">    host = <span class="string">&quot;localhost&quot;</span>,</span><br><span class="line">    user = <span class="string">&quot;root&quot;</span>,</span><br><span class="line">    password = <span class="string">&quot;&lt;密碼&gt;&quot;</span>,</span><br><span class="line">    database = <span class="string">&quot;&lt;已存在的資料庫名稱&gt;&quot;</span>, <span class="comment">#若尚未創建可不加這段</span></span><br><span class="line">    charset=<span class="string">&#x27;utf8&#x27;</span></span><br><span class="line">)</span><br><span class="line">cursor = testdb.cursor()</span><br></pre></td></tr></table></figure><ul><li>加上 <code>charset=&#39;utf8&#39;</code> 可以保證連接的資料庫能接受 UTF-8 編碼</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cursor.execute(<span class="string">&quot;CREATE database &lt;資料庫名稱&gt; DEFAULT CHARSET = utf8 COLLATE = utf8_general_ci&quot;</span>)</span><br></pre></td></tr></table></figure><ul><li>在創建資料庫時，這樣就能接受 UTF-8 編碼</li></ul>]]>
-    </content>
-    <id>https://kenny88881234.github.io/2019/07/01/BeautifulSoup-save-to-MySQL-problem/</id>
-    <link href="https://kenny88881234.github.io/2019/07/01/BeautifulSoup-save-to-MySQL-problem/"/>
-    <published>2019-06-30T16:00:00.000Z</published>
-    <summary>
-      <![CDATA[<h1 id="問題-BeautifulSoup-解析後無法存入-MySQL"><a href="#問題-BeautifulSoup-解析後無法存入-MySQL" class="headerlink" title="[問題] BeautifulSoup 解析後無法存入 MySQL]]>
-    </summary>
-    <title>BeautifulSoup 解析後無法存入 MySQL</title>
-    <updated>2019-06-30T16:00:00.000Z</updated>
   </entry>
 </feed>
