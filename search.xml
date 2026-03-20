@@ -4577,4 +4577,135 @@ Agent &#x3D; 各部門員工，各司其職
         <tag>ai-agent</tag>
       </tags>
   </entry>
+  <entry>
+    <title>ADK Go 入門 03 - 建立第一個 ADK Agent（Go）</title>
+    <url>/2026/03/21/adk-go-intro-03-first-agent-go/</url>
+    <content><![CDATA[ADK Go 入門 03 - 建立第一個 ADK Agent（Go）用 ADK Go SDK 建立第一個可運行的 Agent，只需要幾十行程式碼。本篇從最基本的結構出發，帶你跑起一個能對話的 Agent。
+
+安裝依賴go get google.golang.org/adk
+
+最小可運行範例package mainimport (    &quot;context&quot;    &quot;os&quot;    &quot;google.golang.org/adk/agent&quot;    &quot;google.golang.org/adk/agent/llmagent&quot;    &quot;google.golang.org/adk/cmd/launcher&quot;    &quot;google.golang.org/adk/cmd/launcher/full&quot;    &quot;google.golang.org/adk/model/gemini&quot;    &quot;google.golang.org/genai&quot;)func main() &#123;    ctx := context.Background()    // 初始化 Gemini 模型    llm, err := gemini.NewModel(ctx, &quot;gemini-2.0-flash&quot;, &amp;genai.ClientConfig&#123;        APIKey: os.Getenv(&quot;GOOGLE_API_KEY&quot;),    &#125;)    if err != nil &#123;        panic(err)    &#125;    // 建立 Agent    myAgent, err := llmagent.New(llmagent.Config&#123;        Name:        &quot;my_agent&quot;,        Model:       llm,        Description: &quot;一個能回答問題的助理&quot;,        Instruction: &quot;You are a helpful assistant. Always respond in Traditional Chinese.&quot;,    &#125;)    if err != nil &#123;        panic(err)    &#125;    // 啟動 Web UI    config := &amp;launcher.Config&#123;        AgentLoader: agent.NewSingleLoader(myAgent),    &#125;    full.NewLauncher().Execute(ctx, config, os.Args[1:])&#125;
+
+執行後開啟瀏覽器即可與 Agent 對話。
+Config 欄位說明
+
+
+欄位
+必填
+說明
+
+
+
+Name
+✓
+Agent 的唯一識別名稱，用於 transfer 路由
+
+
+Model
+✓
+LLM 實例
+
+
+Description
+建議
+父 Agent 用來判斷何時移交的描述
+
+
+Instruction
+建議
+Agent 的角色與行為規則
+
+
+GlobalInstruction
+選填
+套用到所有回應的全域規則（例：語言強制）
+
+
+Tools
+選填
+可呼叫的工具清單
+
+
+Toolsets
+選填
+工具集合（例：MCP 工具組）
+
+
+SubAgents
+選填
+可移交的子 Agent 清單
+
+
+Instruction 撰寫原則Instruction 決定 Agent 的行為，好的 Instruction 應該：
+
+明確角色：「你是一個專責處理訂單的助理」
+說明能力邊界：「只處理訂單相關問題，其他問題請告知無法處理」
+規定回應格式：「回應時永遠使用繁體中文」
+列出決策規則：「當使用者提供訂單編號時，先查詢訂單再回應」
+
+詳細的 Instruction 設計策略與常見錯誤，見 🔧 技巧：ADK Go 入門 07 - Agent Instruction 設計技巧。
+⚠️ 注意：Name 欄位只能使用英文字母、數字與底線，不能含空格或中文。
+Web UI Launcherfull.NewLauncher() 會啟動一個本地 Web 伺服器，提供對話介面，適合開發期間快速測試 Agent 行為。不需要自行建 HTTP 路由或 WebSocket。
+
+]]></content>
+      <categories>
+        <category>實作</category>
+      </categories>
+      <tags>
+        <tag>實作</tag>
+        <tag>adk</tag>
+        <tag>go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>NanoClaw 替換底層 AI 模型（MiniMax、第三方 API）</title>
+    <url>/2026/03/21/nanoclaw-replace-ai-model-minimax/</url>
+    <content><![CDATA[NanoClaw 替換底層 AI 模型（MiniMax、第三方 API）NanoClaw 原本只支援 Claude API。為了節省成本，我們擴充了內建的 credential-proxy，新增 OVERRIDE_MODEL 機制，讓 agent 可以透明地切換到任何相容 OpenAI API 格式的第三方模型（如 MiniMax）。
+
+架構容器 agent (Claude Agent SDK)  → credential-proxy (host:3001)    → 原始 Claude API  （預設）    → 第三方 API       （設定 OVERRIDE_MODEL 後）
+
+agent 程式碼完全不知道底下換了模型，credential-proxy 在中間做所有轉換。
+
+實作過程為什麼需要動 credential-proxyClaude Agent SDK 在發出請求時，會把 model 名稱（如 claude-sonnet-4-6）一起帶在 request body 裡。如果只是把 ANTHROPIC_BASE_URL 換成 MiniMax 的網址，SDK 還是會送 claude-sonnet-4-6 這個 model 名，MiniMax 不認識，請求就會失敗。
+所以需要在中間攔截請求，把 model 名稱換掉。credential-proxy 本來就是 agent 和 API 之間的代理，改這裡最乾淨，不需要動 agent 程式碼。
+實作的三個部分1. 攔截訊息請求，替換 model 名稱
+proxy 收到 /messages 請求時，把 body 解析成 JSON，把 model 欄位換成 OVERRIDE_MODEL 的值，再轉發出去：
+if (secrets.OVERRIDE_MODEL &amp;&amp; req.url?.includes(&#x27;/messages&#x27;)) &#123;  const parsed = JSON.parse(body.toString());  if (parsed.model) &#123;    parsed.model = secrets.OVERRIDE_MODEL;    body = Buffer.from(JSON.stringify(parsed));  &#125;&#125;
+
+2. 注入 placeholder model 到 /v1/models
+Claude Code SDK 啟動時會呼叫 /v1/models 確認設定的 model 存在。MiniMax 的回應只有自己的 model 清單，沒有任何 Claude model，SDK 就會報錯說「找不到這個 model」。
+解法：攔截 /v1/models 的回應，把 placeholder model name（claude-haiku-4-5-20251001）注入進去，讓 SDK 以為 Claude model 存在、通過驗證，實際請求再換掉。
+if (!alreadyPresent) &#123;  models.push(&#123;    id: &#x27;claude-haiku-4-5-20251001&#x27;,    type: &#x27;model&#x27;,    display_name: &#x27;claude-haiku-4-5-20251001&#x27;,  &#125;);&#125;
+
+3. 修正 upstream path 拼接
+原本的 proxy 在拼接 upstream URL 時沒有去掉結尾的 /，導致路徑出現雙斜線（例如 /v1//messages），部分 API 服務不接受。加了 .replace(/\/$/, &#39;&#39;) 修正。
+設定方式在 .env 或 launchd plist 加入：
+OVERRIDE_MODEL=MiniMax-M2.7ANTHROPIC_BASE_URL=https://api.minimax.io/v1ANTHROPIC_API_KEY=your_minimax_api_key
+
+proxy 啟動時讀取這三個變數，之後所有請求都自動走第三方 API，無需修改容器或 agent 程式碼。
+
+Apple Container 的特殊設定問題背景容器內的 agent 需要連回 host 上的 credential-proxy，才能發出 API 請求。但「容器裡的 localhost」指的是容器本身，不是 Mac，所以需要一個辦法讓容器知道 host 的 IP 是多少。
+Docker 內建了固定 hostname host.docker.internal，容器直接用這個名稱就能找到 host。
+Apple Container（macOS 原生） 沒有這個機制。它透過 macOS 的 bridge100 虛擬網路介面把容器和 host 連起來，host 在這個網路裡有一個 IP（通常是 192.168.64.1 之類），但這個 IP 不固定，必須動態取得。
+解法container-runtime.ts 在啟動容器前自動偵測平台：
+
+macOS（Apple Container）：讀取 bridge100 介面的實際 IP，把這個 IP 傳給容器當作 proxy 位址；credential-proxy 也同時綁定到這個 IP，讓容器能連進來
+其他平台（Docker）：直接用 host.docker.internal
+
+整個過程對 agent 透明，agent 只知道 proxy 在某個位址，不需要知道底層平台。
+⚠️ Docker 有 --add-host 參數可以手動把 hostname 對應到 IP，但 Apple Container 不支援，所以只能走動態偵測 bridge100 IP 這條路。
+
+]]></content>
+      <categories>
+        <category>實作</category>
+      </categories>
+      <tags>
+        <tag>實作</tag>
+        <tag>nanoclaw</tag>
+        <tag>minimax</tag>
+        <tag>ai</tag>
+        <tag>apple-container</tag>
+        <tag>credential-proxy</tag>
+      </tags>
+  </entry>
 </search>

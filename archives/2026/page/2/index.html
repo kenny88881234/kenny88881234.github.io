@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>2026 | Kenny's Blog</title><meta name="author" content="Kenny Li"><meta name="copyright" content="Kenny Li"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="30歲，我撿回了筆記。記錄軟體開發、工具使用與學習過程中的實作與踩坑。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="2026">
+<meta property="og:url" content="https://kenny88881234.github.io/archives/2026/page/2/index.html">
+<meta property="og:site_name" content="Kenny&#39;s Blog">
+<meta property="og:description" content="30歲，我撿回了筆記。記錄軟體開發、工具使用與學習過程中的實作與踩坑。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kenny88881234.github.io/img/avatar.png">
+<meta property="article:author" content="Kenny Li">
+<meta property="article:tag" content="軟體開發,程式設計,筆記,工具,實作,踩坑">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kenny88881234.github.io/img/avatar.png"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://kenny88881234.github.io/archives/2026/page/2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"找不到符合您查詢的內容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '2026',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'archive'
+}</script><meta name="google-site-verification" content="CpET4YIZBDsQIjQZIT9zkPW9QCKy8regopiDRaFw4mA" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-LHTLJ45093"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LHTLJ45093');</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="Kenny's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">74</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">5</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url(/img/cover.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Kenny's Blog</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title">2026</h1></div></header><main class="layout" id="content-inner"><div id="archive"><div class="article-sort-title">所有文章 - 11</div><div class="article-sort"><div class="article-sort-item year">2026</div><div class="article-sort-item"><a class="article-sort-item-img" href="/2026/03/01/adk-gemini-function-calling-fix/" title="解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題"><img src="/img/problem.jpg" alt="解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題" onerror="this.onerror=null;this.src='/img/404.jpg'"></a><div class="article-sort-item-info"><div class="article-sort-item-time"><i class="far fa-calendar-alt"></i><time class="post-meta-date-created" datetime="2026-02-28T16:00:00.000Z" title="發表於 2026-03-01 00:00:00">2026-03-01</time></div><a class="article-sort-item-title" href="/2026/03/01/adk-gemini-function-calling-fix/" title="解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題">解決 ADK 中 Gemini Agent 的 Function Calling 不支援問題</a></div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/archives/2026/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/archives/2026/">1</a><span class="page-number current">2</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Kenny Li</div><div class="author-info-description">30歲，我撿回了筆記。記錄軟體開發、工具使用與學習過程中的實作與踩坑。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">74</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">5</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/kenny88881234" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.facebook.com/yihsienl1" target="_blank" title="Facebook"><i class="fab fa-facebook" style="color: #1877f2;"></i></a><a class="social-icon" href="https://www.instagram.com/kenny88881234/" target="_blank" title="Instagram"><i class="fab fa-instagram" style="color: #E1306C;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">30歲，我撿回了筆記</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/21/adk-go-intro-03-first-agent-go/" title="ADK Go 入門 03 - 建立第一個 ADK Agent（Go）"><img src="/img/code.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ADK Go 入門 03 - 建立第一個 ADK Agent（Go）"/></a><div class="content"><a class="title" href="/2026/03/21/adk-go-intro-03-first-agent-go/" title="ADK Go 入門 03 - 建立第一個 ADK Agent（Go）">ADK Go 入門 03 - 建立第一個 ADK Agent（Go）</a><time datetime="2026-03-20T16:00:00.000Z" title="發表於 2026-03-21 00:00:00">2026-03-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/21/nanoclaw-replace-ai-model-minimax/" title="NanoClaw 替換底層 AI 模型（MiniMax、第三方 API）"><img src="/img/code.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NanoClaw 替換底層 AI 模型（MiniMax、第三方 API）"/></a><div class="content"><a class="title" href="/2026/03/21/nanoclaw-replace-ai-model-minimax/" title="NanoClaw 替換底層 AI 模型（MiniMax、第三方 API）">NanoClaw 替換底層 AI 模型（MiniMax、第三方 API）</a><time datetime="2026-03-20T16:00:00.000Z" title="發表於 2026-03-21 00:00:00">2026-03-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/17/adk-go-intro-02-core-concepts-agent-tool-model/" title="ADK Go 入門 02 - ADK 三大核心概念：Agent、Tool、Model"><img src="/img/note.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ADK Go 入門 02 - ADK 三大核心概念：Agent、Tool、Model"/></a><div class="content"><a class="title" href="/2026/03/17/adk-go-intro-02-core-concepts-agent-tool-model/" title="ADK Go 入門 02 - ADK 三大核心概念：Agent、Tool、Model">ADK Go 入門 02 - ADK 三大核心概念：Agent、Tool、Model</a><time datetime="2026-03-16T16:00:00.000Z" title="發表於 2026-03-17 00:00:00">2026-03-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/16/adk-go-intro-01-what-is-google-adk/" title="ADK Go 入門 01 - 什麼是 Google ADK"><img src="/img/note.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ADK Go 入門 01 - 什麼是 Google ADK"/></a><div class="content"><a class="title" href="/2026/03/16/adk-go-intro-01-what-is-google-adk/" title="ADK Go 入門 01 - 什麼是 Google ADK">ADK Go 入門 01 - 什麼是 Google ADK</a><time datetime="2026-03-15T16:00:00.000Z" title="發表於 2026-03-16 00:00:00">2026-03-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/13/jsonl-llm-log-persistence/" title="JSONL LLM Log 持久化方案"><img src="/img/code.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JSONL LLM Log 持久化方案"/></a><div class="content"><a class="title" href="/2026/03/13/jsonl-llm-log-persistence/" title="JSONL LLM Log 持久化方案">JSONL LLM Log 持久化方案</a><time datetime="2026-03-12T16:00:00.000Z" title="發表於 2026-03-13 00:00:00">2026-03-13</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分類</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%95%8F%E9%A1%8C/"><span class="card-category-list-name">問題</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AF%A6%E4%BD%9C/"><span class="card-category-list-name">實作</span><span class="card-category-list-count">9</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">工具</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/"><span class="card-category-list-name">技巧</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AD%86%E8%A8%98/"><span class="card-category-list-name">筆記</span><span class="card-category-list-count">18</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>標籤</span></div><div class="card-tag-cloud"><a href="/tags/%E5%AF%A6%E4%BD%9C/" style="font-size: 1.43em; color: #99a6b9">實作</a> <a href="/tags/%E7%B6%B2%E8%B7%AF%E7%88%AC%E8%9F%B2/" style="font-size: 1.1em; color: #999">網路爬蟲</a> <a href="/tags/npm/" style="font-size: 1.1em; color: #999">npm</a> <a href="/tags/%E7%A5%9E%E7%B6%93%E7%B6%B2%E8%B7%AF/" style="font-size: 1.17em; color: #999c9f">神經網路</a> <a href="/tags/Python/" style="font-size: 1.3em; color: #99a1ac">Python</a> <a href="/tags/C/" style="font-size: 1.1em; color: #999">C#</a> <a href="/tags/architecture/" style="font-size: 1.1em; color: #999">architecture</a> <a href="/tags/JSONL/" style="font-size: 1.1em; color: #999">JSONL</a> <a href="/tags/adk/" style="font-size: 1.23em; color: #999ea6">adk</a> <a href="/tags/ADK/" style="font-size: 1.23em; color: #999ea6">ADK</a> <a href="/tags/NodeJS/" style="font-size: 1.1em; color: #999">NodeJS</a> <a href="/tags/Octave/" style="font-size: 1.1em; color: #999">Octave</a> <a href="/tags/context-memory/" style="font-size: 1.1em; color: #999">context-memory</a> <a href="/tags/SourceTree/" style="font-size: 1.1em; color: #999">SourceTree</a> <a href="/tags/Google-Search-Console/" style="font-size: 1.1em; color: #999">Google Search Console</a> <a href="/tags/ai/" style="font-size: 1.1em; color: #999">ai</a> <a href="/tags/apple-container/" style="font-size: 1.1em; color: #999">apple-container</a> <a href="/tags/bug/" style="font-size: 1.17em; color: #999c9f">bug</a> <a href="/tags/%E5%85%A8%E5%9F%9F%E8%AE%8A%E6%95%B8/" style="font-size: 1.1em; color: #999">全域變數</a> <a href="/tags/Sitemap/" style="font-size: 1.1em; color: #999">Sitemap</a> <a href="/tags/credential-proxy/" style="font-size: 1.1em; color: #999">credential-proxy</a> <a href="/tags/%E7%B7%9A%E6%80%A7%E5%9B%9E%E6%AD%B8/" style="font-size: 1.1em; color: #999">線性回歸</a> <a href="/tags/%E5%AE%89%E8%A3%9D/" style="font-size: 1.23em; color: #999ea6">安裝</a> <a href="/tags/%E5%87%BD%E5%BC%8F%E5%BA%AB/" style="font-size: 1.1em; color: #999">函式庫</a> <a href="/tags/LLM/" style="font-size: 1.1em; color: #999">LLM</a> <a href="/tags/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/" style="font-size: 1.37em; color: #99a4b2">程式語言</a> <a href="/tags/%E8%B3%87%E6%96%99%E5%BA%AB/" style="font-size: 1.1em; color: #999">資料庫</a> <a href="/tags/%E9%82%8F%E8%BC%AF%E5%9B%9E%E6%AD%B8/" style="font-size: 1.1em; color: #999">邏輯回歸</a> <a href="/tags/Cmder/" style="font-size: 1.1em; color: #999">Cmder</a> <a href="/tags/Javascript/" style="font-size: 1.17em; color: #999c9f">Javascript</a> <a href="/tags/BeautifulSoup/" style="font-size: 1.17em; color: #999c9f">BeautifulSoup</a> <a href="/tags/Heroku/" style="font-size: 1.1em; color: #999">Heroku</a> <a href="/tags/Flask/" style="font-size: 1.1em; color: #999">Flask</a> <a href="/tags/google-search/" style="font-size: 1.1em; color: #999">google-search</a> <a href="/tags/docker/" style="font-size: 1.1em; color: #999">docker</a> <a href="/tags/%E7%AD%86%E8%A8%98/" style="font-size: 1.5em; color: #99a9bf">筆記</a> <a href="/tags/ai-agent/" style="font-size: 1.17em; color: #999c9f">ai-agent</a> <a href="/tags/CSS/" style="font-size: 1.1em; color: #999">CSS</a> <a href="/tags/thinking-mode/" style="font-size: 1.1em; color: #999">thinking-mode</a> <a href="/tags/metrics/" style="font-size: 1.1em; color: #999">metrics</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>歸檔</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/03/">
+            <span class="card-archive-list-date">
+              三月 2026
+            </span>
+            <span class="card-archive-list-count">11</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2019/08/">
+            <span class="card-archive-list-date">
+              八月 2019
+            </span>
+            <span class="card-archive-list-count">5</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2019/07/">
+            <span class="card-archive-list-date">
+              七月 2019
+            </span>
+            <span class="card-archive-list-count">9</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2019/06/">
+            <span class="card-archive-list-date">
+              六月 2019
+            </span>
+            <span class="card-archive-list-count">16</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>網站資訊</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章數量 :</div><div class="item-count">41</div></div><div class="webinfo-item"><div class="item-name">訪客數 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">總瀏覽量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最後更新時間 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-03-20T17:05:14.012Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2019 - 2026 By Kenny Li</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><style>
+.search-dialog hr{display:none}
+.post-social-follow{display:none;justify-content:center;gap:20px;padding:24px 0;font-size:1.6rem}
+.post-social-follow a{color:var(--font-color);transition:color .3s}
+.post-social-follow a:hover .fa-github{color:#24292e}
+.post-social-follow a:hover .fa-facebook{color:#1877f2}
+.post-social-follow a:hover .fa-instagram{color:#E1306C}
+</style>
+<div class="post-social-follow">
+  <a href="https://github.com/kenny88881234" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+  <a href="https://www.facebook.com/yihsienl1" target="_blank" rel="noopener"><i class="fab fa-facebook"></i></a>
+  <a href="https://www.instagram.com/kenny88881234/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  if(document.getElementById('post')){
+    document.querySelector('.post-social-follow').style.display='flex';
+  }
+});
+</script>
+<script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  資料載入中</span></div><div class="local-search-input"><input placeholder="搜尋文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
