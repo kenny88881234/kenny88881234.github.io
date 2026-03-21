@@ -4708,4 +4708,105 @@ macOS（Apple Container）：讀取 bridge100 介面的實際 IP，把這個 IP 
         <tag>credential-proxy</tag>
       </tags>
   </entry>
+  <entry>
+    <title>ADK Go 入門 04 - 讓 Agent 擁有工具能力（Go）</title>
+    <url>/2026/03/22/adk-go-04-agent-tools/</url>
+    <content><![CDATA[ADK Go 入門 04 - 讓 Agent 擁有工具能力（Go）Agent 光靠 LLM 只能產生文字，透過 Tool 才能真正執行動作：查資料庫、呼叫 API、計算數值。本篇說明如何在 Go 中定義工具並掛載到 Agent 上。
+
+Tool vs Toolset
+
+
+概念
+說明
+適用情境
+
+
+
+tool.Tool
+單一可呼叫函式
+自訂邏輯、內建工具（如 GoogleSearch）
+
+
+tool.Toolset
+多個 Tool 的集合
+外部系統（MCP 伺服器、API 組）
+
+
+自訂 Tool 範例ADK Go SDK 使用 functiontool.New 建立工具，透過泛型自動推斷 schema，handler 接收強型別的 struct 參數。
+import (    &quot;google.golang.org/adk/tool&quot;    &quot;google.golang.org/adk/tool/functiontool&quot;)// 定義輸入與輸出型別（schema 自動從 struct 推斷）type WeatherArgs struct &#123;    City string `json:&quot;city&quot; jsonschema:&quot;description=城市名稱&quot;`&#125;type WeatherResult struct &#123;    Weather string `json:&quot;weather&quot;`    City    string `json:&quot;city&quot;`&#125;// 建立工具（err 須處理）weatherTool, err := functiontool.New[WeatherArgs, WeatherResult](    functiontool.Config&#123;        Name:        &quot;get_weather&quot;,        Description: &quot;查詢指定城市的天氣&quot;,    &#125;,    func(ctx tool.Context, args WeatherArgs) (WeatherResult, error) &#123;        // 實際查詢邏輯...        return WeatherResult&#123;Weather: &quot;晴天&quot;, City: args.City&#125;, nil    &#125;,)
+
+將工具掛載到 Agent：
+myAgent, _ := llmagent.New(llmagent.Config&#123;    Name:    &quot;weather_agent&quot;,    Model:   llm,    Tools:   []tool.Tool&#123;weatherTool&#125;,&#125;)
+
+工具白名單過濾（FilterToolset）當 Toolset 提供數十個工具時，某個 Agent 可能只需要其中幾個。使用 tool.FilterToolset 限制範圍：
+// 假設 fullToolset 來自 MCP，包含 50 個工具// 只讓這個 Agent 看到 3 個filteredToolset := tool.FilterToolset(    fullToolset,    tool.StringPredicate([]string&#123;        &quot;get_product&quot;,        &quot;list_products&quot;,        &quot;update_product&quot;,    &#125;),)productAgent, _ := llmagent.New(llmagent.Config&#123;    Name:     &quot;product_agent&quot;,    Model:    llm,    Toolsets: []tool.Toolset&#123;filteredToolset&#125;,&#125;)
+
+⚠️ 最小權限原則：每個 Agent 只給它實際需要的工具。工具過多會讓 LLM 選錯工具，也增加安全風險。
+Sub-Agent 作為 ToolAgent 可以把另一個 Agent 包裝成 Tool，讓被呼叫的 Agent 以工具身份執行後回傳結果（而非完全移交控制權）：
+import &quot;google.golang.org/adk/tool/agenttool&quot;// visionAgent 是另一個已建立的 AgentvisionTool := agenttool.New(visionAgent, nil)parentAgent, _ := llmagent.New(llmagent.Config&#123;    Name:  &quot;parent_agent&quot;,    Model: llm,    Tools: []tool.Tool&#123;visionTool&#125;,&#125;)
+
+這和 transfer_to_agent（完全移交）不同，適合「呼叫後取得結果，繼續由自己處理」的場景。
+]]></content>
+      <categories>
+        <category>實作</category>
+      </categories>
+      <tags>
+        <tag>實作</tag>
+        <tag>adk</tag>
+        <tag>go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>為 Go LLM Agent 建立雙層自動測試系統</title>
+    <url>/2026/03/22/go-llm-agent-two-layer-test-system/</url>
+    <content><![CDATA[為 Go LLM Agent 建立雙層自動測試系統為 LLM Agent 寫測試面臨兩難：呼叫真實 API 慢且貴，但完全 mock 又無法驗證 Agent 行為。雙層系統以 live mode 錄製 fixture，再以 regression mode 零 LLM 重播，同時解決兩個問題。
+
+架構概覽Story YAML    │    ▼  Runner    ├──→ [live mode]       ADK HTTP → JSONL log → fixture JSON    └──→ [regression mode] ToolRegistry → DB → 驗證狀態
+
+
+Live mode：向真實 ADK server 發送訊息，從 OTEL JSONL log 擷取工具呼叫，存成 fixture
+Regression mode：載入 fixture，直接呼叫 ToolRegistry，不碰 LLM，驗證 DB 狀態與回應內容
+
+
+Story YAML 格式每個 scenario 描述一個測試情境：
+stories:  - id: &quot;create_order_basic&quot;    description: &quot;建立簡單訂單&quot;    depends_on: []          # 前置 story（先執行）    db_seed: &quot;seeds/basic.sql&quot;    steps:      - user_message: &quot;幫我建立一筆訂單，客戶是王小明&quot;        tool_calls:         # 子序列匹配，順序相對即可          - name: &quot;get_customer&quot;          - name: &quot;create_order&quot;        response_contains:  # 回應需包含以下任一字串          - &quot;訂單已建立&quot;          - &quot;order_id&quot;    db_state:               # 執行後 DB 斷言      orders:        count: 1
+
+tool_calls 採子序列匹配：fixture 中只要依序出現這些工具呼叫即符合，中間可有其他呼叫。
+
+Fixture JSON 格式路徑規則：tests/fixtures/&lt;module&gt;/&lt;story&gt;/&lt;scenario&gt;.json
+&#123;  &quot;story_id&quot;: &quot;create_order_basic&quot;,  &quot;recorded_at&quot;: &quot;2025-03-20T10:30:00Z&quot;,  &quot;steps&quot;: [    &#123;      &quot;user_message&quot;: &quot;幫我建立一筆訂單，客戶是王小明&quot;,      &quot;tool_calls&quot;: [        &#123;          &quot;name&quot;: &quot;get_customer&quot;,          &quot;args&quot;: &#123;&quot;name&quot;: &quot;王小明&quot;&#125;,          &quot;result&quot;: &#123;&quot;id&quot;: 1, &quot;name&quot;: &quot;王小明&quot;&#125;        &#125;,        &#123;          &quot;name&quot;: &quot;create_order&quot;,          &quot;args&quot;: &#123;&quot;customer_id&quot;: 1&#125;,          &quot;result&quot;: &#123;&quot;order_id&quot;: 42&#125;        &#125;      ],      &quot;final_response&quot;: &quot;訂單已建立，訂單編號 42&quot;    &#125;  ]&#125;
+
+
+Live Mode 流程ResetAndSeed(db_seed)  → CreateSession(ADK HTTP /sessions)  → Send(user_message)  → WaitForLogFlush(JSONL)         ← 等 OTEL BatchProcessor flush  → ExtractToolCalls(JSONL)        ← event=&quot;gen_ai.choice&quot;  → MatchSubsequence(expected)     ← 驗證工具呼叫順序  → SaveFixture(fixture_path)
+
+
+Regression Mode 流程ResetAndSeed(db_seed)  → LoadFixture(fixture_path)  → for each step:      ToolRegistry.Execute(tool_calls)  ← 直接呼叫，跳過 LLM  → CheckDBState(db_state assertions)  → CheckResponse(response_contains)
+
+不需要 GOOGLE_API_KEY，執行速度快 10-50x。
+
+JSONL 解析路徑OTEL trace log 的工具呼叫藏在以下路徑：
+event = &quot;gen_ai.choice&quot;  body    └─ content         └─ parts[]               └─ functionCall                    ├─ name                    └─ args
+
+解析時過濾 event == &quot;gen_ai.choice&quot;，再遞迴取出所有 functionCall。
+
+CI&#x2F;CD 設定GitHub Actions 中 regression mode 不需要 API key：
+services:  postgres:    image: postgres:16    env:      POSTGRES_PASSWORD: password      POSTGRES_DB: products    ports:      - 5432:5432    options: &gt;-      --health-cmd pg_isready      --health-interval 10ssteps:  - name: Run regression tests    env:      POSTGRES_URL: postgresql://postgres:password@localhost:5432/products?sslmode=disable      # 無需 GOOGLE_API_KEY    run: go test ./tests/... -run TestRegression -v
+
+
+⚠️ 踩坑：package main 無法被 importMCP server 的工具邏輯若放在 cmd/commerce-db-mcp/main.go（package main），測試無法直接 import。
+解法：將 handler 函式抽出到 internal/mcptools/，main.go 只做 wiring。測試與 regression runner 都 import internal/mcptools。
+internal/  mcptools/    products.go    ← 工具實作    orders.go    ...cmd/  commerce-db-mcp/    main.go        ← 只 import internal/mcptools 並註冊
+]]></content>
+      <categories>
+        <category>實作</category>
+      </categories>
+      <tags>
+        <tag>實作</tag>
+        <tag>adk</tag>
+        <tag>go</tag>
+        <tag>testing</tag>
+        <tag>llm-agent</tag>
+        <tag>otel</tag>
+      </tags>
+  </entry>
 </search>
