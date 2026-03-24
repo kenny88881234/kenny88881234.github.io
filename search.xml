@@ -4809,4 +4809,144 @@ internal/  mcptools/    products.go    ← 工具實作    orders.go    ...cmd/ 
         <tag>otel</tag>
       </tags>
   </entry>
+  <entry>
+    <title>ADK Go 入門 05 - MCP 工具整合</title>
+    <url>/2026/03/25/adk-go-05-mcp-tool-integration/</url>
+    <content><![CDATA[ADK Go 入門 05 - MCP 工具整合MCP（Model Context Protocol）是一套標準協定，讓 AI Agent 能夠與外部工具伺服器溝通。ADK 內建 MCP 支援，讓你把現有的 MCP 伺服器直接接入 Agent，無需自己解析協定。
+
+MCP 是什麼MCP 定義了一套標準介面：工具伺服器暴露工具定義與執行能力，客戶端（這裡是 ADK Agent）透過協定呼叫這些工具。
+ADK Agent  │  （MCP Client）  │  ▼  stdio / HTTP transportMCP 伺服器  ├──→ tool_1: 查詢資料庫  ├──→ tool_2: 寫入資料庫  └──→ tool_3: 匯出報表
+
+優點：工具邏輯與 Agent 邏輯完全解耦，MCP 伺服器可以用任何語言撰寫。
+Transport 類型
+
+
+Transport
+說明
+適用情境
+
+
+
+stdio
+透過標準輸入輸出通訊
+本地子行程、同機器部署
+
+
+HTTP&#x2F;SSE
+透過網路通訊
+遠端服務、跨機器部署
+
+
+本地開發最常見的是 stdio transport：ADK 啟動一個 MCP 伺服器子行程，透過 stdin&#x2F;stdout 交換訊息。
+在 ADK Go 中接入 MCP（stdio）import (    &quot;os/exec&quot;    &quot;google.golang.org/adk/tool/mcptoolset&quot;    &quot;github.com/modelcontextprotocol/go-sdk/mcp&quot;)// 啟動 MCP 伺服器子行程cmd := exec.CommandContext(ctx, &quot;./bin/my-mcp-server&quot;)// 建立 stdio transporttransport := &amp;mcp.CommandTransport&#123;Command: cmd&#125;// 建立 ToolsetmcpToolset, err := mcptoolset.New(mcptoolset.Config&#123;    Transport: transport,&#125;)if err != nil &#123;    return err&#125;// 掛載到 AgentmyAgent, _ := llmagent.New(llmagent.Config&#123;    Name:     &quot;my_agent&quot;,    Model:    llm,    Toolsets: []tool.Toolset&#123;mcpToolset&#125;,&#125;)
+
+ADK 會自動從 MCP 伺服器取得工具清單，Agent 可以直接呼叫這些工具。
+工具過濾MCP 伺服器通常暴露很多工具，但某個 Agent 只需要其中幾個。使用 FilterToolset 限制：
+filteredTools := tool.FilterToolset(    mcpToolset,    tool.StringPredicate([]string&#123;&quot;get_item&quot;, &quot;list_items&quot;&#125;),)
+
+詳見 📝 實作：ADK Go 入門 04 - 讓 Agent 擁有工具能力（Go）。
+建立 MCP 伺服器（Go）MCP 伺服器本身是獨立的程式，使用 go-sdk/mcp 套件建立：
+import &quot;github.com/modelcontextprotocol/go-sdk/mcp&quot;server := mcp.NewServer(&quot;my-server&quot;, &quot;1.0.0&quot;, nil)// 註冊工具mcp.AddTool(server, &amp;mcp.Tool&#123;    Name:        &quot;get_item&quot;,    Description: &quot;根據 ID 取得項目&quot;,&#125;, func(ctx context.Context, args struct &#123;    ID string `json:&quot;id&quot;`&#125;) (*mcp.CallToolResult, error) &#123;    // 實作邏輯    return mcp.NewToolResultText(&quot;result&quot;), nil&#125;)// 以 stdio 模式執行server.Run(ctx, mcp.NewStdioTransport())
+
+⚠️ 注意：MCP 伺服器的 stderr 需要轉發到主行程，否則錯誤訊息會消失，難以除錯。
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>adk</tag>
+        <tag>go</tag>
+        <tag>mcp</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進</title>
+    <url>/2026/03/25/postgresql-serial-sequence-overriding-system-value/</url>
+    <content><![CDATA[PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進測試 seed 用 OVERRIDING SYSTEM VALUE 手動指定 ID，插入成功，但之後的一般 INSERT 卻拿到 nextval=1，造成 duplicate key 錯誤。問題只在「全量執行」時出現，單獨執行單一模組時正常。
+
+📖 背景：SERIAL 和序列（Sequence）是什麼？SERIAL 是「自動產生遞增 ID」的語法糖，背後 PostgreSQL 會建一個獨立的計數器，叫做序列（Sequence）：
+CREATE TABLE products (    id SERIAL PRIMARY KEY,  -- 等同於建一個叫 products_id_seq 的計數器    name TEXT);
+
+每次 INSERT 不指定 id，就呼叫 nextval(&#39;products_id_seq&#39;)，計數器 +1，回傳新 ID：
+第 1 次 INSERT → nextval() → 計數器: 0→1 → id=1第 2 次 INSERT → nextval() → 計數器: 1→2 → id=2
+
+
+[!important] 關鍵：序列是獨立計數器，不追蹤表裡的最大值序列只管自己數到幾，不會去看表裡現在有哪些 ID。這是造成本問題的根源。
+
+
+🔍 復現場景-- Step 1：清空表，序列計數器歸零TRUNCATE products RESTART IDENTITY CASCADE;-- 現在：計數器 = 0-- Step 2：手動指定 id=1 插入（繞過計數器）INSERT INTO products (id, name) OVERRIDING SYSTEM VALUE VALUES (1, &#x27;Test Product&#x27;);-- 成功！但計數器還是 0，因為根本沒呼叫 nextval()-- Step 3：一般 INSERT（讓系統自動產生 id）INSERT INTO products (name) VALUES (&#x27;Another Product&#x27;);-- → nextval() 被呼叫，計數器 0→1，回傳 id=1-- → ERROR: duplicate key value violates unique constraint &quot;products_pkey&quot;-- → id=1 已經有人用了！
+
+
+🚨 根本原因：OVERRIDING SYSTEM VALUE 繞過計數器OVERRIDING SYSTEM VALUE 的設計就是略過序列，直接把你指定的值寫進去，完全不碰計數器。
+類比：就像一個叫號機，你直接喊「89 號請到 3 號窗口」，但叫號機還停在 1。下個客人按按鈕，拿到的還是 1 號，但 89 號已經有人在那裡了。
+TRUNCATE RESTART IDENTITY → 計數器歸零 = 0OVERRIDING SYSTEM VALUE 插入 id=1 → 計數器還是 0（沒動！）一般 INSERT → nextval() → 計數器 0→1 → 回傳 1 → 衝突！
+
+
+✅ 解法：用 setval 手動推進計數器seed 塞完資料後，把計數器手動對齊到表裡最大的 ID：
+-- 找出目前最大 id，把計數器設到那裡SELECT setval(&#x27;products_id_seq&#x27;, (SELECT MAX(id) FROM products));SELECT setval(&#x27;customers_id_seq&#x27;, (SELECT MAX(id) FROM customers));SELECT setval(&#x27;orders_id_seq&#x27;, (SELECT MAX(id) FROM orders));-- ... 其他有 SERIAL 欄位的表
+
+setval(&#39;products_id_seq&#39;, 5) 的意思是：把這個計數器強制設定為 5，下次 nextval() 就會從 6 開始。
+
+[!tip] 通用版本（自動處理所有資料表）可以封裝成一段 PL&#x2F;pgSQL，放在 seed script 最末尾執行：
+DO $$DECLARE  r RECORD;BEGIN  FOR r IN    SELECT schemaname, tablename, attname    FROM pg_stats    WHERE tablename IN (&#x27;products&#x27;,&#x27;customers&#x27;,&#x27;orders&#x27;,&#x27;live_sessions&#x27;)      AND attname = &#x27;id&#x27;  LOOP    EXECUTE format(      &#x27;SELECT setval(pg_get_serial_sequence(&#x27;&#x27;%I.%I&#x27;&#x27;, &#x27;&#x27;id&#x27;&#x27;), COALESCE(MAX(id), 0) + 1, false) FROM %I.%I&#x27;,      r.schemaname, r.tablename, r.schemaname, r.tablename    );  END LOOP;END $$;
+⚠️ pg_stats 是統計視圖，需要 ANALYZE 才有資料。在剛 TRUNCATE+INSERT 的測試環境可能為空，導致這段什麼都不執行。建議優先用上方的簡易寫法（直接列舉資料表呼叫 setval），或改查 pg_sequences 系統目錄。
+
+
+⚠️ 踩坑：為什麼只在全量執行時才爆？測試用 filepath.Walk 按字母順序跑：
+tests/stories/  livestream/   ← 先跑  order/        ← 後跑  product/
+
+全量執行的時序：
+
+livestream/ seed 用 OVERRIDING SYSTEM VALUE 插入 orders id=1，計數器沒動
+order/ 測試建立訂單，nextval() 回傳 1 → 撞到 livestream 留下的 id&#x3D;1 → 爆炸
+
+單獨跑 order/ 時：
+
+TRUNCATE 重置計數器，沒有其他模組污染，正常執行，掩蓋了這個 bug
+
+這種「單跑 OK、全跑壞」的 bug 特別難找，因為很難想到是執行順序造成的。
+排查方式：加 -v 觀察執行順序，或臨時只跑 livestream/ + order/ 組合來重現。
+
+📝 重點整理
+
+
+觀念
+記住這一句
+
+
+
+SERIAL
+背後是獨立計數器，不是「自動看表裡最大值」
+
+
+OVERRIDING SYSTEM VALUE
+繞過計數器直接寫值，計數器不會跟著動
+
+
+TRUNCATE RESTART IDENTITY
+計數器歸零，但不追蹤你之後手動塞的 ID
+
+
+setval
+手動把計數器推進到正確位置的方法
+
+
+這類 bug 的特徵
+只在特定執行順序下出現，單一模組測試看不出來
+
+
+]]></content>
+      <categories>
+        <category>問題</category>
+      </categories>
+      <tags>
+        <tag>問題</tag>
+        <tag>bug</tag>
+        <tag>testing</tag>
+        <tag>postgresql</tag>
+        <tag>serial</tag>
+        <tag>sequence</tag>
+      </tags>
+  </entry>
 </search>
