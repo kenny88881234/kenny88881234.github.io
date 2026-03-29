@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制 | Kenny's Blog</title><meta name="author" content="Kenny Li"><meta name="copyright" content="Kenny Li"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制升級到 macOS 26.4 後開始出現的問題。macOS 加強了 TCC 對 Desktop&#x2F;Documents 資料夾的存取限制，launchd 在啟動 job 前會先開啟 stdout&#x2F;stderr 檔案，若路徑在受保護的目錄下，整個 job 就無法啟動，回報 EX_CONFIG">
+<meta property="og:type" content="article">
+<meta property="og:title" content="macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制">
+<meta property="og:url" content="https://kenny88881234.github.io/2026/03/29/macos-launchd-ex-config-78-desktop-tcc/index.html">
+<meta property="og:site_name" content="Kenny&#39;s Blog">
+<meta property="og:description" content="macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制升級到 macOS 26.4 後開始出現的問題。macOS 加強了 TCC 對 Desktop&#x2F;Documents 資料夾的存取限制，launchd 在啟動 job 前會先開啟 stdout&#x2F;stderr 檔案，若路徑在受保護的目錄下，整個 job 就無法啟動，回報 EX_CONFIG">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kenny88881234.github.io/img/problem.jpg">
+<meta property="article:published_time" content="2026-03-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-28T16:00:00.000Z">
+<meta property="article:author" content="Kenny Li">
+<meta property="article:tag" content="launchd">
+<meta property="article:tag" content="macos">
+<meta property="article:tag" content="nanoclaw">
+<meta property="article:tag" content="tcc">
+<meta property="article:tag" content="問題">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kenny88881234.github.io/img/problem.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制",
+  "url": "https://kenny88881234.github.io/2026/03/29/macos-launchd-ex-config-78-desktop-tcc/",
+  "image": "https://kenny88881234.github.io/img/problem.jpg",
+  "datePublished": "2026-03-28T16:00:00.000Z",
+  "dateModified": "2026-03-28T16:00:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Kenny Li",
+      "url": "https://kenny88881234.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://kenny88881234.github.io/2026/03/29/macos-launchd-ex-config-78-desktop-tcc/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"找不到符合您查詢的內容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '載入更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="google-site-verification" content="CpET4YIZBDsQIjQZIT9zkPW9QCKy8regopiDRaFw4mA" /><script async src="https://www.googletagmanager.com/gtag/js?id=G-LHTLJ45093"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LHTLJ45093');</script><meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="Kenny's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">47</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">5</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/claw/"><i class="fa-fw fas fa-shrimp"></i><span> Claw</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/problem.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Kenny's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/claw/"><i class="fa-fw fas fa-shrimp"></i><span> Claw</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">發表於</span><time datetime="2026-03-28T16:00:00.000Z" title="發表於 2026-03-29 00:00:00">2026-03-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%95%8F%E9%A1%8C/">問題</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="macOS-launchd-EX-CONFIG-78-—-Desktop-資料夾-TCC-限制"><a href="#macOS-launchd-EX-CONFIG-78-—-Desktop-資料夾-TCC-限制" class="headerlink" title="macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制"></a>macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制</h1><p>升級到 <strong>macOS 26.4</strong> 後開始出現的問題。macOS 加強了 TCC 對 Desktop&#x2F;Documents 資料夾的存取限制，launchd 在啟動 job 前會先開啟 stdout&#x2F;stderr 檔案，若路徑在受保護的目錄下，整個 job 就無法啟動，回報 EX_CONFIG（78）——而且因為 process 根本沒跑到，log 也是空的，很難追蹤。</p>
+<hr>
+<h2 id="症狀"><a href="#症狀" class="headerlink" title="症狀"></a>症狀</h2><ul>
+<li>launchd 顯示 <code>last exit code = 78: EX_CONFIG</code></li>
+<li><code>state = spawn scheduled</code>（持續節流重試）</li>
+<li><code>runs = N</code>（已嘗試多次，代表 launchd 有在嘗試，但每次都很快失敗）</li>
+<li>stdout &#x2F; stderr log 檔<strong>完全空白</strong></li>
+<li>手動用相同環境變數執行卻完全正常</li>
+</ul>
+<h2 id="根本原因"><a href="#根本原因" class="headerlink" title="根本原因"></a>根本原因</h2><p>macOS TCC（Transparency Consent Control）從 Sequoia 起嚴格限制 daemon&#x2F;agent process 存取以下路徑：</p>
+<ul>
+<li><code>~/Desktop/</code></li>
+<li><code>~/Documents/</code></li>
+<li><code>~/Downloads/</code></li>
+</ul>
+<p>launchd 在啟動程序之前就要開啟 <code>StandardOutPath</code> &#x2F; <code>StandardErrorPath</code> 指定的檔案。若這兩個路徑在受保護的目錄下，launchd 無法取得存取權限，整個 job 啟動失敗，回報 <code>EX_CONFIG (78)</code>。</p>
+<h2 id="診斷過程"><a href="#診斷過程" class="headerlink" title="診斷過程"></a>診斷過程</h2><p>⚠️ 最難追的地方：把 <code>ProgramArguments</code> 換成 <code>/bin/echo test</code> 也一樣退出 78，代表問題不在程式碼，而是在 launchd 的啟動配置本身。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">手動執行正常</span><br><span class="line">  └──→ 模擬 launchd 環境（env -i）執行 → 也正常</span><br><span class="line">        └──→ 換成 /bin/echo → 仍然退出 78</span><br><span class="line">              └──→ 改 log 路徑到 /tmp → echo 成功，退出 0</span><br><span class="line">                    └──→ 確認是 StandardOutPath 的問題</span><br></pre></td></tr></table></figure>
+
+<p>診斷指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 看 launchd job 詳細狀態</span></span><br><span class="line">launchctl <span class="built_in">print</span> gui/$(<span class="built_in">id</span> -u)/com.yourjob</span><br><span class="line"></span><br><span class="line"><span class="comment"># 關鍵欄位：</span></span><br><span class="line"><span class="comment"># last exit code = 78: EX_CONFIG  ← 這就是 TCC 被擋</span></span><br><span class="line"><span class="comment"># runs = N                        ← 已嘗試 N 次</span></span><br><span class="line"><span class="comment"># state = spawn scheduled         ← 節流中</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>把 plist 的 log 路徑從 Desktop 移到 <code>~/Library/Logs/</code>：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 修改前（失敗）--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>StandardOutPath<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>/Users/yourname/Desktop/Project/app/logs/app.log<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 修改後（正常）--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>StandardOutPath<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>/Users/yourname/Library/Logs/app/app.log<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>記得先建立目錄，然後 reload：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/Library/Logs/yourapp</span><br><span class="line">launchctl unload ~/Library/LaunchAgents/com.yourjob.plist</span><br><span class="line">launchctl load ~/Library/LaunchAgents/com.yourjob.plist</span><br></pre></td></tr></table></figure>
+
+<h2 id="⚠️-踩坑補充"><a href="#⚠️-踩坑補充" class="headerlink" title="⚠️ 踩坑補充"></a>⚠️ 踩坑補充</h2><ul>
+<li><code>WorkingDirectory</code> 指向 Desktop 目前還沒問題，TCC 只擋「開啟檔案」操作</li>
+<li>同樣的問題適用於其他 LaunchAgent&#x2F;LaunchDaemon 的 log 路徑</li>
+<li>安全的 log 路徑：<code>~/Library/Logs/</code>、<code>/tmp/</code>、<code>/var/log/</code></li>
+<li>這個問題在升級到 macOS 26.4 後才出現，之前設定好好的突然掛掉</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://kenny88881234.github.io">Kenny Li</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://kenny88881234.github.io/2026/03/29/macos-launchd-ex-config-78-desktop-tcc/">https://kenny88881234.github.io/2026/03/29/macos-launchd-ex-config-78-desktop-tcc/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明來源 <a href="https://kenny88881234.github.io" target="_blank">Kenny's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%95%8F%E9%A1%8C/">問題</a><a class="post-meta__tags" href="/tags/nanoclaw/">nanoclaw</a><a class="post-meta__tags" href="/tags/macos/">macos</a><a class="post-meta__tags" href="/tags/launchd/">launchd</a><a class="post-meta__tags" href="/tags/tcc/">tcc</a></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/03/29/adk-go-06-multi-agent-architecture/" title="ADK Go 入門 06 - 多 Agent 架構設計"><img class="cover" src="/img/note.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">ADK Go 入門 06 - 多 Agent 架構設計</div></div><div class="info-2"><div class="info-item-1">ADK Go 入門 06 - 多 Agent 架構設計當系統複雜度提升，單一 Agent 難以兼顧所有職責。ADK 支援多 Agent 協作，透過樹狀結構組織各個專責 Agent，讓系統兼具清晰的分工與彈性的路由。  為什麼需要多 Agent 能力邊界清晰：航班 Agent 只懂航班，住宿 Agent 只懂住宿 工具隔離：每個 Agent 只持有必要的工具，降低誤用風險 Instruction 精簡：職責單一的 Agent，規則更好寫也更好維護 平行擴充：新增功能只需加新 Agent，不影響現有邏輯  樹狀結構：ADK 的硬性限制ADK 強制採用樹狀架構，每個 Agent 只能有一個父節點。 12345root_agent（路由決策）  ├──→ flight_agent（航班查詢與訂票）  │      └──→ price_agent（比價分析，作為 tool）  ├──→ hotel_agent（住宿預訂）  └──→ weather_agent（目的地天氣，作為 tool）  ⚠️ 不能有多個父節點：若 flight_agent 和 hotel_agent 都需要 wea...</div></div></div></a><a class="pagination-related" href="/2026/03/25/postgresql-serial-sequence-overriding-system-value/" title="PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進"><img class="cover" src="/img/problem.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進</div></div><div class="info-2"><div class="info-item-1">PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進測試 seed 用 OVERRIDING SYSTEM VALUE 手動指定 ID，插入成功，但之後的一般 INSERT 卻拿到 nextval=1，造成 duplicate key 錯誤。問題只在「全量執行」時出現，單獨執行單一模組時正常。  📖 背景：SERIAL 和序列（Sequence）是什麼？SERIAL 是「自動產生遞增 ID」的語法糖，背後 PostgreSQL 會建一個獨立的計數器，叫做序列（Sequence）： 1234CREATE TABLE products (    id SERIAL PRIMARY KEY,  -- 等同於建一個叫 products_id_seq 的計數器    name TEXT);  每次 INSERT 不指定 id，就呼叫 nextval(&#39;products_id_seq&#39;)，計數器 +1，回傳新 ID： 12第 1 次 INSERT → nextval() → 計數器: 0→1 → id=1第 2 次 INSERT...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2019/08/13/Hexo-use-mathJax/" title="如何在 Hexo 上使用數學式"><img class="cover" src="/img/problem.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-08-13</div><div class="info-item-2">如何在 Hexo 上使用數學式</div></div><div class="info-2"><div class="info-item-1">[問題] 如何在 Hexo 上使用數學式平常很習慣先用 HackMD 寫好筆記或文章後，再複製起來貼到 Hexo 上，但最近寫的筆記需要使用到數學式，一開始在 HackMD 撰寫渲染都很正常，但一貼到 Hexo 上，數學式就出錯了   在 Hexo 上的顯示    正常的顯示  問題描述 :因為 Hexo 本身沒有支援數學式的顯示，所以必須更換渲染引擎使用 mathJax 來渲染數學式 解決問題 :這邊是使用 hexo-theme-melody 的主題，所以是依照他們的文件解決  更換渲染引擎 1$ npm uninstall hexo-renderer-marked --save   先將 Hexo 原本的渲染引擎 marked 刪除，在部落格的根目錄執行 1$ npm install hexo-renderer-kramed --save 在安裝上新的渲染引擎 kramed，在部落格的根目錄執行    設定 melody.yml.yml 123mathjax:  enable: true  cdn: https://cdn.jsdelivr.net/npm/mathjax/M...</div></div></div></a><a class="pagination-related" href="/2026/03/05/adk-subagent-stop-thinking-mode/" title="ADK Sub-agent STOP 錯誤：停用 Thinking Mode"><img class="cover" src="/img/problem.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-05</div><div class="info-item-2">ADK Sub-agent STOP 錯誤：停用 Thinking Mode</div></div><div class="info-2"><div class="info-item-1">ADK Sub-agent STOP 錯誤：停用 Thinking Mode使用 Gemini 2.5 Flash 模型時，若 sub-agent 啟用思考模式（Thinking Mode），有時會導致該 sub-agent 回傳空的 content，觸發 ADK 的 STOP 錯誤，整個對話流程中斷。  錯誤現象 Sub-agent 被 transfer 進來後無回應 Log 顯示 finish_reason 為 STOP 但 content 為空 問題只在 sub-agent 上出現，root agent 不受影響  根本原因Gemini 2.5 Flash 的思考模式會在回應中產生內部推理（thinking tokens），但在 ADK 的 multi-agent 架構中，sub-agent 的思考輸出有時無法正確轉換為可回傳的 content，導致空回應。 解決方案：對 Sub-agent 停用思考模式在建立 sub-agent 時，透過 GenerateContentConfig 將 ThinkingBudget 設為 0： 12345678910111213think...</div></div></div></a><a class="pagination-related" href="/2026/03/25/postgresql-serial-sequence-overriding-system-value/" title="PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進"><img class="cover" src="/img/problem.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-25</div><div class="info-item-2">PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進</div></div><div class="info-2"><div class="info-item-1">PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進測試 seed 用 OVERRIDING SYSTEM VALUE 手動指定 ID，插入成功，但之後的一般 INSERT 卻拿到 nextval=1，造成 duplicate key 錯誤。問題只在「全量執行」時出現，單獨執行單一模組時正常。  📖 背景：SERIAL 和序列（Sequence）是什麼？SERIAL 是「自動產生遞增 ID」的語法糖，背後 PostgreSQL 會建一個獨立的計數器，叫做序列（Sequence）： 1234CREATE TABLE products (    id SERIAL PRIMARY KEY,  -- 等同於建一個叫 products_id_seq 的計數器    name TEXT);  每次 INSERT 不指定 id，就呼叫 nextval(&#39;products_id_seq&#39;)，計數器 +1，回傳新 ID： 12第 1 次 INSERT → nextval() → 計數器: 0→1 → id=1第 2 次 INSERT...</div></div></div></a><a class="pagination-related" href="/2019/07/01/BeautifulSoup-save-to-MySQL-problem/" title="BeautifulSoup 解析後無法存入 MySQL"><img class="cover" src="/img/problem.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-07-01</div><div class="info-item-2">BeautifulSoup 解析後無法存入 MySQL</div></div><div class="info-2"><div class="info-item-1">[問題] BeautifulSoup 解析後無法存入 MySQL在練習爬蟲，使用 BeautifulSoup 分析 HTML 後，準備將資料存進 MySQL 時，出現 Python &#39;navigablestring&#39; cannot be converted to a MySQL type 的錯誤  問題描述 :navigablestring 是 BeautifulSoup 中的一種類型 &lt;class &#39;bs4.element.NavigableString&#39;&gt;，不是 MySQL 所認識的類型，所以會導致存入失敗 解決問題 :只要將要存入的參數轉換類型就可以了，有兩種方法 :  str(&lt;要轉換的參數&gt;) &lt;要轉換的參數&gt;.encode(&#39;utf-8&#39;)  P.S. 當然你的資料庫要能接受 UTF-8 編碼 12345678testdb = MySQL.connect(    host = &quot;localhost&quot;,    user = &quot;root&quot;,    p...</div></div></div></a><a class="pagination-related" href="/2019/06/26/Install-MySQL-code-not-working/" title="安裝 MySQL 後環境變數被清空，導致終端機快速開啟 VS code 失效了"><img class="cover" src="/img/problem.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-06-26</div><div class="info-item-2">安裝 MySQL 後環境變數被清空，導致終端機快速開啟 VS code 失效了</div></div><div class="info-2"><div class="info-item-1">[問題] 安裝 MySQL 後環境變數被清空了，導致終端機快速開啟 VS code 失效了安裝完 MySQL 後，想上傳筆記到 Blog 上，就很高興地照著平常的習慣做，打開終端機 cd 進到 Blog 根目錄，然後 code . 快速開啟 VS code  咦，發生什麼事? 問題描述 :進到環境變數中 User 的使用者變數 才發現，MySQL 把我的 Path 清空了，只留了他自己的 shell 位置…好樣的  解決問題 :這邊只要把環境變數加回去就解決了  先找到 VS code code 這個檔案的位置  一般來說會是在 C:\Users\User\AppData\Local\Programs\Microsoft VS Code\bin  把這段路徑貼上變數值裡就可以了，間隔記得分號    P.S.之前有增加過的環境變數都要記得加回去 </div></div></div></a><a class="pagination-related" href="/2019/07/12/Csharp-use-global-variable/" title="C# 如何使用全域變數"><img class="cover" src="/img/tips.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-07-12</div><div class="info-item-2">C# 如何使用全域變數</div></div><div class="info-2"><div class="info-item-1">[問題] C# 如何使用全域變數在 C# 想宣告全域變數，在最外層直接宣告是不行的，C# 中並沒有宣告全域變數的方式，一般都是透過屬性 ( property ) 或靜態變數 ( static ) 來達成 靜態變數 ( static )1234public class Global&#123;    public static int x = 0;&#125;  屬性 ( property )123456789101112131415161718public class Global&#123;    private string _x = &quot;test&quot;;        public string X    &#123;        get //用來回傳給用戶讀取        &#123;            return this._x;        &#125;        set //開放給用戶修改        &#123;            this._x = value;        &#125;    &#125;        p...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Kenny Li</div><div class="author-info-description">30歲，我撿回了筆記。記錄軟體開發、工具使用與學習過程中的實作與踩坑。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">47</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">84</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">5</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/kenny88881234" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.facebook.com/yihsienl1" target="_blank" title="Facebook"><i class="fab fa-facebook" style="color: #1877f2;"></i></a><a class="social-icon" href="https://www.instagram.com/kenny88881234/" target="_blank" title="Instagram"><i class="fab fa-instagram" style="color: #E1306C;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">30歲，我撿回了筆記</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#macOS-launchd-EX-CONFIG-78-%E2%80%94-Desktop-%E8%B3%87%E6%96%99%E5%A4%BE-TCC-%E9%99%90%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%97%87%E7%8B%80"><span class="toc-number">1.1.</span> <span class="toc-text">症狀</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B9%E6%9C%AC%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.2.</span> <span class="toc-text">根本原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A8%BA%E6%96%B7%E9%81%8E%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">診斷過程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95"><span class="toc-number">1.4.</span> <span class="toc-text">解法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9A%A0%EF%B8%8F-%E8%B8%A9%E5%9D%91%E8%A3%9C%E5%85%85"><span class="toc-number">1.5.</span> <span class="toc-text">⚠️ 踩坑補充</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/29/macos-launchd-ex-config-78-desktop-tcc/" title="macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制"><img src="/img/problem.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制"/></a><div class="content"><a class="title" href="/2026/03/29/macos-launchd-ex-config-78-desktop-tcc/" title="macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制">macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制</a><time datetime="2026-03-28T16:00:00.000Z" title="發表於 2026-03-29 00:00:00">2026-03-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/29/adk-go-06-multi-agent-architecture/" title="ADK Go 入門 06 - 多 Agent 架構設計"><img src="/img/note.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ADK Go 入門 06 - 多 Agent 架構設計"/></a><div class="content"><a class="title" href="/2026/03/29/adk-go-06-multi-agent-architecture/" title="ADK Go 入門 06 - 多 Agent 架構設計">ADK Go 入門 06 - 多 Agent 架構設計</a><time datetime="2026-03-28T16:00:00.000Z" title="發表於 2026-03-29 00:00:00">2026-03-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/25/adk-go-05-mcp-tool-integration/" title="ADK Go 入門 05 - MCP 工具整合"><img src="/img/tool.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ADK Go 入門 05 - MCP 工具整合"/></a><div class="content"><a class="title" href="/2026/03/25/adk-go-05-mcp-tool-integration/" title="ADK Go 入門 05 - MCP 工具整合">ADK Go 入門 05 - MCP 工具整合</a><time datetime="2026-03-24T16:00:00.000Z" title="發表於 2026-03-25 00:00:00">2026-03-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/25/postgresql-serial-sequence-overriding-system-value/" title="PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進"><img src="/img/problem.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進"/></a><div class="content"><a class="title" href="/2026/03/25/postgresql-serial-sequence-overriding-system-value/" title="PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進">PostgreSQL SERIAL 序列不隨 OVERRIDING SYSTEM VALUE 推進</a><time datetime="2026-03-24T16:00:00.000Z" title="發表於 2026-03-25 00:00:00">2026-03-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/22/adk-go-04-agent-tools/" title="ADK Go 入門 04 - 讓 Agent 擁有工具能力（Go）"><img src="/img/code.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ADK Go 入門 04 - 讓 Agent 擁有工具能力（Go）"/></a><div class="content"><a class="title" href="/2026/03/22/adk-go-04-agent-tools/" title="ADK Go 入門 04 - 讓 Agent 擁有工具能力（Go）">ADK Go 入門 04 - 讓 Agent 擁有工具能力（Go）</a><time datetime="2026-03-21T16:00:00.000Z" title="發表於 2026-03-22 00:00:00">2026-03-22</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2019 - 2026 By Kenny Li</span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日夜模式切換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到頂端"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.1.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><style>
+.search-dialog hr{display:none}
+.post-social-follow{display:none;justify-content:center;gap:20px;padding:24px 0;font-size:1.6rem}
+.post-social-follow a{color:var(--font-color);transition:color .3s}
+.post-social-follow a:hover .fa-github{color:#24292e}
+.post-social-follow a:hover .fa-facebook{color:#1877f2}
+.post-social-follow a:hover .fa-instagram{color:#E1306C}
+</style>
+<div class="post-social-follow">
+  <a href="https://github.com/kenny88881234" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+  <a href="https://www.facebook.com/yihsienl1" target="_blank" rel="noopener"><i class="fab fa-facebook"></i></a>
+  <a href="https://www.instagram.com/kenny88881234/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  if(document.getElementById('post')){
+    document.querySelector('.post-social-follow').style.display='flex';
+  }
+});
+</script>
+<script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  資料載入中</span></div><div class="local-search-input"><input placeholder="搜尋文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>

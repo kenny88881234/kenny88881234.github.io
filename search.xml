@@ -4949,4 +4949,115 @@ setval
         <tag>sequence</tag>
       </tags>
   </entry>
+  <entry>
+    <title>macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制</title>
+    <url>/2026/03/29/macos-launchd-ex-config-78-desktop-tcc/</url>
+    <content><![CDATA[macOS launchd EX_CONFIG 78 — Desktop 資料夾 TCC 限制升級到 macOS 26.4 後開始出現的問題。macOS 加強了 TCC 對 Desktop&#x2F;Documents 資料夾的存取限制，launchd 在啟動 job 前會先開啟 stdout&#x2F;stderr 檔案，若路徑在受保護的目錄下，整個 job 就無法啟動，回報 EX_CONFIG（78）——而且因為 process 根本沒跑到，log 也是空的，很難追蹤。
+
+症狀
+launchd 顯示 last exit code = 78: EX_CONFIG
+state = spawn scheduled（持續節流重試）
+runs = N（已嘗試多次，代表 launchd 有在嘗試，但每次都很快失敗）
+stdout &#x2F; stderr log 檔完全空白
+手動用相同環境變數執行卻完全正常
+
+根本原因macOS TCC（Transparency Consent Control）從 Sequoia 起嚴格限制 daemon&#x2F;agent process 存取以下路徑：
+
+~/Desktop/
+~/Documents/
+~/Downloads/
+
+launchd 在啟動程序之前就要開啟 StandardOutPath &#x2F; StandardErrorPath 指定的檔案。若這兩個路徑在受保護的目錄下，launchd 無法取得存取權限，整個 job 啟動失敗，回報 EX_CONFIG (78)。
+診斷過程⚠️ 最難追的地方：把 ProgramArguments 換成 /bin/echo test 也一樣退出 78，代表問題不在程式碼，而是在 launchd 的啟動配置本身。
+手動執行正常  └──→ 模擬 launchd 環境（env -i）執行 → 也正常        └──→ 換成 /bin/echo → 仍然退出 78              └──→ 改 log 路徑到 /tmp → echo 成功，退出 0                    └──→ 確認是 StandardOutPath 的問題
+
+診斷指令：
+# 看 launchd job 詳細狀態launchctl print gui/$(id -u)/com.yourjob# 關鍵欄位：# last exit code = 78: EX_CONFIG  ← 這就是 TCC 被擋# runs = N                        ← 已嘗試 N 次# state = spawn scheduled         ← 節流中
+
+解法把 plist 的 log 路徑從 Desktop 移到 ~/Library/Logs/：
+&lt;!-- 修改前（失敗）--&gt;&lt;key&gt;StandardOutPath&lt;/key&gt;&lt;string&gt;/Users/yourname/Desktop/Project/app/logs/app.log&lt;/string&gt;&lt;!-- 修改後（正常）--&gt;&lt;key&gt;StandardOutPath&lt;/key&gt;&lt;string&gt;/Users/yourname/Library/Logs/app/app.log&lt;/string&gt;
+
+記得先建立目錄，然後 reload：
+mkdir -p ~/Library/Logs/yourapplaunchctl unload ~/Library/LaunchAgents/com.yourjob.plistlaunchctl load ~/Library/LaunchAgents/com.yourjob.plist
+
+⚠️ 踩坑補充
+WorkingDirectory 指向 Desktop 目前還沒問題，TCC 只擋「開啟檔案」操作
+同樣的問題適用於其他 LaunchAgent&#x2F;LaunchDaemon 的 log 路徑
+安全的 log 路徑：~/Library/Logs/、/tmp/、/var/log/
+這個問題在升級到 macOS 26.4 後才出現，之前設定好好的突然掛掉
+
+]]></content>
+      <categories>
+        <category>問題</category>
+      </categories>
+      <tags>
+        <tag>問題</tag>
+        <tag>nanoclaw</tag>
+        <tag>macos</tag>
+        <tag>launchd</tag>
+        <tag>tcc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ADK Go 入門 06 - 多 Agent 架構設計</title>
+    <url>/2026/03/29/adk-go-06-multi-agent-architecture/</url>
+    <content><![CDATA[ADK Go 入門 06 - 多 Agent 架構設計當系統複雜度提升，單一 Agent 難以兼顧所有職責。ADK 支援多 Agent 協作，透過樹狀結構組織各個專責 Agent，讓系統兼具清晰的分工與彈性的路由。
+
+為什麼需要多 Agent
+能力邊界清晰：航班 Agent 只懂航班，住宿 Agent 只懂住宿
+工具隔離：每個 Agent 只持有必要的工具，降低誤用風險
+Instruction 精簡：職責單一的 Agent，規則更好寫也更好維護
+平行擴充：新增功能只需加新 Agent，不影響現有邏輯
+
+樹狀結構：ADK 的硬性限制ADK 強制採用樹狀架構，每個 Agent 只能有一個父節點。
+root_agent（路由決策）  ├──→ flight_agent（航班查詢與訂票）  │      └──→ price_agent（比價分析，作為 tool）  ├──→ hotel_agent（住宿預訂）  └──→ weather_agent（目的地天氣，作為 tool）
+
+⚠️ 不能有多個父節點：若 flight_agent 和 hotel_agent 都需要 weather_agent，不能讓兩者同時把它列為 SubAgent。應改為：把 weather_agent 掛在共同的父節點，或改用 agenttool 包裝。
+transfer_to_agent：移交控制權當 Agent 判斷某個請求超出自己職責，可以呼叫 transfer_to_agent 將整個對話移交給另一個 Agent。
+移交後：
+
+目標 Agent 接手對話，取得完整的對話歷史
+目標 Agent 完成後，控制權會回到上層
+
+這個機制由 ADK 框架自動處理，不需要手動傳遞 session。
+路由 Agent 的設計原則根 Agent（root agent）通常只做路由，不持有業務工具：
+使用者：「幫我查一下台北到東京的航班」    │root_agent 分析意圖    │    └──→ transfer_to_agent(&quot;flight_agent&quot;)              │         flight_agent 查詢航班並回應
+
+根 Agent 的 Instruction 應該：
+
+列出所有子 Agent 的職責描述
+說明何時移交給哪個 Agent
+說明無法判斷時的處理方式
+
+Sub-Agent vs agenttool兩種讓 Agent 呼叫另一個 Agent 的方式：
+
+
+
+方式
+機制
+適合場景
+
+
+
+SubAgents + transfer
+移交整個對話
+完全由子 Agent 主導後續對話
+
+
+agenttool.New()
+呼叫後取回結果
+子 Agent 作為某個步驟的執行者
+
+
+選擇原則：子 Agent 需要主導對話？用 transfer。只是取得一個結果？用 agenttool。
+]]></content>
+      <categories>
+        <category>筆記</category>
+      </categories>
+      <tags>
+        <tag>筆記</tag>
+        <tag>adk</tag>
+        <tag>ai-agent</tag>
+      </tags>
+  </entry>
 </search>
