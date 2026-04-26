@@ -5060,4 +5060,132 @@ agenttool.New()
         <tag>ai-agent</tag>
       </tags>
   </entry>
+  <entry>
+    <title>等待非同步 Log Flush 完成的穩定偵測法</title>
+    <url>/2026/04/26/async-log-flush-stable-detection/</url>
+    <content><![CDATA[等待非同步 Log Flush 完成的穩定偵測法面對 async log writer（如 OTEL BatchProcessor），固定 sleep 要嘛太短導致漏讀，要嘛太長浪費時間。正確做法是 poll 直到讀到的筆數連續穩定，代表 flush 已完成。
+
+問題情境OTEL BatchProcessor 不立即 flush，而是分批寫入：
+Agent 執行完畢  ↓ 50msBatchProcessor flush 第一批（3 筆）  ↓ 200ms（burst gap）BatchProcessor flush 第二批（2 筆）  ↓ 完成
+
+如果只 sleep 固定時間：
+
+Sleep 100ms → 只讀到 3 筆，以為完成，漏掉 2 筆
+Sleep 600ms → 總是等太久，即使 100ms 就完成了
+
+
+穩定偵測邏輯func waitForLogStable(logPath string, maxWait time.Duration) error &#123;    deadline := time.Now().Add(maxWait)    lastCount := -1    stableRounds := 0    for time.Now().Before(deadline) &#123;        entries := readLogEntries(logPath)        count := len(entries)        if count &gt; 0 &amp;&amp; count == lastCount &#123;            stableRounds++            if stableRounds &gt;= 2 &#123;                return nil // 連續 3 次讀到相同筆數，視為 flush 完成            &#125;        &#125; else &#123;            stableRounds = 0            lastCount = count        &#125;        time.Sleep(200 * time.Millisecond)    &#125;    return fmt.Errorf(&quot;log did not stabilize within %s (last count: %d)&quot;, maxWait, lastCount)&#125;
+
+時序示意：
+t=0ms    count=0  → stableRounds=0t=200ms  count=3  → stableRounds=0（新增）t=400ms  count=3  → stableRounds=1t=600ms  count=5  → stableRounds=0（burst gap 後又有新增）t=800ms  count=5  → stableRounds=1t=1000ms count=5  → stableRounds=2 → return nil ✓
+
+
+為何需要連續 3 次（stableRounds &gt;&#x3D; 2）只要求 2 次（stableRounds &gt;= 1）可能在 burst-gap 中間提早返回：
+t=200ms  count=3  → stableRounds=0t=400ms  count=3  → stableRounds=1 → 若只要求 1 次，此時 return！              ↑ 但 t=600ms 還有第二批 5 筆到來，已漏讀
+
+連續 3 次相同表示已等過至少 2 個 poll interval（400ms），足以覆蓋一般 burst-gap。若 BatchProcessor 間隔更長，可調整 stableRounds 閾值或 time.Sleep 間距。
+
+應用場景此模式適用於任何非同步 log consumer：
+
+
+
+場景
+說明
+
+
+
+OTEL BatchSpanProcessor
+本文情境，等待 trace flush
+
+
+Kafka consumer lag
+poll 直到 consumer group offset 穩定
+
+
+File tail（tail -f）
+等待寫入程序完成後再解析
+
+
+DB async replication
+等待 replica 追上 primary
+
+
+非同步 job queue
+poll 直到 queue depth 不再變化
+
+
+]]></content>
+      <categories>
+        <category>技巧</category>
+      </categories>
+      <tags>
+        <tag>observability</tag>
+        <tag>技巧</tag>
+        <tag>go</tag>
+        <tag>testing</tag>
+        <tag>otel</tag>
+        <tag>async</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ADK Go 入門 07 - Agent Instruction 設計技巧</title>
+    <url>/2026/04/26/adk-go-07-agent-instruction-design-tips/</url>
+    <content><![CDATA[ADK Go 入門 07 - Agent Instruction 設計技巧Instruction 是 Agent 行為的核心，決定它的角色、能力邊界與決策邏輯。寫得好的 Instruction 能讓 Agent 表現穩定；寫得模糊的 Instruction 會讓 Agent 行為飄移、工具呼叫錯誤。
+
+Instruction vs GlobalInstruction
+
+
+欄位
+作用範圍
+適合放什麼
+
+
+
+Instruction
+此 Agent 本次對話
+角色定義、工具使用規則、決策邏輯
+
+
+GlobalInstruction
+此 Agent 所有回應
+語言強制、語氣規定、全域輸出格式
+
+
+常見用法：GlobalInstruction 統一語言，Instruction 定義業務邏輯。
+llmagent.Config&#123;    GlobalInstruction: &quot;You must always respond in Traditional Chinese (繁體中文).&quot;,    Instruction:       &quot;你是一個專責處理商品查詢的助理。只回答商品相關問題...&quot;,&#125;
+
+有效 Instruction 的結構好的 Instruction 通常包含：
+1. 角色定義
+你是一個專責處理訂單管理的助理。
+
+2. 能力說明（有什麼工具可用）
+你可以使用以下工具：- get_order：根據訂單編號查詢訂單- create_order：建立新訂單- list_orders：列出客戶的所有訂單
+
+3. 決策規則
+當使用者提供訂單編號時，先呼叫 get_order 確認訂單存在，再回應。若訂單不存在，告知使用者並詢問是否需要重新確認。
+
+4. 邊界聲明
+只處理訂單相關問題。其他問題請告知：「這個問題不在我的服務範圍內。」
+
+多 Agent 系統中的 Instruction 寫法在多 Agent 架構中，根 Agent 的 Instruction 需要明確列出子 Agent 的職責，讓 LLM 知道何時移交：
+你是負責路由的總助理。根據使用者的問題，移交給適合的子 Agent：- product_agent：所有商品查詢、新增、修改、刪除問題- order_agent：所有訂單建立、查詢、修改問題判斷不確定時，優先詢問使用者意圖，再決定移交對象。
+
+⚠️ Description 欄位也很重要：ADK 的 transfer_to_agent 機制部分依賴各 Agent 的 Description 來輔助路由判斷，確保每個 Agent 的 Description 精準描述其職責。
+常見錯誤寫法⚠️ 過於模糊的角色定義
+// 不好：沒有說明能做什麼、不能做什麼Instruction: &quot;你是一個助理，幫助使用者解決問題。&quot;// 好：明確職責與工具Instruction: &quot;你是訂單管理助理，只處理訂單查詢與建立，使用 get_order 和 create_order 工具。&quot;
+
+⚠️ 工具使用規則不清
+// 不好：沒說何時用工具Instruction: &quot;你有 search_product 工具可以使用。&quot;// 好：明確觸發條件Instruction: &quot;當使用者詢問商品時，一律先呼叫 search_product 確認商品存在，再回應。&quot;
+
+⚠️ Instruction 太長導致遺忘：超過一定長度，LLM 容易忽略後段規則。重要規則放前面，非必要內容刪除。
+]]></content>
+      <categories>
+        <category>技巧</category>
+      </categories>
+      <tags>
+        <tag>技巧</tag>
+        <tag>adk</tag>
+        <tag>ai-agent</tag>
+      </tags>
+  </entry>
 </search>
